@@ -5,17 +5,30 @@ interface IconButtonProp {
   width?: string;
   height?: string;
   children: React.ReactNode;
+  onClick: VoidFunction;
 }
+
+const StyledButton = styled.button<{ width: string; height: string }>`
+  width: ${(props) => props.width};
+  height: ${(props) => props.height};
+  border:none;
+  outline: none;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+`;
 
 const IconButton = ({
   width = '32px',
   height = '32px',
+  onClick,
   children
 }:IconButtonProp) => {
   return (
-    <button>
+    <StyledButton width={width} height={height} onClick={onClick}>
       {children}
-    </button>
+    </StyledButton>
   );
 };
 

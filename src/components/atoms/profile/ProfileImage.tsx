@@ -10,7 +10,8 @@ interface ProfileImageProps {
   src: string;
 }
 
-const ProfileImage = ({ src = '/public/icons/profile_default.svg' }: ProfileImageProps) => {
+///images/logo.svg
+const ProfileImage = ({ src = '/images/profile_default.svg' }: ProfileImageProps) => {
   return <StyledImage alt="profile" src={src} />;
 };
 

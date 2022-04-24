@@ -1,9 +1,17 @@
 export const BASE = {
-    1 : '#E9E8E0'
+    1 : '#E9E8E0',
+    2 : '#F2F1EC',
+    3 : '#F7F7F2'
 };
 
 export const PRIMARY = {
-    1 : '#2E3D30'
+    1 : '#2E3D30',
+    10 : '#DFDFD7',
+    20 : '#C3C6BD',
+    40 : '#9EA399',
+    60 : '#798277',
+    80 : '#545F53',
+    100 : '#2E3D30'
 };
 
 export const GRAY = {

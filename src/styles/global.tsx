@@ -1,6 +1,7 @@
-import { css } from '@emotion/react';
+import { css, Global } from '@emotion/react';
+import { BASE } from './colors';
 
-const global = css`
+const style = css`
   *,
   body {
     box-sizing: border-box;
@@ -10,13 +11,11 @@ const global = css`
     line-height: 150%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background-color: ${BASE[1]};
   }
   button {
     cursor: pointer;
-    padding: 0;
     font-size: 1.125em;
-    background-color: transparent;
-    border: none;
   }
   b {
     font-weight: bold;
@@ -33,4 +32,8 @@ const global = css`
   }
 `;
 
-export default global;
+const GlobalStyle = () => {
+  return <Global styles={style} />
+}
+
+export default GlobalStyle;

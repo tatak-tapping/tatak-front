@@ -1,4 +1,5 @@
 import Router from "./router";
+import React from 'react'
 import { Global } from '@emotion/react';
 import global from './styles/global';
 import { QueryClient, QueryClientProvider } from "react-query";

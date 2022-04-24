@@ -1,20 +1,16 @@
 
 import Footer from 'components/organisms/GNB/Footer';
 import Header from 'components/organisms/GNB/Header';
-import { Flex } from 'rebass';
-import { BASE } from 'styles/colors';
-
+import FeedTemplate from 'components/templates/feed/FeedTemplate';
+import TypoTemplate from 'components/templates/typo/TypoTemplate';
 const Main = () => {
   
   return  (
     <>
-     <Header />
-      <Flex padding="10px 240px 10px 160px" alignItems="flex-end">
-       
-      </Flex>
-      <Flex>
-        <Footer />
-      </Flex>
+      <Header />
+      <TypoTemplate />
+      <FeedTemplate />
+      <Footer />
     </>
   )
 }

@@ -1,7 +1,5 @@
-const {
-  useBabelRc,
-  removeModuleScopePlugin,
-  override,
-} = require('customize-cra')
+const { override, addBabelPreset } = require('customize-cra')
 
-module.exports = override(useBabelRc(), removeModuleScopePlugin())
+module.exports = override( 
+  addBabelPreset('@emotion/babel-preset-css-prop')
+)

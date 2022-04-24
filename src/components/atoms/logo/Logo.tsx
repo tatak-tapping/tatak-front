@@ -3,8 +3,8 @@ interface LogoProp {
   height?: string;
 }
 
-const Logo = ({ width = 'auto', height = 'auto' }: LogoProp) => (
-  <img alt="logo" width={width} height={height} src="/public/images/logo.svg" />
+const Logo = ({ width = '80px', height = '24px' }: LogoProp) => (
+  <img alt="logo" width={width} height={height} src="/images/logo.svg" />
 );
 
 export default Logo;

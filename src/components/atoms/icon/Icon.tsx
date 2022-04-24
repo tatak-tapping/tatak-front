@@ -1,0 +1,1 @@
+export const CloseIcon = () => <img alt="close" src="/icons/close.svg" />;
