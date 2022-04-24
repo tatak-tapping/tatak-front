@@ -1,21 +1,25 @@
+
 import Modal from 'components/atoms/modal/Modal';
 import { ReactNode, useCallback, useState } from 'react';
+import { Box } from 'rebass';
+import { modalBackStyle } from 'styles/modal';
 
 interface IUseModal {
   width?: string;
+  height?: string;
   padding?: string;
-  borderRadius?: string;
   handleClosedCallback?: VoidFunction;
   handleOpenedCallback?: VoidFunction;
 }
 
 const useModal = ({
   width,
+  height,
   padding,
-  borderRadius,
   handleClosedCallback,
   handleOpenedCallback,
 }: IUseModal) => {
+  
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleOpenModal = useCallback(() => {
@@ -29,8 +33,8 @@ const useModal = ({
   const renderModal = (children: ReactNode, closeButton?: ReactNode) => (
     <Modal
       width={width}
+      height={height}
       padding={padding}
-      borderRadius={borderRadius}
       isVisible={isModalVisible}
       onOpened={handleOpenedCallback}
       onClosed={handleClosedCallback}
