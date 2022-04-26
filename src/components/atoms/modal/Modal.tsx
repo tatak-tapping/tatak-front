@@ -1,31 +1,44 @@
+/** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import React, { useEffect, useState } from 'react';
+import { Box } from 'rebass';
+import { BASE } from 'styles/colors';
+import { modalBackStyle } from 'styles/modal';
 
 interface ModalProps {
   isVisible: boolean;
   width?: string;
+  height?: string;
   padding?: string;
-  borderRadius?: string;
   onOpened?: VoidFunction;
   onClosed?: VoidFunction;
   closeButton?: React.ReactNode;
   children: React.ReactNode;
 }
 
-const StyledModal = styled.div<{ width: string; borderRadius: string; padding: string }>`
+const StyledModal = styled.div<{ width: string; height:string; padding: string }>`
   width: ${(props) => props.width};
-  margin: auto;
-  background-color: white;
-  border-radius: ${(props) => props.borderRadius};
+  height: ${(props) => props.height};
   padding: ${(props) => props.padding};
-  box-shadow: 0px 0px 45px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 0px 10px 0px #00000033;
+  position: absolute;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  margin: auto;
+  background-color: ${BASE[3]};
+  *{
+    background-color: ${BASE[3]};
+  }
 `;
 
 const Modal = ({
   isVisible,
   width = '950px',
-  padding = '30px 40px 50px 40px',
-  borderRadius = '20px',
+  height = '100px',
+  padding = '20px',
   onOpened,
   onClosed,
   closeButton,
@@ -68,8 +81,14 @@ const Modal = ({
   return (
     <>
       {isVisible && (
-        <>
-        </>
+        <div css={css`${modalBackStyle}`}>
+          <StyledModal width={width} height={height} padding={padding}>
+            <Box display="flex" justifyContent="flex-end">
+              {closeButton}
+            </Box>
+            {children}
+          </StyledModal>
+        </div>
       )}
     </>
   );

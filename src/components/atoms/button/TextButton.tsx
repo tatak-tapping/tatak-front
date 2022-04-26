@@ -8,6 +8,7 @@ const TextButton = styled.button<{
   fontColor?: string;
   backgroundColor?: string;
   margin?: string;
+  border? :string;
 }>`
   width: ${(props) => props.width};
   height: ${(props) => props.height}; 
@@ -25,14 +26,10 @@ const TextButton = styled.button<{
   :hover{
     background-color: ${PRIMARY[20]};
     color:${PRIMARY[100]};
-    border : none;
-    outline: none;
   }
   :active{
     background-color: ${PRIMARY[100]};
     color:${BASE[1]};
-    border : none;
-    outline: none;
   }
 `;
 
