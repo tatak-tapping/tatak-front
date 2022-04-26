@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { BASE, GRAY, PRIMARY } from "styles/colors";
 
-interface InputProps {
+interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   width?:string;
   height?:string;
   placeholder?: string;
@@ -37,10 +37,16 @@ const StyledInput = styled.input<{ width: string; height:string; placeholder: st
 const Input = ({
   width = "500px",
   height = "40px",
-  placeholder = ""
+  placeholder = "", 
+  ...rest 
 }: InputProps) => {
   return (
-    <StyledInput width={width} height={height} placeholder={placeholder}/>
+    <StyledInput 
+      width={width} 
+      height={height} 
+      placeholder={placeholder}
+      {...rest}
+    />
   );
 };
 
