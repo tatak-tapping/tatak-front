@@ -1,23 +1,24 @@
-import { postKakaoLogin } from "api/auth";
+import { getKakaoLogin } from "api/auth";
 import instance from "api/common";
 import { useEffect, useState } from "react";
-import { useHistory } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { setLocalStorageItem } from "utils/localStorage";
 
 const Auth = () => {
-  const history = useHistory();
+  const navigate = useNavigate();
   useEffect(() => {
     const getJWTAsync = async () => {
       const code = new URL(window.location.href).searchParams.get("code");
-      const aa = await postKakaoLogin(code);
-
+      const { data } = await getKakaoLogin(code);
+      setLocalStorageItem('access_token_tatak', `Bearer ${data.token}`);
+      setLocalStorageItem('user', data);
+      navigate('/');
     };
     getJWTAsync();
   }, []);
 
   return (
     <>
-      스피너 넣어야 할듯
     </>
   );
 };

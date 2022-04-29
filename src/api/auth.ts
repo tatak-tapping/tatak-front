@@ -5,10 +5,6 @@ export interface PostCommonParams {
   email : string;
   password: string;
 }
-interface PostKakaoParams {
-  code : string;
-  redirect_uri: string;
-}
 
 export interface IUser{
   uesrId :number;
@@ -18,16 +14,14 @@ export interface IUser{
   token:string;
 }
 
-export const postCommonLogin = (params: PostCommonParams): Promise<AxiosResponse<{ data: IUser }>> =>
-  instance.post('/users/login', params);
+export const postCommonLogin = (params: PostCommonParams): Promise<{ data: IUser }> =>
+{
+  console.log(params);
+  return instance.post('/users/login', params);
+}
 
-export const postKakaoLogin = (kakaoCode:string): Promise<AxiosResponse<{ data: IUser }>> =>{
-  const params : PostKakaoParams = {
-    code: kakaoCode,
-    redirect_uri : "http://localhost:8080/users/login/kakao"
-  };
-  
-  return instance.post('/users/login/kakao', params);
+export const getKakaoLogin = (kakaoCode:string): Promise<{data: IUser}> =>{
+  return instance.get(`/users/login/kakao?code=${kakaoCode}`);
 }
 
 export const getUser = (id: number) =>
