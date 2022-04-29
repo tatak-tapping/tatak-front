@@ -1,18 +1,16 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import { getLocalStorageItem } from 'utils/localStorage';
 
-export const DEAFULT_URL = "http://133.186.214.175:8081";//임시 api
-export const TOKEN = `${localStorage.getItem("access_token_tatak")}`;
+//export const DEAFULT_URL = "http://133.186.214.175:8081";//임시 api
+export const DEAFULT_URL = "http://localhost:8081";//임시 api
 
 const instance = axios.create({
   baseURL: DEAFULT_URL,
-  headers: {
-    "Content-Type": "application/json",
-  },
 });
 
 instance.interceptors.request.use(
   (config:any) => {
-    config.headers.Authorization =   "Bearer " + TOKEN;
+    config.headers.Authorization =   "Bearer " + getLocalStorageItem('access_token_tatak');
     return config;
   },
   (error) => {
@@ -23,19 +21,16 @@ instance.interceptors.request.use(
   
 instance.interceptors.response.use(
   (response) => {
-    if (response.status >= 200 && response.status < 300) {
-      return response.data
-    }
-  
-    return Promise.reject(response.data);
+    return response.data;
   },
   (error) => {
+    console.log(error);
     if (error.response.status === 401) {
-      localStorage.removeItem(TOKEN);
+      localStorage.remove('access_token_tatak');
       window.location.href = '/login?error=unauthorized';
     }
     if (error.response.status === 403 || error.response.status === 419) {
-      localStorage.removeItem(TOKEN);
+      localStorage.removeItem('access_token_tatak');
       window.location.href = '/login?error=expired-auth';
     }
     return Promise.reject(error);
