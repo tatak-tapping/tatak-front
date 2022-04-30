@@ -1,26 +1,35 @@
+import { css } from '@emotion/react';
+import IconButton from 'components/atoms/button/IconButton';
+import { CloseIcon } from 'components/atoms/icon/Icon';
 import ProfileImage from 'components/atoms/profile/ProfileImage';
-import AccountMenu from 'components/organisms/GNB/AccountMenu';
-import useAccessStatus from 'hooks/useAccessStatus';
+import UserProfileModalContent from 'components/organisms/modals/UserProfileModalContent';
+import useModal from 'hooks/userModal';
 import { useState } from 'react';
 import { Flex } from 'rebass';
 import { getLocalStorageItem } from 'utils/localStorage';
 
 const UserProfile = () => {
-  const { isAccess } = useAccessStatus();
-  const [isUserMenuVisible, setUserMenuVisible] = useState(false);
+  const { profileImageUrl } = getLocalStorageItem('user');
+  const { handleOpenModal, handleCloseModal, renderModal } = useModal({
+    width: '136px',
+    height: '221px',
+    top: '60px',
+    right:'24px',
+    padding:"8px 18px",
+  });
 
-  const handleToggleMenu = () => setUserMenuVisible(true);
-  const handleCloseMenu = () => setUserMenuVisible(false);
-
-  if (!isAccess) return null;
-  const { avatarUrl } = getLocalStorageItem('user');
+  const handleOnClick = () => handleOpenModal();
   return (
+   <>
+    {renderModal(
+      <UserProfileModalContent />
+    )}
     <Flex flexDirection="column">
-        <button type="button" onClick={handleToggleMenu}>
-          <ProfileImage src={avatarUrl ?? undefined} />
-        </button>
-        <AccountMenu isVisible={isUserMenuVisible} onClose={handleCloseMenu} />
-      </Flex>
+      <ProfileImage 
+        src={profileImageUrl ? profileImageUrl : '/images/profile_default.svg'}
+        onClick={handleOnClick}/>
+    </Flex>
+   </>
   );
 };
 
