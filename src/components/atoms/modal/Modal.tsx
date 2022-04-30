@@ -9,7 +9,9 @@ import { modalBackStyle } from 'styles/modal';
 interface ModalProps {
   isVisible: boolean;
   width?: string;
-  height?: string;
+  height?: string; 
+  top?: string;
+  right?: string;
   padding?: string;
   onOpened?: VoidFunction;
   onClosed?: VoidFunction;
@@ -17,17 +19,24 @@ interface ModalProps {
   children: React.ReactNode;
 }
 
-const StyledModal = styled.div<{ width: string; height:string; padding: string }>`
+const StyledModal = styled.div<{ 
+  width: string; 
+  height:string; 
+  padding: string;
+  right?:string;
+  top?:string;
+  margin?:string;
+}>`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   padding: ${(props) => props.padding};
   box-shadow: 0px 0px 10px 0px #00000033;
   position: absolute;
-  left: 0%;
-  right: 0%;
-  top: 0%;
+  right: ${(props) => props.right};
+  top: ${(props) => props.top};
+  left: ${(props) => props.right ? 'none' : '0%'};
   bottom: 0%;
-  margin: auto;
+  margin:'auto';
   background-color: ${BASE[3]};
   *{
     background-color: ${BASE[3]};
@@ -38,6 +47,8 @@ const Modal = ({
   isVisible,
   width = '950px',
   height = '100px',
+  right = '0%',
+  top = '0%',
   padding = '20px',
   onOpened,
   onClosed,
@@ -48,7 +59,6 @@ const Modal = ({
     x: '',
     y: '',
   });
-
   const disableScroll = () => {
     document.body.style.overflowX = 'hidden';
     document.body.style.overflowY = 'hidden';
@@ -82,7 +92,12 @@ const Modal = ({
     <>
       {isVisible && (
         <div css={css`${modalBackStyle}`}>
-          <StyledModal width={width} height={height} padding={padding}>
+          <StyledModal 
+            width={width} 
+            height={height} 
+            padding={padding}
+            right={right}
+            top={top}>
             <Box display="flex" justifyContent="flex-end">
               {closeButton}
             </Box>
