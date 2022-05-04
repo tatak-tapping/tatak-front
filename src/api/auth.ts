@@ -1,22 +1,14 @@
-import instance from './common';
+import instance from './instance';
 import { AxiosResponse } from 'axios';
+import { IUser } from 'types';
 
 export interface PostCommonParams {
   email : string;
   password: string;
 }
 
-export interface IUser{
-  uesrId :number;
-  email:string;
-  nickname:string;
-  image:string;
-  token:string;
-}
-
 export const postCommonLogin = (params: PostCommonParams): Promise<{ data: IUser }> =>
 {
-  console.log(params);
   return instance.post('/users/login', params);
 }
 
