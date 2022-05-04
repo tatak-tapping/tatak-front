@@ -2,11 +2,15 @@ import IconButton from "components/atoms/button/IconButton";
 import { FullScreenIcon, PencilIcon, SettingIcon, TypeIcon } from "components/atoms/icon/Icon";
 import Logo from "components/atoms/logo/Logo";
 import LoginButton from "components/molecules/button/LoginButton";
+import MusicPlayer from "components/molecules/button/MusicPlayer";
 import UserProfile from "components/molecules/profile/UserProfile";
 import HeaderMenuTabs from "components/molecules/tabs/HeaderMenuTabs";
+import useAccessStatus from "hooks/useAccessStatus";
 import { Box, Flex } from "rebass";
 
 const Header = () => {
+  const { isAccess } = useAccessStatus();
+
   const handlerFullScreen = () => {
 
   };
@@ -28,7 +32,7 @@ const Header = () => {
       <Logo />
       <Flex justifyContent="center" alignItems="center" marginLeft="auto">
         <Box>
-
+          <MusicPlayer />
         </Box>
         <Box>
           <IconButton onClick={handlerFullScreen}>
@@ -45,8 +49,7 @@ const Header = () => {
           </IconButton>
         </Box>
         <Box>
-          <UserProfile />
-          <LoginButton />
+        <UserProfile />
         </Box>
       </Flex>
     </Flex>
