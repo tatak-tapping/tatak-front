@@ -4,12 +4,12 @@ import Logo from "components/atoms/logo/Logo";
 import LoginButton from "components/molecules/button/LoginButton";
 import MusicPlayer from "components/molecules/button/MusicPlayer";
 import UserProfile from "components/molecules/profile/UserProfile";
-import HeaderMenuTabs from "components/molecules/tabs/HeaderMenuTabs";
-import useAccessStatus from "hooks/useAccessStatus";
+import { tokenAtom } from "modules/atom";
 import { Box, Flex } from "rebass";
+import { useRecoilValue } from "recoil";
 
 const Header = () => {
-  const { isAccess } = useAccessStatus();
+  const useToken = useRecoilValue(tokenAtom);
 
   const handlerFullScreen = () => {
 
@@ -49,7 +49,13 @@ const Header = () => {
           </IconButton>
         </Box>
         <Box>
-        <UserProfile />
+          {
+            useToken ? (
+              <UserProfile />
+            ):(
+              <LoginButton />
+            )
+          }
         </Box>
       </Flex>
     </Flex>

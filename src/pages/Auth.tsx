@@ -1,23 +1,33 @@
 import { getKakaoLogin } from "api/auth";
 import instance from "api/instance";
-import { tokenAtom } from "modules/atom";
+import { isAuthLogin, tokenAtom, userAtom } from "modules/atom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { setLocalStorageItem } from "utils/localStorage";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { setLocalStorage, setSessionStorage } from "utils/storage";
 
 const Auth = () => {
   const navigate = useNavigate();
-  const setUseToken = useSetRecoilState(tokenAtom);
+  const setUserToken = useSetRecoilState(tokenAtom);
+  const setUser = useSetRecoilState(userAtom);
+  const authLogin = useRecoilValue(isAuthLogin);
 
   useEffect(() => {
     const getJWTAsync = async () => {
       const code = new URL(window.location.href).searchParams.get("code");
       const {data} = await getKakaoLogin(code);
-      console.log(data);
-      // setLocalStorageItem('access_token_tatak', `Bearer ${data.token}`);
-      // setLocalStorageItem('user', data);
-      setUseToken(data.accessToken);
+
+      if(authLogin){
+        setSessionStorage("access_token_tatak", data.accessToken);
+        setSessionStorage("tatak_user", data);
+      } else{
+        setLocalStorage("access_token_tatak", data.accessToken);
+        setLocalStorage("tatak_user", data);
+      }
+
+      setUserToken(data.accessToken);
+      setUser(data);
+     
       navigate('/');
     };
     getJWTAsync();

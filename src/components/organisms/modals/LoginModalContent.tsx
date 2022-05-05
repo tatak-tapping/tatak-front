@@ -12,6 +12,8 @@ import { tokenAtom } from "modules/atom";
 import { postCommonLogin } from "api/auth";
 import { useDialog } from "context/Dialog";
 import { DialogTypes } from "components/atoms/dialog/Dialog";
+import Input from "components/atoms/input/Input";
+import { EyeOffIcon, EyeOnIcon } from "components/atoms/icon/Icon";
 
 
 interface LoginModalContentProps {
@@ -20,11 +22,11 @@ interface LoginModalContentProps {
 
 const LoginModalContent = ({ onClickSignUpButton }: LoginModalContentProps) => {
   const navigate = useNavigate();
-  
+  const {showDialog, closeDialog} = useDialog();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isPwdVisible, setIsPwdVisible] = useState(false);
   const setUseToken = useSetRecoilState(tokenAtom);
-  const {showDialog, closeDialog} = useDialog();
 
   const handleEmailChange = (e:any) => {
     const {target : {value}} = e;
@@ -34,6 +36,10 @@ const LoginModalContent = ({ onClickSignUpButton }: LoginModalContentProps) => {
   const handlePwdChange = (e:any) => {
     const {target : {value}} = e;
     setPassword(value);
+  }
+
+  const handlePwdToggle = () => {
+    setIsPwdVisible(!isPwdVisible);
   }
 
   const handleSubmit = async () => {
@@ -81,19 +87,21 @@ const LoginModalContent = ({ onClickSignUpButton }: LoginModalContentProps) => {
       } />
       <Box mt={20}>
         <Label>Email</Label>
-        {/* <Input 
-          //width="348px"
-          placeholder="텍스트를 입력해 주세요."
+        <Input 
+          type="email"
           onChange={handleEmailChange}
-        /> */}
+          placeholder="이메일을 입력해주세요."/>
       </Box>
       <Box mt={20}>
         <Label>Password</Label>
-        {/* <Input 
-          //width="348px"
-          placeholder="텍스트를 입력해 주세요."
+        <Input 
+          type="password"
+          onClick={handlePwdToggle}
           onChange={handlePwdChange}
-        /> */}
+          placeholder="비밀번호를 입력해주세요."
+          icon={
+            isPwdVisible ? <EyeOnIcon /> :<EyeOffIcon />
+          } />
       </Box>
       <Box mt={30}>
         <TextButton

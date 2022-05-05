@@ -1,5 +1,4 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { getLocalStorageItem } from 'utils/localStorage';
 
 //export const DEAFULT_URL = "http://133.186.214.175:8081";//임시 api
 export const DEAFULT_URL = "http://localhost:8081";//임시 api

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { IUser, postCommonLogin } from "api/auth";
+import {postCommonLogin } from "api/auth";
 import TextButton from "components/atoms/button/TextButton";
 import Input from "components/atoms/input/Input";
 import Label from "components/atoms/label/Label";

@@ -24,6 +24,8 @@ export const GRAY = {
     7 : '#E0E0E0',
 };
 
+export const ERROR = '#EF654D';
+
 export const TYPO_BASE = {
     1 : '#E9E8E0',
     2 : '#F2F1EC',

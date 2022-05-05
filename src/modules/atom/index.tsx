@@ -1,6 +1,17 @@
 import { atom } from "recoil";
+import { IUser } from "utils/types";
 
-export const tokenAtom = atom<any>({
+export const tokenAtom = atom<string>({
   key: "tokenAtom",
   default: localStorage.getItem("access_token_tatak"),
+});
+
+export const userAtom = atom<IUser>({
+  key: "userAtom",
+  default: null,
+});
+
+export const isAuthLogin = atom<boolean>({
+  key: "isAuthLogin",
+  default: false,
 });
