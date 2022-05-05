@@ -1,6 +1,6 @@
 import instance from './instance';
 import { AxiosResponse } from 'axios';
-import { IUser } from 'types';
+import { IUser } from 'utils/types';
 
 export interface PostCommonParams {
   email : string;
