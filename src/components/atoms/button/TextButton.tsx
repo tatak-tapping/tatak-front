@@ -22,7 +22,6 @@ const TextButton = styled.button<{
   font-weight: 600;
   text-align: center;
   line-height: 17px;
-  
   :hover{
     background-color: ${PRIMARY[20]};
     color:${PRIMARY[100]};

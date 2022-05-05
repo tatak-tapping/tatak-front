@@ -1,52 +1,53 @@
+/** @jsxImportSource @emotion/react */
+import { css } from "@emotion/react";
 import styled from "@emotion/styled";
+import { useRef } from "react";
 import { BASE, GRAY, PRIMARY } from "styles/colors";
+import InputBase from "./InputBase";
 
-interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  width?:string;
-  height?:string;
-  placeholder?: string;
-}
+interface InputProps  {
+  disabled?: boolean
+  comment?: string
+  icon?: React.ReactNode
+};
 
-const StyledInput = styled.input<{ width: string; height:string; placeholder: string }>`
-  width: ${(props) => props.width};
-  height: ${(props) => props.height};
-  border-bottom: 1px solid ${PRIMARY[40]} !important;
-  outline:none;
-  border:none;
-  background-color: ${BASE[3]};
-  *{
-    background-color: ${BASE[3]};
-  }
-  :focus{
-    border-bottom: 1px solid ${PRIMARY[100]} !important;
-    border:none;
-    ::placeholder{
-    color: ${GRAY[1]};
-    }
-  }
-  ::placeholder{
-    font-family: 'Pretendard';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 150%;
-    color: ${GRAY[5]};
-  }
-`;
+const wrapper = (error?: boolean) => css`
+  display: flex;
+  cursor: text;
+`
 
-const Input = ({
-  width = "500px",
-  height = "40px",
-  placeholder = "", 
-  ...rest 
-}: InputProps) => {
+const style = css`
+  border: none;
+  outline: none;
+  color: inherit;
+  background: none;
+  font-size: inherit;
+  &::placeholder {
+    color: black;
+    opacity: 0.5;
+  }
+  &:disabled {
+    cursor: not-allowed;
+    color: inherit;
+  }
+`
+const Input = ({ comment, icon, disabled = false, ...rest }: InputProps) => {
+  const ref = useRef<HTMLInputElement>(null);
+
   return (
-    <StyledInput 
-      width={width} 
-      height={height} 
-      placeholder={placeholder}
-      {...rest}
-    />
+    <InputBase
+      css={wrapper(!!comment)}
+      disabled={disabled}
+      comment={comment}
+      icon={icon}
+    >
+      <input
+        css={style}
+        ref={ref}
+        disabled={disabled}
+        {...rest}
+      />
+    </InputBase>
   );
 };
 
