@@ -10,8 +10,6 @@ interface ModalProps {
   isVisible: boolean;
   width?: string;
   height?: string; 
-  top?: string;
-  right?: string;
   padding?: string;
   onOpened?: VoidFunction;
   onClosed?: VoidFunction;
@@ -23,20 +21,19 @@ const StyledModal = styled.div<{
   width: string; 
   height:string; 
   padding: string;
-  right?:string;
-  top?:string;
   margin?:string;
 }>`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   padding: ${(props) => props.padding};
-  box-shadow: 0px 0px 10px 0px #00000033;
-  position: absolute;
-  right: ${(props) => props.right};
-  top: ${(props) => props.top};
-  left: ${(props) => props.right ? 'none' : '0%'};
+  z-index: 1;
+  position: fixed;
+  right:0%;
+  top: 0%;
+  left: 0%;
   bottom: 0%;
-  margin:'auto';
+  margin: auto;
+  box-shadow: 0px 0px 10px 0px #00000033;
   background-color: ${BASE[3]};
   *{
     background-color: ${BASE[3]};
@@ -47,8 +44,6 @@ const Modal = ({
   isVisible,
   width = '950px',
   height = '100px',
-  right = '0%',
-  top = '0%',
   padding = '20px',
   onOpened,
   onClosed,
@@ -95,9 +90,7 @@ const Modal = ({
           <StyledModal 
             width={width} 
             height={height} 
-            padding={padding}
-            right={right}
-            top={top}>
+            padding={padding}>
             <Box display="flex" justifyContent="flex-end">
               {closeButton}
             </Box>
