@@ -34,6 +34,12 @@ const StyledDialog = styled.div`
   line-height: 150%;
   color:${GRAY[2]};
   background-color: ${BASE[3]};
+  div{
+    background-color: ${BASE[3]};
+  }
+  img{
+    background-color: ${BASE[3]};
+  }
 `;
 
 const StyledIcon = styled.img`

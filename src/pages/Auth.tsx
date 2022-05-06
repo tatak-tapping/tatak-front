@@ -1,6 +1,6 @@
 import { getKakaoLogin } from "api/auth";
 import instance from "api/instance";
-import { isAuthLogin, tokenAtom, userAtom } from "modules/atom";
+import { isAuthLoginAtom, tokenAtom, userAtom } from "modules/atom";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
@@ -10,7 +10,7 @@ const Auth = () => {
   const navigate = useNavigate();
   const setUserToken = useSetRecoilState(tokenAtom);
   const setUser = useSetRecoilState(userAtom);
-  const authLogin = useRecoilValue(isAuthLogin);
+  const authLogin = useRecoilValue(isAuthLoginAtom);
 
   useEffect(() => {
     const getJWTAsync = async () => {
@@ -24,6 +24,7 @@ const Auth = () => {
         setLocalStorage("access_token_tatak", data.accessToken);
         setLocalStorage("tatak_user", data);
       }
+      instance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
 
       setUserToken(data.accessToken);
       setUser(data);
