@@ -28,10 +28,6 @@ const UserMenuButton = () => {
     setTokenAtom(null);
     localStorage.removeItem('access_token_tatak');
     sessionStorage.removeItem('access_token_tatak');
-
-    localStorage.removeItem('tatak_user');
-    sessionStorage.removeItem('tatak_user');
-    
     navigate('/');;
   }
 
