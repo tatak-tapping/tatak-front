@@ -11,7 +11,7 @@ export const userAtom = atom<IUser>({
   default: null,
 });
 
-export const isAuthLogin = atom<boolean>({
+export const isAuthLoginAtom = atom<boolean>({
   key: "isAuthLogin",
   default: false,
 });
