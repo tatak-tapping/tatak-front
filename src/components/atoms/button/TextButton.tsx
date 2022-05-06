@@ -30,6 +30,10 @@ const TextButton = styled.button<{
     background-color: ${PRIMARY[100]};
     color:${BASE[1]};
   }
+  :disabled{
+    background-color: ${PRIMARY[20]};
+    color:${BASE[3]};
+  }
 `;
 
 export default TextButton;
