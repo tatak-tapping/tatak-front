@@ -36,15 +36,15 @@ const StyledRadioTab = styled.div<{ width: string }>`
   :checked + label{
     color:${BASE[1]};
   }
-  .segment-button:last-child {
+  :not(:last-child) {
     border-right: none;
   }
 `;
 
-const RadioTab = ({ width = '100px', name, checked, onClick }: RadioTabProps) => {
+const RadioTab = ({ width = '100px', name, checked, onClick, ...rest }: RadioTabProps) => {
   return (
-    <StyledRadioTab width={width} onClick={onClick}>
-      <input type="radio" id={name} value={name} name="language"/>
+    <StyledRadioTab width={width} onClick={onClick} {...rest}>
+      <input type="radio" id={name} value={name} {...rest}/>
       <label htmlFor={name}>
         {name}
       </label>

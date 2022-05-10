@@ -1,27 +1,20 @@
 import LinkTab from "components/atoms/tab/LinkTab";
 import RadioTab from "components/atoms/tab/RadioTab";
 import { Box, Flex } from "rebass";
-
-export enum Languages {
-  KOREAN = "한국어", 
-  ENGLISH = "영어"
-}
+import { TypoLanguage } from "utils/types";
 
 const LanguageTabs = () => {
-  const languageArray = Object.values(Languages);
+  const languageArray = Object.values(TypoLanguage);
 
-  const SegmentButton = languageArray.map((value, index) => {
-    return (
-      <>
-        <RadioTab checked={false} name={value}  width="120px"/>
-      </>
-    );
-  });
-
-  return  (
-    <div className="segment"> {SegmentButton} </div>
-  )
+  return (
+    <>
+    {
+      languageArray.map((value, index) => (
+        <RadioTab key={index} checked={false} name={value} width="120px"/>
+      ))
+    }
+    </>
+  );
 }
 
 export default LanguageTabs;
-  ;

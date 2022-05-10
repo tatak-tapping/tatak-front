@@ -26,14 +26,14 @@ export interface ITopic{
 }
 
 export enum TypoLength{
-  SHORT,
-  MEDIUM,
-  LONG
+  SHORT = "짧은 글",
+  MEDIUM = "중간 글",
+  LONG = "긴 글"
 }
 
 export enum TypoLanguage{
-  KOREAN,
-  ENGLISH
+  KOREAN = "한국어",
+  ENGLISH = "영어"
 }
 
 export enum TypoApprovalStatus{
