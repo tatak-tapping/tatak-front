@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { useRef } from "react";
-import { Box } from "rebass";
 import { BASE, ERROR, GRAY, PRIMARY } from "styles/colors";
-import InputBase from "./InputBase";
+import InputBase, { InputCommontType } from "./InputBase";
+import { useFormContext } from "react-hook-form";
 
 type InputProps = {
-  error?: boolean
-  comment?: string
+  name:string
+  comment?:string
+  onChange?:Function;
   icon?: React.ReactNode
 } & React.InputHTMLAttributes<HTMLInputElement>
 
@@ -31,24 +31,25 @@ const StyledInput = styled.input`
 `;
 
 
-const Wrapper = styled.div<{error: boolean}>`
+const Wrapper = styled.div`
   display: flex;
-  border-bottom: ${(props) => props.error ? `1px solid ${ERROR}` : `1px solid ${GRAY[6]}`};
+  border-bottom: 1px solid ${GRAY[6]};
   &input:focus{
     color:${GRAY[1]};
   }
 `;
 
-const Input = ({ comment, icon, error = false, ...rest }: InputProps) => {
+function Input({comment, name, onChange, icon, ...rest }: InputProps) {
   const ref = useRef<HTMLInputElement>(null);
+  const {register, formState, watch} = useFormContext();
   return (
     <InputBase
-      comment={comment}
-      error={error}>
-      <Wrapper error={error}>
-        <StyledInput
-          ref={ref}
-          {...rest}/>
+      comment={comment}>
+      <Wrapper>
+         <StyledInput
+          {...register(name)}
+          name={name}
+          {...rest}/> 
         {icon}
       </Wrapper>
     </InputBase>

@@ -3,18 +3,25 @@ import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Children, forwardRef } from "react";
 import { Box, Text } from "rebass";
-import { BASE, GRAY, PRIMARY } from "styles/colors";
+import { BASE, ERROR, GRAY, PRIMARY } from "styles/colors";
+
+export enum InputCommontType{
+  info,
+  error,
+  success
+}
 
 interface InputBaseProps {
   className?: string
-  error? :boolean
   comment?: string
+  commnetType? :InputCommontType
   children?: React.ReactNode
 }
+
 const InputBase = ({
   className,
   children,
-  error,
+  commnetType,
   comment,
   ...rest
 }: InputBaseProps, ref: React.Ref<HTMLDivElement>) => {
@@ -27,7 +34,15 @@ const InputBase = ({
       >
         {children}
       </div>
-      {comment && (<Text as="p">{comment}</Text>)}
+      {comment && (
+        <Text as="p" 
+        fontSize="12px" 
+        lineHeight="14px" 
+        color={commnetType == InputCommontType.error ? `${ERROR}` : `${GRAY[6]}`}
+        mt="8px">
+          {comment}
+        </Text>
+      )}
     </Box>
   );
 };
