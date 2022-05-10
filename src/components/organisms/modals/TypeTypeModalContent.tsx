@@ -2,6 +2,7 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { getArticle, getCategories, getTopics } from "api/common";
+import { getUserTypoFilter } from "api/typo";
 import TextButton from "components/atoms/button/TextButton";
 import Chip from "components/atoms/chip/Chip";
 import LanguageTabs from "components/molecules/tabs/LanguageTabs";
@@ -43,7 +44,12 @@ const TypeTypeModalContent = () => {
     }
     Aysnc();
     if(!token) setTypoOption(null);
-    
+    else{
+      const Aysnc = async () => {
+        const {data} = await getUserTypoFilter();
+      }
+      Aysnc();
+    }
   }, []);
 
   useEffect(()=> {
