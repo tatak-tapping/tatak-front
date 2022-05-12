@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 import { ReactNode } from 'react';
-import { Image } from 'rebass';
+import { Flex, Image } from 'rebass';
 import { BASE, GRAY } from 'styles/colors';
 import { dialogBackStyle, modalBackStyle } from 'styles/modal';
 
@@ -16,22 +16,14 @@ export interface DialogProps {
   isVisible?: boolean;
   message?: ReactNode;
   type? : DialogTypes;
+  width?: string;
 }
 
-const StyledDialog = styled.div`
-  width: 428px;
-  height: 239px;
-  right:0%;
-  top: 0%;
-  left: 0%;
-  bottom: 0%;
-  margin: auto;  
-  position: fixed;
-  text-align: center;
-  z-index : 9999;
+const StyledDialog = styled.div<{width:string}>`
+  width: ${(props) => props.width};
+  padding: 40px 0 20px 0;
+  margin: auto;
   box-shadow: 0px 0px 10px 0px #00000033;
-  padding: 40px 20px;
-  line-height: 150%;
   color:${GRAY[2]};
   background-color: ${BASE[3]};
   div{
@@ -48,16 +40,18 @@ const StyledIcon = styled.img`
   margin: 0 0 12px 0;
 `;
 
-const Dialog = ({ isVisible = false, type, message }: DialogProps) => {
+const Dialog = ({ isVisible = false, type, message, width }: DialogProps) => {
   return (
    <>
      {isVisible && (
       <div css={css`${dialogBackStyle}`} >
-        <StyledDialog>
-          {type === DialogTypes.error && (<StyledIcon src='/images/dialog_error.svg'/>)}
-          {type === DialogTypes.info && (<StyledIcon src='/images/dialog_done.svg'/>)}
-          {type === DialogTypes.success && (<StyledIcon src='/images/dialog_success.svg'/>)}
-          {message}
+        <StyledDialog width={width}>
+          <Flex justifyContent="center" alignItems="center"  flexDirection="column">
+            {type === DialogTypes.error && (<StyledIcon src='/images/dialog_error.svg'/>)}
+            {type === DialogTypes.info && (<StyledIcon src='/images/dialog_done.svg'/>)}
+            {type === DialogTypes.success && (<StyledIcon src='/images/dialog_success.svg'/>)}
+            {message}
+          </Flex>
         </StyledDialog>
       </div>
     )}

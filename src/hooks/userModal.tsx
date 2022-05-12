@@ -5,7 +5,6 @@ import { Box } from 'rebass';
 
 interface IUseModal {
   width?: string;
-  height?: string;
   padding?: string;
   handleClosedCallback?: VoidFunction;
   handleOpenedCallback?: VoidFunction;
@@ -13,7 +12,6 @@ interface IUseModal {
 
 const useModal = ({
   width,
-  height,
   padding,
   handleClosedCallback,
   handleOpenedCallback,
@@ -32,7 +30,6 @@ const useModal = ({
   const renderModal = (children: ReactNode, closeButton?: ReactNode) => (
     <Modal
       width={width}
-      height={height}
       padding={padding}
       isVisible={isModalVisible}
       onOpened={handleOpenedCallback}

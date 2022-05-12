@@ -17,8 +17,7 @@ instance.interceptors.request.use(
     }
   },
   (error:AxiosError) => {
-    console.log(error);
-    return Promise.reject(error);
+    return Promise.reject(error.response);
   }
 );
   
@@ -31,7 +30,7 @@ instance.interceptors.response.use(
   },
   (error:AxiosError) => {
     console.log(error);
-    return Promise.reject(error);
+    return Promise.reject(error.response);
   }
 );
 

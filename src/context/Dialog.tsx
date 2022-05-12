@@ -19,6 +19,7 @@ export const DialogProvider = ({ children }:{ children: ReactNode }) => {
   const [options, setOptions] = useState<DialogOptions>({
     isVisible: false,
     message: '메세지',
+    width : '100px',
     type : DialogTypes.error
   });
 
@@ -26,8 +27,8 @@ export const DialogProvider = ({ children }:{ children: ReactNode }) => {
     setOptions({ isVisible: false });
   }, []);
 
-  const showDialog = useCallback(({ type, message }: Omit<DialogOptions, 'isVisible'>) => {
-    setOptions({ isVisible: true, type, message });
+  const showDialog = useCallback(({ width, type, message }: Omit<DialogOptions, 'isVisible'>) => {
+    setOptions({ isVisible: true, type, message, width});
   }, []);
   
   return (
@@ -35,7 +36,8 @@ export const DialogProvider = ({ children }:{ children: ReactNode }) => {
       <Dialog 
         isVisible={options.isVisible} 
         message={options.message} 
-        type={options.type}/>
+        type={options.type}
+        width={options.width}/>
       {children}
     </DialogContext.Provider>
   );
