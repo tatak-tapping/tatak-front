@@ -5,44 +5,32 @@ import { Children, forwardRef } from "react";
 import { Box, Text } from "rebass";
 import { BASE, ERROR, GRAY, PRIMARY } from "styles/colors";
 
-export enum InputCommontType{
-  info,
-  error,
-  success
-}
-
 interface InputBaseProps {
+  error?:boolean;
   className?: string
   comment?: string
-  commnetType? :InputCommontType
   children?: React.ReactNode
 }
 
 const InputBase = ({
   className,
   children,
-  commnetType,
   comment,
+  error,
   ...rest
 }: InputBaseProps, ref: React.Ref<HTMLDivElement>) => {
   return (
     <Box>
-      <div
-        className={className}
-        ref={ref}
-        {...rest}
-      >
+      <div className={className} ref={ref} {...rest}>
         {children}
       </div>
-      {comment && (
-        <Text as="p" 
-        fontSize="12px" 
-        lineHeight="14px" 
-        color={commnetType == InputCommontType.error ? `${ERROR}` : `${GRAY[6]}`}
-        mt="8px">
-          {comment}
-        </Text>
-      )}
+      <Box height="14px" mt="8px">
+        {comment && (
+          <Text as="p" fontSize="12px" lineHeight="14px" color={error && ERROR}>
+            {comment}
+          </Text>
+        )}
+      </Box>
     </Box>
   );
 };

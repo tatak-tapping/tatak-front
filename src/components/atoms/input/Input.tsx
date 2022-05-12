@@ -2,12 +2,17 @@
 import styled from "@emotion/styled";
 import { useRef } from "react";
 import { BASE, ERROR, GRAY, PRIMARY } from "styles/colors";
-import InputBase, { InputCommontType } from "./InputBase";
+import InputBase from "./InputBase";
 import { useFormContext } from "react-hook-form";
+import { useEffect } from "react";
+import { IFormInputs } from "components/organisms/modals/SignUpModalContent";
+import { useController, UseControllerProps } from "react-hook-form";
 
 type InputProps = {
-  name:string
-  comment?:string
+  props:UseControllerProps<IFormInputs>;
+  type:string;
+  placeholder?:string;
+  comment?:string;
   onChange?:Function;
   icon?: React.ReactNode
 } & React.InputHTMLAttributes<HTMLInputElement>
@@ -30,27 +35,26 @@ const StyledInput = styled.input`
   };
 `;
 
-
-const Wrapper = styled.div`
+const Wrapper = styled.div<{error?:boolean}>`
   display: flex;
-  border-bottom: 1px solid ${GRAY[6]};
+  border-bottom: ${props => props.error ? `1px solid ${ERROR}` : `1px solid ${GRAY[6]}` };
   &input:focus{
     color:${GRAY[1]};
   }
 `;
 
-function Input({comment, name, onChange, icon, ...rest }: InputProps) {
-  const ref = useRef<HTMLInputElement>(null);
-  const {register, formState, watch} = useFormContext();
+function Input(props:UseControllerProps<IFormInputs>) {
+  const {field, fieldState} = useController(props);
+  
   return (
-    <InputBase
-      comment={comment}>
-      <Wrapper>
+    <InputBase comment={fieldState.error ? fieldState.error.message : props.comment} error={fieldState.error && true}>
+      <Wrapper error={fieldState.error && true}>
          <StyledInput
-          {...register(name)}
-          name={name}
-          {...rest}/> 
-        {icon}
+            {...field}
+            type={props.type}
+            placeholder={props.placeholder}
+          />
+        {props.icon}
       </Wrapper>
     </InputBase>
   );
