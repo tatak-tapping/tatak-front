@@ -19,6 +19,7 @@ import { useNavigate } from "react-router-dom";
 
 interface SignModalContentProps {
   onClickLoginButton : () => void;
+  onClickCloseModal :  () => void;
 }
 
 export interface IFormInputs {
@@ -28,19 +29,15 @@ export interface IFormInputs {
   passwordConfirm:string;
 }
 
-const SignUpModalContent = ({ onClickLoginButton } : SignModalContentProps) => {
+const SignUpModalContent = ({ onClickLoginButton, onClickCloseModal } : SignModalContentProps) => {
 
   const {showDialog, closeDialog} = useDialog();
-  const navigate = useNavigate();
   const [isPwdConfirmVisible, setIsPwdConfirmVisible] = useState(false);
   const [isPwdVisible, setIsPwdVisible] = useState(false);
-
-  const [isComplete, setIsComplete] = useState(false);
   const setUserToken = useSetRecoilState(tokenAtom);
   const setUser = useSetRecoilState(userAtom);
-
   
-  const onSubmit = async(data:IFormInputs) => {
+  const onSubmit = async (data:IFormInputs) => {    
     const params = data;
     try {
       const { data } = await postUser(params);
@@ -49,16 +46,32 @@ const SignUpModalContent = ({ onClickLoginButton } : SignModalContentProps) => {
       instance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
       setUserToken(data.accessToken);
       setUser(data);
-      navigate('/');
-    } catch (error) {
-      console.log(error.status);
+      onClickCloseModal();
 
+      showDialog({
+        type : DialogTypes.success,
+        message : (
+          <>
+            <Text fontSize="24px" fontWeight="600" color={GRAY[2]}>
+              회원가입 완료
+            </Text>
+            <Text mt="12px" fontSize="14px" color={GRAY[5]}>
+              {data.nickname}님, 타닥에 오신 걸 환영해요!
+            </Text>
+            <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
+              확인
+            </Button>
+          </>
+        )
+      });
+
+    } catch (error) {
       showDialog({
         type : DialogTypes.error,
         message : (
           <>
             <Text>
-              회원정보가 일치하지 않아요. 
+              {error.status === 400 ? "이미 가입한 이력이 있는 이메일이에요." : "회원가입에 실패했습니다."}
             </Text>
             <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
               확인
