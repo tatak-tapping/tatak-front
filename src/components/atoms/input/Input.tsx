@@ -5,10 +5,12 @@ import { BASE, ERROR, GRAY, PRIMARY } from "styles/colors";
 import InputBase from "./InputBase";
 import { useFormContext } from "react-hook-form";
 import { useEffect } from "react";
-import { IFormInputs } from "components/organisms/modals/SignUpModalContent";
-import { useController, Controller, UseControllerProps } from "react-hook-form";
+import { useController, FieldPath, FieldValues, UseControllerProps } from "react-hook-form";
 
-interface InputProps extends UseControllerProps<IFormInputs>{
+interface InputProps<
+TFieldValues extends FieldValues = FieldValues,
+TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+> extends UseControllerProps<TFieldValues, TName>{
    type?:string;
    comment?:string;
    counter?:string;
@@ -42,14 +44,16 @@ const Wrapper = styled.div<{error?:boolean}>`
   }
 `;
 
-function Input(props:InputProps, ref: React.Ref<HTMLDivElement>) {
+function Input<
+TFieldValues extends FieldValues = FieldValues,
+TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>(props:InputProps<TFieldValues, TName>) {
   const name = props.name;
   const control = props.control;
   const {field, fieldState} = useController({
     name,
     control,
-    rules: props.rules,
-    defaultValue: "",
+    rules: props.rules
   });
 
   return (
@@ -58,7 +62,7 @@ function Input(props:InputProps, ref: React.Ref<HTMLDivElement>) {
         error={fieldState.error && true}
         counter={props.counter}
         >
-        <div ref={ref}></div>
+        <div ref={useRef()}></div>
         <Wrapper error={fieldState.error && true}>
            <StyledInput
               {...field}
@@ -71,4 +75,4 @@ function Input(props:InputProps, ref: React.Ref<HTMLDivElement>) {
   );
 };
 
-export default forwardRef<HTMLDivElement, InputProps>(Input);
+export default Input;

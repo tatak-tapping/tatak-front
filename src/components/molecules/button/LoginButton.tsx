@@ -10,8 +10,7 @@ import { Flex } from 'rebass';
 const LoginButton = () => {
   const [isLogin, setIsLogin] = useState(null);
   const { handleOpenModal, handleCloseModal, renderModal } = useModal({
-    width: '428px',
-    height: isLogin ? '627px' : '714px'
+    width: '428px'
   });
 
   const handleOpenAnotherModal = () => {
@@ -27,9 +26,9 @@ const LoginButton = () => {
    <>
     {renderModal(
       isLogin ? (
-        <SignUpModalContent onClickLoginButton={handleOpenAnotherModal}/>
+        <SignUpModalContent onClickLoginButton={handleOpenAnotherModal} onClickCloseModal={handleCloseModal}/>
       ): (
-      <LoginModalContent onClickSignUpButton={handleOpenAnotherModal}/>
+        <LoginModalContent onClickSignUpButton={handleOpenAnotherModal} onClickCloseModal={handleCloseModal}/>
       ),
       <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
         <CloseIcon />
