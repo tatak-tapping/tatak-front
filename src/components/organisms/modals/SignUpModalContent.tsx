@@ -18,8 +18,8 @@ import instance from "api/instance";
 import { useNavigate } from "react-router-dom";
 
 interface SignModalContentProps {
-  onClickLoginButton : () => void;
-  onClickCloseModal :  () => void;
+  onClickLoginButton? : () => void;
+  onClickCloseModal? :  () => void;
 }
 
 export interface IFormInputs {
