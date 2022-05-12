@@ -2,32 +2,42 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Children, forwardRef } from "react";
-import { Box, Text } from "rebass";
-import { BASE, GRAY, PRIMARY } from "styles/colors";
+import { Box, Flex, Text } from "rebass";
+import { BASE, ERROR, GRAY, PRIMARY } from "styles/colors";
 
 interface InputBaseProps {
-  className?: string
-  error? :boolean
-  comment?: string
-  children?: React.ReactNode
+  error?:boolean;
+  className?: string;
+  counter?:string;
+  comment?: string;
+  children?: React.ReactNode;
 }
+
 const InputBase = ({
   className,
   children,
-  error,
   comment,
+  error,
+  counter,
   ...rest
 }: InputBaseProps, ref: React.Ref<HTMLDivElement>) => {
   return (
     <Box>
-      <div
-        className={className}
-        ref={ref}
-        {...rest}
-      >
+      <div className={className} ref={ref} {...rest}>
         {children}
       </div>
-      {comment && (<Text as="p">{comment}</Text>)}
+      <Flex height="14px" mt="8px" alignItems="center">
+        {comment && (
+          <Text as="p" fontSize="12px" lineHeight="14px" color={error && ERROR}>
+            {comment}
+          </Text>
+        )}
+        {counter && (
+          <Text as="p"  justifyContent="center" alignItems="center" marginLeft="auto" fontSize="12px" lineHeight="14px" color={error && ERROR}>
+            {counter}
+          </Text>
+        )}
+      </Flex>
     </Box>
   );
 };

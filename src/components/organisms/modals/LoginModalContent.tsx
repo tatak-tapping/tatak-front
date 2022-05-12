@@ -96,23 +96,26 @@ const LoginModalContent = ({ onClickSignUpButton }: LoginModalContentProps) => {
 
   return(
   <>    
-    <Flex flexDirection="column" ml={20} mr={20}>
-      <Text fontSize="24px" color={GRAY[2]} lineHeight="150%" fontWeight="600">
-        로그인
-      </Text>
-      <hr css={css`
-        width: 100%;
-        border : none;
-        border-top: 1px solid ${GRAY[2]};
-      `}/>
-      <Box mt={20}>
-        <Label>Email</Label>
+    <Flex flexDirection="column" ml="20px" mr="20px">
+      <Box mt="20px">
+        <Text fontSize="24px" color={GRAY[2]} lineHeight="150%" fontWeight="600">
+          로그인
+        </Text>
+        <hr css={css`
+          width: 100%;
+          margin-top: 10px;
+          border : none;
+          border-top: 1px solid ${GRAY[2]};
+        `}/>
+      </Box>
+      <Box mt="20px">
+        <Label>E-mail</Label>
         <Input 
           type="email"
           onChange={handleEmailChange}
           placeholder="이메일을 입력해주세요."/>
       </Box>
-      <Box mt={20}>
+      <Box mt="20px">
         <Label>Password</Label>
         <Input 
           type={isPwdVisible ? "text" : "password"} 
@@ -128,7 +131,7 @@ const LoginModalContent = ({ onClickSignUpButton }: LoginModalContentProps) => {
               </span>)
           } />
       </Box>
-      <Flex mt={20}>
+      <Flex mt="20px">
         <CheckBox name="자동 로그인" checked={isAuthLogin} onClick={handleCheckBox}/>
         <Flex justifyContent="center" alignItems="center" marginLeft="auto">
           <Text onClick={() => alert('준비중')} fontSize="14px" color={PRIMARY[40]} fontWeight="600">
@@ -136,7 +139,7 @@ const LoginModalContent = ({ onClickSignUpButton }: LoginModalContentProps) => {
           </Text>
         </Flex>
       </Flex>
-      <Box mt={28}>
+      <Box mt="28px">
         <TextButton
           width="348px"
           height="43px"
@@ -148,7 +151,7 @@ const LoginModalContent = ({ onClickSignUpButton }: LoginModalContentProps) => {
           로그인
         </TextButton>
       </Box>
-      <Flex mt={20} mb={20}>
+      <Flex mt="20px" mb="20px">
           <hr css={css`
             width: 158px;
             border : none;
@@ -164,7 +167,7 @@ const LoginModalContent = ({ onClickSignUpButton }: LoginModalContentProps) => {
           `}/>
       </Flex>
       <KakaoAccountButton />
-      <Box mt={28}sx={{
+      <Box mt="28px" sx={{
         borderTop : `1px solid ${GRAY[2]}`,
         paddingTop: `16px`,
         textAlign: `center`

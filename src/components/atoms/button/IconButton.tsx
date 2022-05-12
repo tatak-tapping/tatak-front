@@ -6,17 +6,19 @@ interface IconButtonProp {
   width?: string;
   height?: string;
   border?: string;
+  margin?: string;
   children: React.ReactNode;
   onClick: VoidFunction;
 }
 
-const StyledButton = styled.button<{ width: string; height: string; border: string }>`
+const StyledButton = styled.button<{ width: string; height: string; border: string; margin:string; }>`
   width: ${(props) => props.width};
   height: ${(props) => props.height};
-  background-color: ${BASE[2]};
-  border-radius: 4px;
+  margin: ${(props) => props.margin};
   border: ${(props) => props.border};
-  padding:3px;
+  background-color: ${BASE[2]};
+  border-radius: 6px;
+  padding:4px;
   * {
     fill: ${PRIMARY[80]};
     background-color: ${BASE[2]};
@@ -45,11 +47,12 @@ const IconButton = ({
   width = '32px',
   height = '32px',
   border = `1px solid ${PRIMARY[100]}`,
+  margin = '0px',
   onClick,
   children
 }:IconButtonProp) => {
   return (
-    <StyledButton width={width} height={height} border={border} onClick={onClick}>
+    <StyledButton margin={margin} width={width} height={height} border={border} onClick={onClick}>
       {children}
     </StyledButton>
   );
