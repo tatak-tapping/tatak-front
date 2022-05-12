@@ -2,14 +2,15 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { Children, forwardRef } from "react";
-import { Box, Text } from "rebass";
+import { Box, Flex, Text } from "rebass";
 import { BASE, ERROR, GRAY, PRIMARY } from "styles/colors";
 
 interface InputBaseProps {
   error?:boolean;
-  className?: string
-  comment?: string
-  children?: React.ReactNode
+  className?: string;
+  counter?:string;
+  comment?: string;
+  children?: React.ReactNode;
 }
 
 const InputBase = ({
@@ -17,6 +18,7 @@ const InputBase = ({
   children,
   comment,
   error,
+  counter,
   ...rest
 }: InputBaseProps, ref: React.Ref<HTMLDivElement>) => {
   return (
@@ -24,13 +26,18 @@ const InputBase = ({
       <div className={className} ref={ref} {...rest}>
         {children}
       </div>
-      <Box height="14px" mt="8px">
+      <Flex height="14px" mt="8px" alignItems="center">
         {comment && (
           <Text as="p" fontSize="12px" lineHeight="14px" color={error && ERROR}>
             {comment}
           </Text>
         )}
-      </Box>
+        {counter && (
+          <Text as="p"  justifyContent="center" alignItems="center" marginLeft="auto" fontSize="12px" lineHeight="14px" color={error && ERROR}>
+            {counter}
+          </Text>
+        )}
+      </Flex>
     </Box>
   );
 };

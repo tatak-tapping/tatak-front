@@ -12,6 +12,7 @@ type InputProps = {
   props:UseControllerProps<IFormInputs>;
   type:string;
   placeholder?:string;
+  counter?:string;
   comment?:string;
   onChange?:Function;
   icon?: React.ReactNode
@@ -47,7 +48,11 @@ function Input(props:UseControllerProps<IFormInputs>) {
   const {field, fieldState} = useController(props);
   
   return (
-    <InputBase comment={fieldState.error ? fieldState.error.message : props.comment} error={fieldState.error && true}>
+    <InputBase 
+      comment={fieldState.error ? fieldState.error.message : props.comment} 
+      error={fieldState.error && true}
+      counter={props.counter}
+      >
       <Wrapper error={fieldState.error && true}>
          <StyledInput
             {...field}
