@@ -4,7 +4,6 @@ const StyledImage = styled.img`
   width: 32px;
   height: 32px;
   border-radius: 100%;
-  margin-left:16px;
   cursor: pointer;
 `;
 

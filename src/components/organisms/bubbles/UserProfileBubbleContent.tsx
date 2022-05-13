@@ -5,7 +5,7 @@ import Bubble from "components/atoms/bubble/Bubble";
 import UserMenuButton from "components/molecules/profile/UserMenuButton";
 import UserProfileEdit from "components/molecules/profile/UserProfilEdit";
 import { useEffect, useRef } from "react";
-import { Box, Flex, Link } from "rebass";
+import { Box, Flex, Link, Text } from "rebass";
 import { BASE, GRAY, PRIMARY } from "styles/colors";
 
 
@@ -38,11 +38,14 @@ const UserProfileBubbleContent =({ isVisible, onClose }: UserProfileBubbleProp) 
 
   return(
     <Wrapper ref={wrapperRef}>
-      <Bubble width="200px" height="320px" right="16px" 
-        padding="0 16px"
-        isVisible={isVisible}>
+      <Bubble width="200px" height="320px" right="16px" padding="0 16px" isVisible={isVisible}>
         <UserProfileEdit />
         <UserMenuButton />
+        <Flex>
+          <Text>Feedback</Text>
+          <Text>Terms</Text>
+          <Text>Privacy</Text>
+        </Flex>
       </Bubble>
     </Wrapper>
   );

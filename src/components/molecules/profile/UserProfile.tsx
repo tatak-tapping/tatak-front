@@ -18,7 +18,7 @@ const UserProfile = () => {
   };
   return (
    <>
-    <Flex flexDirection="column">
+    <Flex flexDirection="column" ml="16px">
       <ProfileImage 
         //src={profileImageUrl ? profileImageUrl : '/images/profile_default.svg'}
         src =  '/images/profile_default.svg'
