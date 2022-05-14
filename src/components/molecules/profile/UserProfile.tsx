@@ -3,6 +3,8 @@ import IconButton from 'components/atoms/button/IconButton';
 import { CloseIcon } from 'components/atoms/icon/Icon';
 import ProfileImage from 'components/atoms/profile/ProfileImage';
 import UserProfileBubbleContent from 'components/organisms/bubbles/UserProfileBubbleContent';
+import ConfirmModalContent from 'components/organisms/modals/user/ConfirmPasswordModalContent';
+import ModifyUserModalContent from 'components/organisms/modals/user/FindUserModalContent';
 import useModal from 'hooks/userModal';
 import { useState } from 'react';
 import { Flex } from 'rebass';
@@ -16,8 +18,29 @@ const UserProfile = () => {
   const handleCloseBubble = () => {
     setIsBubbleVisible(isBubbleVisible);
   };
+
+  const [isModify, setIsModify] = useState(null);
+
+  const { handleOpenModal, handleCloseModal, renderModal } = useModal({
+    width: '428px'
+  });
+
+  const handleOpenAnotherModal = () => {
+    setIsModify(!isModify);
+  };
+
   return (
    <>
+    {renderModal(
+      isModify ? (
+        <ModifyUserModalContent  onClickCloseModal={handleCloseModal}/>
+      ): (
+        <ConfirmModalContent onClickModifyButton={handleOpenAnotherModal}/>
+      ),
+      <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
+        <CloseIcon />
+      </IconButton>
+    )}
     <Flex flexDirection="column" ml="16px">
       <ProfileImage 
         //src={profileImageUrl ? profileImageUrl : '/images/profile_default.svg'}
@@ -25,6 +48,7 @@ const UserProfile = () => {
         onClick={handleToggleBubble}/>
       <UserProfileBubbleContent 
         isVisible={isBubbleVisible} 
+        onOpenModal={handleOpenModal}
         onClose={handleCloseBubble} 
       />
     </Flex>

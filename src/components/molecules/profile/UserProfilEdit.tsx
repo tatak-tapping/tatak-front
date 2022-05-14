@@ -3,8 +3,7 @@ import IconButton from 'components/atoms/button/IconButton';
 import { CloseIcon, PencilIcon } from 'components/atoms/icon/Icon';
 import ProfileImage from 'components/atoms/profile/ProfileImage';
 import UserProfileBubbleContent from 'components/organisms/bubbles/UserProfileBubbleContent';
-import ConfirmModalContent from 'components/organisms/modals/ConfirmPasswordModalContent';
-import ModifyUserModalContent from 'components/organisms/modals/FindUserModalContent';
+import ConfirmModalContent from 'components/organisms/modals/user/ConfirmPasswordModalContent';
 import useModal from 'hooks/userModal';
 import { userAtom } from 'modules/atom';
 import { useState } from 'react';
@@ -19,30 +18,15 @@ const Wrapper = styled.div`
   border-bottom: solid 1px ${GRAY[7]};
 `;
 
-const UserProfileEdit = () => {
+interface UserProfileEditProps{
+  onOpenModal:VoidFunction;
+}
+
+const UserProfileEdit = ({onOpenModal}:UserProfileEditProps) => {
   const user = useRecoilValue(userAtom);
-  const [isModify, setIsModify] = useState(null);
-
-  const { handleOpenModal, handleCloseModal, renderModal } = useModal({
-    width: '428px'
-  });
-
-  const handleOpenAnotherModal = () => {
-    setIsModify(!isModify);
-  };
 
   return (
-  <> 
-  {renderModal(
-    isModify ? (
-      <ConfirmModalContent onClickModifyButton={handleOpenAnotherModal}/>
-    ): (
-      <ModifyUserModalContent  onClickCloseModal={handleCloseModal}/>
-    ),
-    <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
-      <CloseIcon />
-    </IconButton>
-  )}
+  <>
    <Wrapper>
       <Box as="span">
         <ProfileImage src={user?.profileImageUrl ? user.profileImageUrl : '/images/profile_default.svg'}/>
@@ -50,7 +34,7 @@ const UserProfileEdit = () => {
       <Box as="span" textAlign="center" justifyContent="center" mr="8px">
         {user?.nickname}
       </Box>
-      <Box as="span" mr="4px" onClick={handleOpenModal}>
+      <Box as="span" mr="4px" onClick={onOpenModal}>
         <PencilIcon />
       </Box>
    </Wrapper>

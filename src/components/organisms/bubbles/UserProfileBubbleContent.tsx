@@ -16,9 +16,10 @@ const Wrapper = styled.div`
 interface UserProfileBubbleProp  {
   isVisible: boolean;
   onClose: VoidFunction;
+  onOpenModal:VoidFunction;
 }
 
-const UserProfileBubbleContent =({ isVisible, onClose }: UserProfileBubbleProp) => {
+const UserProfileBubbleContent =({ isVisible, onClose, onOpenModal }: UserProfileBubbleProp) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
@@ -39,7 +40,7 @@ const UserProfileBubbleContent =({ isVisible, onClose }: UserProfileBubbleProp) 
   return(
     <Wrapper ref={wrapperRef}>
       <Bubble width="200px" height="320px" right="16px" padding="0 16px" isVisible={isVisible}>
-        <UserProfileEdit />
+        <UserProfileEdit onOpenModal={onOpenModal}/>
         <UserMenuButton />
         <Flex>
           <Text>Feedback</Text>
