@@ -1,6 +1,7 @@
 
 import Modal from 'components/atoms/modal/Modal';
-import { ReactNode, useCallback, useState } from 'react';
+import { useEffect } from 'react';
+import { ReactNode, useCallback, useRef, useState } from 'react';
 import { Box } from 'rebass';
 
 interface IUseModal {
@@ -16,8 +17,12 @@ const useModal = ({
   handleClosedCallback,
   handleOpenedCallback,
 }: IUseModal) => {
-  
+  const mountedRef = useRef(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  useEffect(() => {
+    return () => { mountedRef.current = false }
+  }, []);
 
   const handleOpenModal = useCallback(() => {
     setIsModalVisible(true);
