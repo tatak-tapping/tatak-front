@@ -13,6 +13,15 @@ export interface PostUserParams {
   nickname: string;
 }
 
+export interface PutUserParams {
+  nickname: string;
+  password: string;
+}
+
+export interface PostConfirmPasswordParams {
+  password: string;
+}
+
 export const postCommonLogin = (params: PostCommonParams): Promise<{ data: IUser }> =>
   instance.post('/users/login', params);
 
@@ -24,3 +33,9 @@ export const getUser = (id: number) =>
 
 export const postUser = (params:PostUserParams): Promise<{ data: IUser }> => 
   instance.post('/users', params);
+  
+export const putUser = (params:PutUserParams): Promise<{ data: IUser }> => 
+instance.put('/users', params);
+
+export const postConfirmPassword = (params: PostConfirmPasswordParams): Promise<{ data: boolean }> => 
+  instance.post(`/users/confirm`, params);
