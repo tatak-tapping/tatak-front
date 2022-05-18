@@ -1,20 +1,30 @@
+import CheckboxTab from "components/atoms/tab/CheckboxTab";
 import LinkTab from "components/atoms/tab/LinkTab";
-import RadioTab from "components/atoms/tab/RadioTab";
+import { useState } from "react";
 import { Box, Flex } from "rebass";
 import { TypoLanguage } from "utils/types";
 
-const LanguageTabs = () => {
+const LanguageRadioTabs = () => {
   const languageArray = Object.values(TypoLanguage);
+  const [ selected , setSeleted ] = useState(TypoLanguage.KOREAN);
 
+  const handleChange = () => {
+    //
+  }
   return (
     <>
     {
       languageArray.map((value, index) => (
-        <RadioTab key={index} checked={false} name={value} width="120px"/>
+        <CheckboxTab
+          width="120px"
+          key={index} 
+          checked={selected === value} 
+          name={value}
+          onClick={handleChange}/>
       ))
     }
     </>
   );
 }
 
-export default LanguageTabs;
+export default LanguageRadioTabs;

@@ -1,7 +1,10 @@
 import instance from "./instance";
 
 export interface ITypoFilter{
-
+  languages: [],
+  categoryCodes: [],
+  topicCodes: [],
+  lengths: []
 }
 
 export interface PostTypoFilterParams {

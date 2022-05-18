@@ -18,6 +18,7 @@ import instance from "api/instance";
 import Input from "components/atoms/input/Input";
 import { CameraIcon, EyeOffIcon, EyeOnIcon, ReturnIcon } from "components/atoms/icon/Icon";
 import styled from "@emotion/styled";
+import UserModifyBubbleContent from "components/organisms/bubbles/UserModifyBubbleContent";
 
 interface  ModifyUserModalContentProps {
   onClickCloseModal? : () => void;
@@ -27,6 +28,7 @@ interface IModifyFormInputs extends FieldValues{
   nickname:string;
   password:string;
   passwordConfirm:string;
+  profileImage:string;
 }
 
 const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps) => {
@@ -35,6 +37,16 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
   const [user, setUser] = useRecoilState(userAtom);
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState<string>();
+
+
+  const [isBubbleVisible, setIsBubbleVisible] = useState(false);
+  const handleToggleBubble = () => {
+    setIsBubbleVisible(!isBubbleVisible);
+  };
+
+  const handleCloseBubble = () => {
+    setIsBubbleVisible(isBubbleVisible);
+  }
 
   const onSubmit = async (params:IModifyFormInputs) => {
     try{
@@ -112,17 +124,21 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
           border-top: 1px solid ${GRAY[2]};
         `}/>
       </Box>
-      <div css={css`margin-top:40px; position: relative;`}>
-        <input type='file' onChange={onSelectFile}/>
-        <div css={css`position: relative;`}>
-          <ProfileImage src={selectedFile && preview} height="80px" width="80px"/>
-        </div>  
-        <WrapperIcon>
-          <CameraIcon />  
-        </WrapperIcon>
-      </div>
       <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
+        <Box>
+          <input name="" type='file' onChange={onSelectFile}/>
+          <WarpperProfile>
+            <ProfileImage src={selectedFile && preview} height="80px" width="80px"/>
+          </WarpperProfile>
+          <Box onClick={handleToggleBubble}>
+            <CameraIcon />
+          </Box>
+          <UserModifyBubbleContent 
+            isVisible={isBubbleVisible} 
+            onClose={handleCloseBubble} 
+          />
+        </Box>
         <Box mt="20px">
             <Label>닉네임</Label>
             <Input
@@ -229,4 +245,12 @@ const WrapperIcon = styled.div`
   border-radius: 50%;
   position: absolute;
   z-index: 999;
+`;
+
+const WarpperProfile = styled.div`
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  /* border: 2px solid ${PRIMARY[100]}; */
+  background-color: ${BASE[3]};
 `;

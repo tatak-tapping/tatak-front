@@ -4,7 +4,7 @@ import { CloseIcon } from 'components/atoms/icon/Icon';
 import ProfileImage from 'components/atoms/profile/ProfileImage';
 import UserProfileBubbleContent from 'components/organisms/bubbles/UserProfileBubbleContent';
 import ConfirmModalContent from 'components/organisms/modals/user/ConfirmPasswordModalContent';
-import ModifyUserModalContent from 'components/organisms/modals/user/FindUserModalContent';
+import ModifyUserModalContent from 'components/organisms/modals/user/ModifyUserModalContent';
 import useModal from 'hooks/userModal';
 import { useState } from 'react';
 import { Flex } from 'rebass';
@@ -32,11 +32,7 @@ const UserProfile = () => {
   return (
    <>
     {renderModal(
-      isModify ? (
-        <ModifyUserModalContent  onClickCloseModal={handleCloseModal}/>
-      ): (
-        <ConfirmModalContent onClickModifyButton={handleOpenAnotherModal}/>
-      ),
+     <ModifyUserModalContent onClickCloseModal={handleCloseModal}/>,
       <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
         <CloseIcon />
       </IconButton>

@@ -3,13 +3,17 @@ import { BASE, PRIMARY } from "styles/colors";
 
 
 interface ChipProps {
-  onClick: VoidFunction,
-  children: React.ReactNode,
-  margin?:string,
-  active?:boolean,
+  key: number;
+  checked: boolean;
+  onClick: VoidFunction;
+  child?:React.ReactElement;
+  margin?: string;
 }
 
-const StyledChip = styled.button<{margin?:string}>`
+const StyledChip = styled.div<{margin?:string}>`
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
   margin:${(props) => props.margin};
   text-align: center;
   border-radius: 4px;
@@ -18,12 +22,28 @@ const StyledChip = styled.button<{margin?:string}>`
   color: ${PRIMARY[40]};
   font-weight: 600;
   font-size: 16px;
+  cursor: pointer;
+  user-select: none;
+  input[type='checkbox'] {
+    display: none;
+  }
   :active{
     background-color: ${PRIMARY[100]};
     border: 1px solid ${PRIMARY[40]};
     color: ${BASE[1]};
   }
-  +.active{
+  > label {
+    width: 20px;
+    height: 20px;
+    border-radius: 4px;
+    background-color: ${BASE[3]};
+    border: 1px solid ${PRIMARY[40]};
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+    cursor: pointer;
+  }
+  label.checked {
     background-color: ${PRIMARY[100]};
     border: 1px solid ${PRIMARY[40]};
     color: ${BASE[1]};
@@ -32,14 +52,18 @@ const StyledChip = styled.button<{margin?:string}>`
 
 const Chip = ({
   onClick,
-  children,
   margin,
-  active,
+  key,
+  checked,
+  child,
   ...rest
 }:ChipProps) => {
   return (
-    <StyledChip margin={margin} onClick={onClick} className={active && "active"} {...rest}   >
-      {children}
+    <StyledChip margin={margin} onClick={onClick}>
+      {/* <label htmlFor={key} className={checked ? 'checked' : undefined}>
+        <input type="checkbox" name={key} checked={checked} readOnly />
+      </label> */}
+      {child}
     </StyledChip>
   );
 };

@@ -13,6 +13,10 @@ import { ReactComponent as Return } from 'assets/icons/return.svg';
 import { ReactComponent as BookMark } from 'assets/icons/bookmark.svg';
 import { ReactComponent as TurnUp } from 'assets/icons/turnup.svg';
 
+import { ReactComponent as Date } from 'assets/icons/date.svg';
+
+import { ReactComponent as Camera } from 'assets/icons/camera.svg';
+
 
 export const CloseIcon = () => <Close />;
 export const FullScreenIcon = () => <FullScreen />;
@@ -24,4 +28,6 @@ export const EyeOnIcon = () => <EyeOn />;
 export const ReturnIcon = () => <Return />;
 export const BookMarkIcon = () => <BookMark />;
 export const TurnUpIcon = () => <TurnUp />;
+export const DateIcon = () => <Date />;
+export const CameraIcon = () => <Camera />;
 

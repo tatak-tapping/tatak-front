@@ -62,7 +62,6 @@ const TypeTypeModalContent = () => {
   },[category])
 
   const handleCategoryClick = (id:number) => {
-    console.log(id);
     setCategory(id);
     setTopic(0);
   }
@@ -101,14 +100,21 @@ const TypeTypeModalContent = () => {
       <Box mt="20px">
         <StyledTitle>글 유형</StyledTitle>
         {categories && categories.map(({categoryCode, categoryName}) => (
-          <Chip key={categoryCode} onClick={() => handleCategoryClick(categoryCode)} margin="0 4px 0 0 " active={category === categoryCode ? true : false}>{categoryName}</Chip>
+          // <Chip 
+          //   key={categoryCode} 
+          //   name={categoryName}
+          //   onClick={() => handleCategoryClick(categoryCode)} 
+          //   //checked={categoryCode}
+          //   margin="0 4px 0 0 ">{categoryName}</Chip>
+          <></>
         ))}
       </Box>
       <Box mt="20px">
         <StyledTitle>주제</StyledTitle>
         <Box  minHeight="80px" maxHeight="80px" overflowY="scroll">
         {topics && topics.map(({isVisible, topicCode, topicName}) => (
-          isVisible && <Chip key={topicCode} onClick={() => handleTopicClick(topicCode)} margin="0 8px 8px 0" active={topic === topicCode ? true : false}>{topicName}</Chip>
+          <></>
+          // isVisible && <Chip key={topicCode} onClick={() => handleTopicClick(topicCode)} margin="0 8px 8px 0" active={topic === topicCode ? true : false}>{topicName}</Chip>
         ))}
         </Box>
       </Box>
