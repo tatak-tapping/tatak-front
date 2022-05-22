@@ -3,19 +3,11 @@ import PropTypes from 'prop-types';
 import { ScriptContext } from 'context/ScriptContext';
 import { inko } from 'typo/KoreanInputMethod';
 
-interface props{
-  style:any
-}
-
-function TypingScript({ style }:props) {
+function TypingScript() {
   const script = useContext(ScriptContext);
-  
   const text = script.text.split('');
-
-  console.log(script);
-
   return (
-    <div style={style}>
+    <div>
     <ul style={{ listStyleType: 'none', overflow: 'hidden'}}>
       {
         <li className="word">
@@ -50,9 +42,5 @@ function TypingScript({ style }:props) {
   </div>
   )
 }
-
-TypingScript.propTypes = {
-  style: PropTypes.object,
-};
 
 export default React.memo(TypingScript);
