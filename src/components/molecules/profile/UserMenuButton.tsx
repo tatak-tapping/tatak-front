@@ -14,13 +14,11 @@ const UserMenuButton = () => {
   const setTokenAtom = useSetRecoilState(tokenAtom);
 
   const handleMyInfo = () => {
-      showDialog({
-        type: DialogTypes.error,
-        message: (
-            <MenuButton  onClick={closeDialog}>
-                스크랩
-            </MenuButton>
-        ),
+    showDialog({
+      type: DialogTypes.error,
+      message: (
+        <MenuButton onClick={closeDialog}>스크랩</MenuButton>
+      ),
     });
   };
 
@@ -49,7 +47,7 @@ const UserMenuButton = () => {
       <MenuButton onClick={handleLogout}>
         로그아웃
       </MenuButton>
-  </Flex>
+    </Flex>
   );
 }
 
