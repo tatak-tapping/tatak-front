@@ -1,0 +1,93 @@
+/* 을유1945 */
+@font-face {
+  font-family: 'Eulyoo1945';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2102-01@1.0/Eulyoo1945-SemiBold.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*마포금빛나루*/
+@font-face {
+  font-family: 'MapoGoldenPier';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoGoldenPierA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*마포꽃섬*/
+@font-face {
+  font-family: 'MapoFlowerIsland';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/MapoFlowerIslandA.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/*마루부리*/
+@font-face {
+  font-family: 'MaruBuri';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-10-21@1.0/MaruBuri-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 순바탕light */
+@font-face {
+  font-family: 'SunBatang';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_eight@1.0/SunBatang-Light.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 나눔명조 */
+@import url(//fonts.googleapis.com/earlyaccess/nanummyeongjo.css);
+
+.nanummyeongjo * {
+ font-family: 'NanumMyeongjo', serif;
+}
+
+/* 민산스 */
+@font-face {
+  font-family: 'MinSans';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/MinSans-Medium.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 조선굴림체 */
+@font-face {
+  font-family: 'ChosunGu';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@1.0/ChosunGu.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* 리디바탕 */
+@font-face {
+    font-family: 'RIDIBatang';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_twelve@1.0/RIDIBatang.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* kopub바탕 */
+@import url(//fonts.googleapis.com/earlyaccess/kopubbatang.css);
+
+.kopubbatang * {
+ font-family: 'KoPubBatang', serif;
+}
+
+/* 함렛 */
+@font-face {
+  font-family: 'Hahmlet';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2110@1.0/Hahmlet-Bold.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Leferi Base Type */
+@font-face {
+    font-family: 'LeferiBaseType';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/LeferiBaseType-RegularA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}

@@ -1,7 +1,7 @@
 import { getCategories } from "api/common";
 import { getCategoriesSelector } from "modules/selector";
 import { atom } from "recoil";
-import { ICategory, IFontOption, ITypo, ITypoOption, IUser } from "utils/types";
+import { FontAlign, FontWeight, ICategory, IFontOption, ITypo, ITypoOption, IUser } from "utils/types";
 
 export const tokenAtom = atom<string>({
   key: "tokenAtom",
@@ -30,7 +30,12 @@ export const typoOptionAtom = atom<ITypoOption | undefined>({
 
 export const fontOptionAtom = atom<IFontOption | undefined>({
   key: "fontOptionAtom",
-  default: undefined
+  default: {
+    align:FontAlign.CENTER,
+    font: "MapoGoldenPier",
+    size: 40,
+    weight: FontWeight.REGULER
+  }
 });
 
 export const categoriesAtom = atom<ICategory[] | undefined>({

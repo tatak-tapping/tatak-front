@@ -42,7 +42,7 @@ export enum TypoApprovalStatus{
   REJECTED
 }
 
-export interface IOption {
+export interface ISelectOption {
   label: string;
   value: string | number | string[];
 };
@@ -72,11 +72,36 @@ export interface ITypoOption{
   refreshToken:string;
 }
 
+export const FontSelectOption: ISelectOption[] = [
+  { value: "Eulyoo1945", label: "을유1945" },
+  { value: "MapoFlowerIsland", label: "마포꽃섬" },
+  { value: "MapoGoldenPier", label: "마포금빛나루" },
+  { value: "MaruBuri", label: "마루부리" },
+  { value: "SunBatang", label: "순바탕light" },
+  { value: "NanumMyeongjo", label: "나눔명조" },
+  { value: "MinSans", label: "민산스" },
+  { value: "ChosunGu", label: "조선굴림체" },
+  { value: "RIDIBatang", label: "리디바탕" },
+  { value: "KoPubBatang", label: "kopub바탕" },
+  { value: "Hahmlet", label: "함렛" },
+  { value: "LeferiBaseType", label: "Leferi Base Type" },
+];
+
+export enum FontWeight{
+  REGULER = 400,
+  SEMIBLOD = 600,
+  BLOD = 800
+}
+
+export enum FontAlign{
+  LEFT = "left",
+  CENTER = "center",
+  RIGHT = "right"
+}
+
 export interface IFontOption{
-  id :number;
-  email:string;
-  nickname:string;
-  profileImageUrl:string;
-  accessToken:string;
-  refreshToken:string;
+  font: string;
+  size: number;
+  weight:FontWeight;
+  align:FontAlign;
 }
