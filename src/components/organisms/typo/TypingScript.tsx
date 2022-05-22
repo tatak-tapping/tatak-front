@@ -18,16 +18,27 @@ function TypingScript({ style }:props) {
       {
         <li className="word">
           {
-            script.text.split('').map((char, j) => {
-              const isCorrect = char === script.userInput[j];
-              let className = isCorrect ? "correct" : "wrong";
-              if (script.userInput.length === j)
+            [script.text].map((char, index) => {
+              const isCorrect = char === script.userInput[index];
+              let className;
+              if (index < script.userInput.length) {
+                className = isCorrect ? "correct" : "wrong";
+                if (isCorrect === false) {
+                  char = script.userInput[index];
+                  if (char === ' ' && script.language === 'korean') char = '   ';
+                }
+              }
+              else if (script.userInput.length === index) {
                 className = 'cursor';
-              else if (script.userInput.length < j)
+                if (script.language === 'korean') {
+                  if (script.koreanBuffer.length !== 0)
+                    char = inko.en2ko(script.koreanBuffer);
+                }
+              }
+              else if (script.userInput.length < index)
                 className = 'next';
-              else if (isCorrect === false) char = script.userInput[j];
               return (
-                <span className={className} key={`${char} ${j}`}>{char}</span>
+                <span className={`char ${className}`} key={`${char} ${index}`}>{char}</span>
               )
             })
           }
