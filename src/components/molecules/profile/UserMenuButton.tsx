@@ -9,9 +9,9 @@ import { setLocalStorage } from "utils/storage";
 
 const UserMenuButton = () => {
 
-    const { showDialog, closeDialog } = useDialog();
-    const navigate = useNavigate();
-    const setTokenAtom = useSetRecoilState(tokenAtom);
+  const { showDialog, closeDialog } = useDialog();
+  const navigate = useNavigate();
+  const setTokenAtom = useSetRecoilState(tokenAtom);
 
   const handleMyInfo = () => {
       showDialog({
@@ -37,17 +37,17 @@ const UserMenuButton = () => {
 
   return(
     <Flex flexDirection="column">
-      <MenuButton  onClick={handleMyInfo}>
-          스크랩
+      <MenuButton  onClick={() => navigate('/bookmark')}>
+        책갈피
       </MenuButton>
-      <MenuButton  onClick={handleMyInfo}>
-          히스토리
+      <MenuButton  onClick={() => navigate('/library')}>
+        내서재
       </MenuButton>
-      <MenuButton  onClick={handleMyInfo}>
-          내가 업로드한 글감
+      <MenuButton  onClick={() => navigate('/storage')}>
+        내 서랍
       </MenuButton>
       <MenuButton onClick={handleLogout}>
-          로그아웃
+        로그아웃
       </MenuButton>
   </Flex>
   );

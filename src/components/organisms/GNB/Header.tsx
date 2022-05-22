@@ -8,17 +8,29 @@ import useModal from "hooks/userModal";
 import { tokenAtom } from "modules/atom";
 import { Box, Flex } from "rebass";
 import { useRecoilValue } from "recoil";
+import { useEffect, useState } from "react";
 import TypeTypeModalContent from "../modals/TypeTypeModalContent";
+import TypeUploadModalContent from "../modals/TypeUploadModalContent";
+
+enum OpenModal {
+  'PENCIL',
+  'FILTER',
+}
 
 const Header = () => {
   const useToken = useRecoilValue(tokenAtom);
+  const [openModal, SetOpenModal] = useState(null);
+  const [typoContent, setTypoContent] = useState<string>("");
+
+  console.log(useToken);
 
   const handlerFullScreen = () => {
 
   };
 
   const handlerPencil = () => {
-
+    SetOpenModal(OpenModal.PENCIL);
+    handleOpenModal();
   }
 
   const handlerType = () => {
@@ -26,18 +38,18 @@ const Header = () => {
   }
 
   const handlerSetting = () => {
+    SetOpenModal('SETTING');
     handleOpenModal();
   }
   
   const { handleOpenModal, handleCloseModal, renderModal } = useModal({
-    width: '480px',
-    height: '657px'
+    width:  '700px'
   });
-
+  
   return  (
     <>
     {renderModal(
-      <TypeTypeModalContent />,
+     <TypeUploadModalContent onClickCloseModal={handleCloseModal}/>,
       <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
         <CloseIcon />
       </IconButton>

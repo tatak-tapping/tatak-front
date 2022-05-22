@@ -2,6 +2,8 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import Bubble from "components/atoms/bubble/Bubble";
+import MenuButton from "components/atoms/button/MenuButton";
+import { CameraIcon } from "components/atoms/icon/Icon";
 import UserMenuButton from "components/molecules/profile/UserMenuButton";
 import UserProfileEdit from "components/molecules/profile/UserProfilEdit";
 import { useEffect, useRef } from "react";
@@ -13,19 +15,26 @@ const Wrapper = styled.div`
   position: relative;
 `;
 
-interface UserProfileBubbleProp  {
+interface UserModifyBubbleProp  {
   isVisible: boolean;
   onClose: VoidFunction;
-  onOpenModal:VoidFunction;
 }
 
-const UserProfileBubbleContent =({ isVisible, onClose, onOpenModal }: UserProfileBubbleProp) => {
+const UserModifyBubbleContent =({ isVisible, onClose }: UserModifyBubbleProp) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
     if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
       onClose();
     }
+  };
+
+  const handleClickClear = () => {
+
+  };
+
+  const handleClickUpload = () => {
+
   };
 
   useEffect(() => {
@@ -39,16 +48,17 @@ const UserProfileBubbleContent =({ isVisible, onClose, onOpenModal }: UserProfil
 
   return(
     <Wrapper ref={wrapperRef}>
-      <Bubble width="200px" height="320px" right="16px" padding="0 16px" isVisible={isVisible}>
-        <UserProfileEdit onOpenModal={onOpenModal}/>
-        <UserMenuButton />
-        <Flex>
-          <Text>Feedback</Text>
-          <Text>Terms</Text>
-          <Text>Privacy</Text>
+      <Bubble width="128px" height="82px" right="16px" padding="4px 4px" isVisible={isVisible}>
+        <Flex flexDirection="column">
+          <MenuButton onClick={handleClickUpload}>
+            이미지 업로드 
+          </MenuButton>
+          <MenuButton onClick={handleClickClear}>
+            프로필 이미지 삭제
+          </MenuButton>
         </Flex>
       </Bubble>
     </Wrapper>
   );
 };
-export default UserProfileBubbleContent;
+export default UserModifyBubbleContent;

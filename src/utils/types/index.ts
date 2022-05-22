@@ -42,6 +42,11 @@ export enum TypoApprovalStatus{
   REJECTED
 }
 
+export interface IOption {
+  label: string;
+  value: string | number | string[];
+};
+
 export interface ITypo{
   articleNo: number;
   author: IAuthor;

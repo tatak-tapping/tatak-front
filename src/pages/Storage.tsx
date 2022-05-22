@@ -3,7 +3,7 @@ import Header from 'components/organisms/GNB/Header';
 import { Flex } from 'rebass';
 import { BASE } from 'styles/colors';
 
-const MyPage = () => {
+const Storage = () => {
   
   return  (
     <>
@@ -16,4 +16,4 @@ const MyPage = () => {
   )
 }
 
-export default MyPage;
+export default Storage;

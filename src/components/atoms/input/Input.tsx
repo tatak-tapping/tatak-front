@@ -16,10 +16,11 @@ TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
    counter?:string;
    icon?:React.ReactElement;
    placeholder?:string;
+   width?:string;
 }
 
-const StyledInput = styled.input` 
-  width: 320px;
+const StyledInput = styled.input<{width:string}>` 
+  width: ${props => props.width};
   height: 40px;
   border: none;
   outline: none;
@@ -66,6 +67,7 @@ TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
         <Wrapper error={fieldState.error && true}>
            <StyledInput
               {...field}
+              width={props.width ?? "320px"}
               type={props.type}
               placeholder={props.placeholder}
             />

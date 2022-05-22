@@ -11,4 +11,3 @@ export const getCategories = (): Promise<{data:ICategory[]}> =>
 export const getTopics = (id:number): Promise<{data:ITopic[]}> => 
   instance.get(`/topics/category/${id}`);
 
-  

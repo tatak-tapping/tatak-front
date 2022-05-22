@@ -1,8 +1,8 @@
 import IconButton from "components/atoms/button/IconButton";
 import TextButton from "components/atoms/button/TextButton";
 import { CloseIcon } from "components/atoms/icon/Icon";
-import LoginModalContent from "components/organisms/modals/LoginModalContent";
-import SignUpModalContent from "components/organisms/modals/SignUpModalContent";
+import LoginModalContent from "components/organisms/modals/user/LoginModalContent";
+import SignUpModalContent from "components/organisms/modals/user/SignUpModalContent";
 import useModal from "hooks/userModal";
 import { useEffect, useState } from "react";
 import { Flex } from 'rebass';

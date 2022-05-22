@@ -1,91 +1,52 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { postUser } from "api/auth";
-import TextButton from "components/atoms/button/TextButton";
-import { EyeOffIcon, EyeOnIcon, ReturnIcon } from "components/atoms/icon/Icon";
-import Input from "components/atoms/input/Input";
-import Label from "components/atoms/label/Label";
-import { useDialog } from "context/Dialog";
 import { useEffect, useState } from "react";
-import { Box, Button, Flex , Text } from "rebass";
-import { BASE, GRAY, PRIMARY } from "styles/colors";
-import { useForm, useWatch, FormProvider } from "react-hook-form";
-import { DialogTypes } from "components/atoms/dialog/Dialog";
-import { setSessionStorage } from "utils/storage";
-import { useSetRecoilState } from "recoil";
-import { tokenAtom, userAtom } from "modules/atom";
-import instance from "api/instance";
 import { useNavigate } from "react-router-dom";
+import { Box, Button, Flex, Text } from "rebass";
+import { BASE, GRAY, PRIMARY } from "styles/colors";
+import TextButton from "components/atoms/button/TextButton";
+import Label from "components/atoms/label/Label";
+import KakaoAccountButton from "components/molecules/button/KakaoAccountButton";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { isAuthLoginAtom, tokenAtom, userAtom } from "modules/atom";
+import { postCommonLogin, putUser } from "api/auth";
+import { useForm, useWatch, FieldValues, FormProvider } from "react-hook-form";
+import CheckBox from "components/atoms/checkbox/Checkbox";
+import { setLocalStorage, setSessionStorage } from "utils/storage";
+import instance from "api/instance";
+import Input from "components/atoms/input/Input";
+import { EyeOffIcon, EyeOnIcon, ReturnIcon } from "components/atoms/icon/Icon";
 
-interface SignModalContentProps {
-  onClickLoginButton? : () => void;
-  onClickCloseModal? :  () => void;
+interface  ModifyUserModalContentProps {
+  onClickCloseModal? : () => void;
 }
 
-export interface IFormInputs {
-  email:string;
+interface IModifyFormInputs extends FieldValues{
   nickname:string;
   password:string;
   passwordConfirm:string;
 }
 
-const SignUpModalContent = ({ onClickLoginButton, onClickCloseModal } : SignModalContentProps) => {
-
-  const {showDialog, closeDialog} = useDialog();
-  const [isPwdConfirmVisible, setIsPwdConfirmVisible] = useState(false);
+const FindUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps) => {
   const [isPwdVisible, setIsPwdVisible] = useState(false);
-  const setUserToken = useSetRecoilState(tokenAtom);
-  const setUser = useSetRecoilState(userAtom);
-  
-  const onSubmit = async (data:IFormInputs) => {    
-    const params = data;
-    try {
-      const { data } = await postUser(params);
-      setSessionStorage("access_token_tatak", data.accessToken);
-      setSessionStorage("tatak_user", data);
-      instance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
-      setUserToken(data.accessToken);
+  const [isPwdConfirmVisible, setIsPwdConfirmVisible] = useState(false);
+  const [user, setUser] = useRecoilState(userAtom);
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState<string>();
+
+  const onSubmit = async (params:IModifyFormInputs) => {
+    try{
+      const { data } = await putUser(params);
       setUser(data);
       onClickCloseModal();
-
-      showDialog({
-        type : DialogTypes.success,
-        message : (
-          <>
-            <Text fontSize="24px" fontWeight="600" color={GRAY[2]}>
-              회원가입 완료
-            </Text>
-            <Text mt="12px" fontSize="14px" color={GRAY[5]}>
-              {data.nickname}님, 타닥에 오신 걸 환영해요!
-            </Text>
-            <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
-              확인
-            </Button>
-          </>
-        )
-      });
-
-    } catch (error) {
-      showDialog({
-        type : DialogTypes.error,
-        message : (
-          <>
-            <Text>
-              {error.status === 400 ? "이미 가입한 이력이 있는 이메일이에요." : "회원가입에 실패했습니다."}
-            </Text>
-            <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
-              확인
-            </Button>
-          </>
-        )
-      });
+    }catch(err){
+      console.log(err);
     }
-  }
+  };
 
-  const methods = useForm<IFormInputs>({
+  const methods = useForm<IModifyFormInputs>({
     defaultValues:{
-      email : "",
-      nickname : "",
+      nickname : user.nickname,
       password : "",
       passwordConfirm : ""
     },
@@ -101,41 +62,61 @@ const SignUpModalContent = ({ onClickLoginButton, onClickCloseModal } : SignModa
     handleSubmit
   } = methods;
 
+
+
   const handleReturnNickname = () => {
     const date = new Date();
     setValue("nickname", `타닥이${date.getSeconds()}${date.getMilliseconds()}`);
   }
 
+  const onSelectFile = (e:any) => {
+    if (!e.target.files || e.target.files.length === 0) {
+        setSelectedFile(undefined)
+        return
+    }
+
+    setSelectedFile(e.target.files[0])
+}
+
   const nickNameWatch = useWatch({control, name: "nickname"});
   const passwordWatch = useWatch({control, name: "password"});
   
+  useEffect(() => {
+    if (!selectedFile) {
+        setPreview(undefined)
+        return
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile)
+    setPreview(objectUrl)
+
+    return () => URL.revokeObjectURL(objectUrl)
+}, [selectedFile])
+
   return(
-    <Flex flexDirection="column" ml={20} mr={20}>
-      <Box>
-        <Text fontSize="24px" color={GRAY[2]} lineHeight="150%" fontWeight="600">
-          회원가입
+  <>    
+    <Flex flexDirection="column" ml="20px" mr="20px">
+      <Box mt="20px">
+        <Text fontSize="24px" color={GRAY[2]} fontWeight="600">
+          회원정보 수정
         </Text>
-        <hr css={css`width: 100%; border : none; border-top: 1px solid ${GRAY[2]};`}/>
+        <Text mt="10px" fontSize="14px" color={GRAY[5]}>
+          내 정보를 수정할 수 있어요.
+        </Text>
+        <hr css={css`
+          width: 100%;
+          margin-top: 10px;
+          border : none;
+          border-top: 1px solid ${GRAY[2]};
+        `}/>
       </Box>
-      <FormProvider {...methods} >
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <Box mt={20}>
-            <Label>E-mail</Label>
-            <Input
-              name="email"
-              rules={{
-                required:true,
-                pattern: {
-                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "정확한 이메일을 입력해주세요."
-                }
-              }}
-              control={control}
-              type="text"
-              placeholder="이메일을 입력해주세요."
-              />
-          </Box>
-          <Box mt={20}>
+      <Box mt="40px">
+        <input type='file' onChange={onSelectFile} hidden />
+        {selectedFile &&  <img src={preview} /> }
+      </Box>
+      <FormProvider {...methods}>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <Box mt="20px">
             <Label>닉네임</Label>
             <Input
               name="nickname"
@@ -228,15 +209,8 @@ const SignUpModalContent = ({ onClickLoginButton, onClickCloseModal } : SignModa
           </Box>
         </form>
       </FormProvider>
-      <Box mt={28}sx={{borderTop : `1px solid ${GRAY[2]}`, paddingTop: `16px`, textAlign: `center`}}>
-      <Text fontSize="12px" color={GRAY[5]}>
-        이미 가입한 계정이 있으신가요?
-      </Text>
-      <Text onClick={() => onClickLoginButton()} fontSize="14px" color={PRIMARY[60]} fontWeight="600">
-        로그인
-      </Text>
-    </Box>
-  </Flex>
+    </Flex>
+  </>
   );
 };
-export default SignUpModalContent;
+export default FindUserModalContent;
