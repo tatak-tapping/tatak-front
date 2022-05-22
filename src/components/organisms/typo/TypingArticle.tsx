@@ -21,11 +21,11 @@ function TypingArticle() {
               let className;
               if (index < script.userInput.length) {
                 className = isCorrect ? "correct" : "wrong";
-                if (!isCorrect) char = script.userInput[index];
+                if (!isCorrect && script.userInput[index] != ' ') char = script.userInput[index];
               }
               //현재 char
               else if (script.userInput.length === index) {
-                className = 'cursor';
+                className = 'current';
                 if (script.language === 'korean' && script.koreanBuffer.length > 0) {
                   //buffer 이용해서 한글로 바꿈
                   char = inko.en2ko(script.koreanBuffer);
@@ -67,8 +67,8 @@ const StyledArticle = styled.ul`
     color: ${ERROR};
     min-width: auto;
   }
-  span.cursor{
-    color: ${GRAY[2]};
+  span.current{
+    color: ${GRAY[4]};
   }
   span.next{
     color: ${PRIMARY[40]};
