@@ -7,7 +7,6 @@ interface ContextState{
   userInput: string;
   language:  string;
   koreanBuffer: string;
-  displayMode?: string;
 }
 
 const ScriptContext = createContext({} as ContextState);

@@ -2,13 +2,16 @@ import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { ScriptContext } from 'context/ScriptContext';
 import { inko } from 'typo/KoreanInputMethod';
+import styled from '@emotion/styled';
+import { Box } from 'rebass';
+import { ERROR, GRAY, PRIMARY } from 'styles/colors';
 
-function TypingScript() {
+function TypingArticle() {
   const script = useContext(ScriptContext);
   const text = script.text.split('');
   return (
-    <div>
-    <ul style={{ listStyleType: 'none', overflow: 'hidden'}}>
+    <>
+    <StyledArticle>
       {
         <li className="word">
           {
@@ -38,9 +41,36 @@ function TypingScript() {
           }
         </li>
       }
-    </ul>
-  </div>
+    </StyledArticle>
+    </>
   )
 }
 
-export default React.memo(TypingScript);
+export default React.memo(TypingArticle);
+
+
+const StyledArticle = styled.ul`
+  list-style-type: none;
+  overflow: 'hidden';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  li.word {
+    padding: 0 0 0 10px;
+    float: left;
+    text-align: -webkit-match-parent;
+    white-space: pre-wrap;
+  }
+  span.correct{
+    color: ${GRAY[2]};
+  }
+  span.wrong{
+    color: ${ERROR};
+    min-width: auto;
+  }
+  span.cursor{
+    color: ${GRAY[2]};
+  }
+  span.next{
+    color: ${PRIMARY[40]};
+  }
+`;
