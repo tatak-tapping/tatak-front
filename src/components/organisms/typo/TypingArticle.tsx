@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { ScriptContext } from 'context/ScriptContext';
+import { TypoContext } from 'context/ScriptContext';
 import { inko } from 'typo/KoreanInputMethod';
 import styled from '@emotion/styled';
 import { Box } from 'rebass';
 import { ERROR, GRAY, PRIMARY } from 'styles/colors';
+import { TypoLanguage } from 'utils/types';
 
 function TypingArticle() {
-  const script = useContext(ScriptContext);
+  const script = useContext(TypoContext);
   const text = script.text.split('');
   return (
     <>
@@ -26,7 +27,7 @@ function TypingArticle() {
               //현재 char
               else if (script.userInput.length === index) {
                 className = 'current';
-                if (script.language === 'korean' && script.koreanBuffer.length > 0) {
+                if (script.language === TypoLanguage.KOREAN && script.koreanBuffer.length > 0) {
                   //buffer 이용해서 한글로 바꿈
                   char = inko.en2ko(script.koreanBuffer);
                 }

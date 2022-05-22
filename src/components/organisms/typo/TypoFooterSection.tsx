@@ -3,27 +3,24 @@ import { css } from "@emotion/react";
 import { getArticle } from "api/common";
 import IconAndTextButton from "components/atoms/button/IconAndTextButton";
 import { BookMarkIcon, ReturnIcon, TurnUpIcon } from "components/atoms/icon/Icon";
-import { typoTextAtom } from "modules/atom";
+import { typoAtom } from "modules/atom";
 import { Box, Flex } from "rebass";
 import { useRecoilState } from "recoil";
 import { GRAY } from "styles/colors";
 import { ITypo } from "utils/types";
 
 const TypoFooterSection = () => {
-  const [typoText, setTypoText ] = useRecoilState<ITypo>(typoTextAtom);
+  const [typo, setTypo] = useRecoilState<ITypo>(typoAtom);
 
   const handleClick = () => alert("준비중입니다.");
 
   const handleRefreshClick = () => {
     const getArticleAsync = async () => {
       const {data} = await getArticle();
-      console.log(data);
-      setTypoText(data);
+      setTypo(data);
     };
     getArticleAsync();
   };
-
-  if(!typoText) return (<></>);
 
   return(
     <Flex justifyContent="center" alignItems="center" marginLeft="auto"  marginRight="auto" width={1000} height={52} padding="0 24px">
@@ -42,14 +39,14 @@ const TypoFooterSection = () => {
               font-size: 14px;
               line-height: 17px;
               color: ${GRAY[3]};
-            `}>『{typoText.title}』</span>
+            `}>『{typo?.title}』</span>
               <span css={css`
               margin-left: 4px;
               font-weight: 400;
               font-size: 14px;
               line-height: 17px;
               color: ${GRAY[3]};
-            `}>{typoText.writer}</span>
+            `}>{typo?.writer}</span>
           </Box>
           <Box>
             <div css={css`
@@ -57,7 +54,7 @@ const TypoFooterSection = () => {
               font-size: 12px;
               line-height: 14px;
               color: ${GRAY[6]};
-            `}>{typoText.author.nickname}</div>
+            `}>{typo?.author.nickname}</div>
           </Box>
         </Flex>
       </Flex>

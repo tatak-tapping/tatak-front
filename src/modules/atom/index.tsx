@@ -18,7 +18,7 @@ export const isAuthLoginAtom = atom<boolean>({
   default: false,
 });
 
-export const typoTextAtom = atom<ITypo | undefined>({
+export const typoAtom = atom<ITypo | undefined>({
   key: "typoTextAtom",
   default: undefined
 });

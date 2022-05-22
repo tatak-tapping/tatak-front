@@ -1,14 +1,13 @@
 import { createContext } from 'react';
+import { TypoLanguage } from 'utils/types';
 
-const KeyboardContext = createContext({});
-
-interface ContextState{
+interface TypoContextState{
   text: string;
   userInput: string;
-  language:  string;
+  language:  TypoLanguage;
   koreanBuffer: string;
 }
 
-const ScriptContext = createContext({} as ContextState);
+const TypoContext = createContext({} as TypoContextState);
 
-export { KeyboardContext, ScriptContext };
+export { TypoContext };

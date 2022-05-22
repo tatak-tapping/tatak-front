@@ -2,24 +2,25 @@ import { Flex } from "rebass";
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useTyping, { CharStateType, PhaseType } from "react-typing-game-hook";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { typoOptionAtom, typoTextAtom } from "modules/atom";
+import { typoOptionAtom, typoAtom } from "modules/atom";
 import { getArticle } from "api/common";
-import { ITypo, ITypoOption } from "utils/types";
+import { ITypo, ITypoOption, TypoLanguage } from "utils/types";
 import { useNavigate } from "react-router-dom";
 import { inko, KoreanInputMethod } from "typo/KoreanInputMethod";
 import TypingArticle from "./TypingArticle";
-import { ScriptContext } from "context/ScriptContext";
+import { TypoContext } from "context/ScriptContext";
 
-  const TypoMainSection = () => {
-  const [text, setText] = useState("정말로 책임이 있는 권력자에게 소리를 내지를 수가 없기에 우리가 비난을 해도 가장 너그럽게 보아주리라 확신하는 사람에게 화를 낸다. 우리가 사랑하는 사람에게 퍼붓는 비난들은 딱히 이치에 닿지 않는다. 세상 다른 어떤 사람에게도 그런 부당한 말들우리는 정말로 책임이 있는 권력자에게 소리를 내지를 수가 없기에 우리가 비난을 해도 가장 너그렵게 보아주리라 확신하는 사람에게 화를 낸다. 우리가 사랑하는 사람에게 퍼붓는 비난들은 딱히 이치에 닿지 않는다. 세상 다른 어떤 사람에게도 그런 부당한 말들우리는 정말로 책임이 있는 권력자에게 소리를 내지를 수가 없기에 우리가 비난을 해도 가장 너그럽게 보아주리라 확신하는 사람에게 화를 낸다. 우리가 사랑하는 사람에게 퍼붓는 비난들은 딱히 이치에 닿지 않는다. 세상 다른 어떤 사람에게도 그런 부당한 말들우리는 정말로 책임이 있는 권력자에게 소리를 내지를 수가 없기에 우리가 비난을 해도 가장 너그럽게 보아주리라 확신하는 사람에게 화를 낸다. 우리가 사랑하는 사람에게 퍼붓는 비난들은 딱히 이치에 닿지 않는다. ");
-  //const [text, setText] = useState("On the other hand, we denounce with righteous indignation and dislike men who are so beguiled and demoralized by the charms of pleasure of the moment, so blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue") 
+const TypoMainSection = () => {
   const [userInput, setUserInput] = useState("");
-  const [language] = useState("korean");
   const [koreanBuffer, setKoreanBuffer] = useState("");
+
+  const [typo, setTypo] = useRecoilState<ITypo>(typoAtom);
+  const text = typo?.contents ?? "";
+  const language = typo?.language;
 
  const onKeyDown = useCallback((event) => {
     event.preventDefault();
-    if (language === 'korean') {
+    if (language === TypoLanguage.KOREAN) {
       setKoreanBuffer((buf) => {
         const { nextUserInput, nextBuf } = KoreanInputMethod(buf, event, userInput);
         if (nextUserInput !== userInput) {
@@ -29,6 +30,7 @@ import { ScriptContext } from "context/ScriptContext";
       });
       return;
     }
+    
     setUserInput((text) => {
       if (event.key === 'Backspace') return text.slice(0, -1);
       if (event.key === 'Enter') return text.concat('\n');
@@ -44,9 +46,9 @@ import { ScriptContext } from "context/ScriptContext";
 
   return(
     <Flex justifyContent="center" alignItems="center" marginLeft="auto"  marginRight="auto" width={1000} height={600} max-height={600} overflowY="auto">
-       <ScriptContext.Provider value={{ text, userInput, language, koreanBuffer }}>
+       <TypoContext.Provider value={{ text, userInput, language, koreanBuffer }}>
         <TypingArticle />
-      </ScriptContext.Provider>
+      </TypoContext.Provider>
     </Flex>
   )
 }

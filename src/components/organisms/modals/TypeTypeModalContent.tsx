@@ -7,7 +7,7 @@ import TextButton from "components/atoms/button/TextButton";
 import Chip from "components/atoms/chip/Chip";
 import LanguageTabs from "components/molecules/tabs/LanguageTabs";
 import LengthTabs from "components/molecules/tabs/LengthTabs";
-import { tokenAtom, typoOptionAtom, typoTextAtom } from "modules/atom";
+import { tokenAtom, typoOptionAtom, typoAtom } from "modules/atom";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -32,7 +32,7 @@ const TypeTypeModalContent = () => {
   const [category, setCategory] =  useState<number>(0);
   const [topic, setTopic] =  useState<number>(0);
   const [typoOption, setTypoOption] = useRecoilState(typoOptionAtom);
-  const [typoText, setTypoText ] = useRecoilState<ITypo>(typoTextAtom); 
+  const [typo, setTypo ] = useRecoilState<ITypo>(typoAtom); 
   const token = useRecoilValue(tokenAtom); 
   const navigate = useNavigate();
 
@@ -74,7 +74,7 @@ const TypeTypeModalContent = () => {
     const getArticleAsync = async () => {
       const {data} = await getArticle();
       console.log(data);
-      setTypoText(data);
+      setTypo(data);
     };
     getArticleAsync();
     navigate('/');
