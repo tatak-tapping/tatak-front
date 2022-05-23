@@ -70,7 +70,7 @@ const SignUpModalContent = ({ onClickLoginButton, onClickCloseModal } : SignModa
         message : (
           <>
             <Text>
-              {error.status === 400 ? "이미 가입한 이력이 있는 이메일이에요." : "회원가입에 실패했습니다."}
+              {error.status === 409 ? "이미 가입한 이력이 있는 이메일이에요." : "회원가입에 실패했습니다."}
             </Text>
             <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
               확인
