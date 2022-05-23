@@ -23,6 +23,11 @@ export const typoAtom = atom<ITypo | undefined>({
   default: undefined
 });
 
+export const isOpenModalAtom = atom<boolean>({
+  key:"isOpenModalAtom",
+  default:false,
+})
+
 export const typoOptionAtom = atom<ITypoOption | undefined>({
   key: "typoOptionAtom",
   default: undefined

@@ -1,8 +1,8 @@
-import { Flex } from "rebass";
+import { Box, Flex } from "rebass";
 import React, { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import useTyping, { CharStateType, PhaseType } from "react-typing-game-hook";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { typoOptionAtom, typoAtom } from "modules/atom";
+import { typoOptionAtom, typoAtom, isOpenModalAtom } from "modules/atom";
 import { getArticle } from "api/common";
 import { ITypo, ITypoOption, TypoLanguage } from "utils/types";
 import { useNavigate } from "react-router-dom";
@@ -13,6 +13,7 @@ import { TypoContext } from "context/ScriptContext";
 const TypoMainSection = () => {
   const [userInput, setUserInput] = useState("");
   const [koreanBuffer, setKoreanBuffer] = useState("");
+  const [isOpenModal, setIsOpenModal] = useRecoilState(isOpenModalAtom);
 
   const [typo, setTypo] = useRecoilState<ITypo>(typoAtom);
   //const text = typo?.contents ?? "";
@@ -46,12 +47,18 @@ const TypoMainSection = () => {
     return () => document.body.removeEventListener("keydown", onKeyDown);
   }, [onKeyDown]);
 
+  useEffect(() => {
+    console.log(isOpenModal);
+    if (isOpenModal) document.body.removeEventListener("keydown", onKeyDown);
+    else document.body.addEventListener("keydown", onKeyDown);
+  }, [isOpenModal]);
+
   return(
-    <Flex justifyContent="center" alignItems="center" marginLeft="auto"  marginRight="auto" width={1000} height={600} max-height={600} overflowY="auto">
+    <Box justifyContent="center" alignItems="center" marginLeft="auto"  marginRight="auto" width={1000} height={600} max-height={600} overflowY="auto">
        <TypoContext.Provider value={{ text, userInput, language, koreanBuffer }}>
         <TypingArticle />
       </TypoContext.Provider>
-    </Flex>
+    </Box>
   )
 }
 
