@@ -1,6 +1,6 @@
 
 import Modal from 'components/atoms/modal/Modal';
-import { isOpenModalAtom } from 'modules/atom';
+import { isOpenModalAtom, modalAtom } from 'modules/atom';
 import { useEffect } from 'react';
 import { ReactNode, useCallback, useRef, useState } from 'react';
 import { Box } from 'rebass';
@@ -22,6 +22,7 @@ const useModal = ({
   const mountedRef = useRef(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isOpenModal, setIsOpenModal] = useRecoilState(isOpenModalAtom);
+  const [modal, setModal] = useRecoilState(modalAtom);
 
   useEffect(() => {
     return () => { mountedRef.current = false }
@@ -35,6 +36,7 @@ const useModal = ({
   const handleCloseModal = useCallback(() => {
     setIsOpenModal(false);
     setIsModalVisible(false);
+    setModal(undefined);
   }, []);
 
   const renderModal = (children: ReactNode, closeButton?: ReactNode) => (

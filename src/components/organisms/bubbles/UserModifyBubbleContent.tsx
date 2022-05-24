@@ -30,11 +30,11 @@ const UserModifyBubbleContent =({ isVisible, onClose }: UserModifyBubbleProp) =>
   };
 
   const handleClickClear = () => {
-
+    (document as any).getElementById("file-upload-user").reset();
   };
 
   const handleClickUpload = () => {
-
+    (document as any).getElementById("file-upload-user").click();
   };
 
   useEffect(() => {

@@ -22,6 +22,10 @@ export interface PostConfirmPasswordParams {
   password: string;
 }
 
+export interface PostFindUserParams {
+  email: string;
+}
+
 export const postCommonLogin = (params: PostCommonParams): Promise<{ data: IUser }> =>
   instance.post('/users/login', params);
 
@@ -47,3 +51,6 @@ export const postUserImage = (formData:any) => {
 
 export const postConfirmPassword = (params: PostConfirmPasswordParams): Promise<{ data: boolean }> => 
   instance.post(`/users/confirm`, params);
+
+export const postFindUser = (params: PostFindUserParams): Promise<{ data: boolean }> => 
+  instance.post(`/users/find`, params);

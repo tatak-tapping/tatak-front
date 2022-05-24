@@ -21,6 +21,7 @@ import { EyeOffIcon, EyeOnIcon } from "components/atoms/icon/Icon";
 
 
 interface LoginModalContentProps {
+  onClickFindUserButton? : () => void;
   onClickSignUpButton? : () => void;
   onClickCloseModal? : () => void;
 }
@@ -30,7 +31,7 @@ interface ILoginFormInputs extends FieldValues {
   password:string;
 }
 
-const LoginModalContent = ({ onClickSignUpButton, onClickCloseModal }: LoginModalContentProps) => {
+const LoginModalContent = ({ onClickFindUserButton, onClickSignUpButton, onClickCloseModal }: LoginModalContentProps) => {
   const navigate = useNavigate();
   const {showDialog, closeDialog} = useDialog();
   const [isPwdVisible, setIsPwdVisible] = useState(false);
@@ -155,7 +156,7 @@ const LoginModalContent = ({ onClickSignUpButton, onClickCloseModal }: LoginModa
         <Flex mt="20px">
           <CheckBox name="자동 로그인" checked={isAuthLogin} onClick={() => setIsAuthLogin(!isAuthLogin)}/>
           <Flex justifyContent="center" alignItems="center" marginLeft="auto">
-            <Text onClick={() => alert('준비중')} fontSize="14px" color={PRIMARY[40]} fontWeight="600">
+            <Text onClick={() => onClickFindUserButton()} fontSize="14px" color={PRIMARY[40]} fontWeight="600">
               회원정보 찾기
             </Text>
           </Flex>

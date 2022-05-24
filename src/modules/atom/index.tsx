@@ -3,6 +3,8 @@ import { getCategoriesSelector } from "modules/selector";
 import { atom } from "recoil";
 import { FontAlign, FontWeight, ICategory, IFontOption, ITypo, ITypoOption, IUser } from "utils/types";
 
+
+
 export const tokenAtom = atom<string>({
   key: "tokenAtom",
   default: localStorage.getItem("access_token_tatak") ?? sessionStorage.getItem("access_token_tatak"),
@@ -22,7 +24,10 @@ export const typoAtom = atom<ITypo | undefined>({
   key: "typoTextAtom",
   default: undefined
 });
-
+export const modalAtom = atom<string | undefined>({
+  key: "modalAtom",
+  default:undefined
+})
 export const isOpenModalAtom = atom<boolean>({
   key:"isOpenModalAtom",
   default:false,

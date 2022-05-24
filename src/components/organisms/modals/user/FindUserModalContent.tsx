@@ -1,199 +1,118 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Box, Button, Flex, Text } from "rebass";
 import { BASE, GRAY, PRIMARY } from "styles/colors";
 import TextButton from "components/atoms/button/TextButton";
 import Label from "components/atoms/label/Label";
-import KakaoAccountButton from "components/molecules/button/KakaoAccountButton";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { isAuthLoginAtom, tokenAtom, userAtom } from "modules/atom";
-import { postCommonLogin, putUser } from "api/auth";
-import { useForm, useWatch, FieldValues, FormProvider } from "react-hook-form";
-import CheckBox from "components/atoms/checkbox/Checkbox";
-import { setLocalStorage, setSessionStorage } from "utils/storage";
-import instance from "api/instance";
+import { postFindUser } from "api/auth";
+import { useForm, FieldValues, FormProvider } from "react-hook-form";
 import Input from "components/atoms/input/Input";
-import { EyeOffIcon, EyeOnIcon, ReturnIcon } from "components/atoms/icon/Icon";
+import { useDialog } from "context/Dialog";
+import { DialogTypes } from "components/atoms/dialog/Dialog";
+import styled from "@emotion/styled";
 
-interface  ModifyUserModalContentProps {
+interface  FindUserModalContentProps {
   onClickCloseModal? : () => void;
 }
 
-interface IModifyFormInputs extends FieldValues{
-  nickname:string;
-  password:string;
-  passwordConfirm:string;
+interface IFindUserFormInputs extends FieldValues{
+  email: string;
 }
 
-const FindUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps) => {
-  const [isPwdVisible, setIsPwdVisible] = useState(false);
-  const [isPwdConfirmVisible, setIsPwdConfirmVisible] = useState(false);
-  const [user, setUser] = useRecoilState(userAtom);
-  const [selectedFile, setSelectedFile] = useState();
-  const [preview, setPreview] = useState<string>();
+const FindUserModalContent = ({onClickCloseModal}:FindUserModalContentProps) => {
+  const {showDialog, closeDialog} = useDialog();
 
-  const onSubmit = async (params:IModifyFormInputs) => {
-    try{
-      const { data } = await putUser(params);
-      setUser(data);
-      onClickCloseModal();
-    }catch(err){
-      console.log(err);
-    }
-  };
-
-  const methods = useForm<IModifyFormInputs>({
+  const methods = useForm<IFindUserFormInputs>({
     defaultValues:{
-      nickname : user.nickname,
-      password : "",
-      passwordConfirm : ""
+      email : ""
     },
     mode:"onChange"
   });
 
   const {
     control,
-    setError,
-    formState: {isSubmitting, isDirty, isValid, errors},
-    setValue,
-    watch,
+    formState: {isDirty, isValid, errors},
+
     handleSubmit
   } = methods;
 
-
-
-  const handleReturnNickname = () => {
-    const date = new Date();
-    setValue("nickname", `타닥이${date.getSeconds()}${date.getMilliseconds()}`);
-  }
-
-  const onSelectFile = (e:any) => {
-    if (!e.target.files || e.target.files.length === 0) {
-        setSelectedFile(undefined)
-        return
+  const onSubmit = async (params:IFindUserFormInputs) => {
+    try{
+      const { data } = await postFindUser(params);
+      showDialog({
+        type : DialogTypes.success,
+        message : (
+          <>
+            <Text>
+              이메일 발송 완료.
+            </Text>
+            <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
+              확인
+            </Button>
+          </>
+        )
+      });
+      onClickCloseModal();
+    }catch(err){
+      console.log(err);
+      showDialog({
+        type : DialogTypes.error,
+        message : (
+          <>
+            <Text>
+              {err.status === 404 ? "이전에 가입한 이력이 없는 이메일이에요." : "회원 찾기에 실패했습니다."}
+            </Text>
+            <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
+              확인
+            </Button>
+          </>
+        )
+      });
     }
+  };
 
-    setSelectedFile(e.target.files[0])
-}
-
-  const nickNameWatch = useWatch({control, name: "nickname"});
-  const passwordWatch = useWatch({control, name: "password"});
-  
-  useEffect(() => {
-    if (!selectedFile) {
-        setPreview(undefined)
-        return
-    }
-
-    const objectUrl = URL.createObjectURL(selectedFile)
-    setPreview(objectUrl)
-
-    return () => URL.revokeObjectURL(objectUrl)
-}, [selectedFile])
 
   return(
   <>    
-    <Flex flexDirection="column" ml="20px" mr="20px">
-      <Box mt="20px">
-        <Text fontSize="24px" color={GRAY[2]} fontWeight="600">
-          회원정보 수정
-        </Text>
-        <Text mt="10px" fontSize="14px" color={GRAY[5]}>
-          내 정보를 수정할 수 있어요.
-        </Text>
-        <hr css={css`
-          width: 100%;
-          margin-top: 10px;
-          border : none;
-          border-top: 1px solid ${GRAY[2]};
-        `}/>
-      </Box>
-      <Box mt="40px">
-        <input type='file' onChange={onSelectFile} hidden />
-        {selectedFile &&  <img src={preview} /> }
-      </Box>
-      <FormProvider {...methods}>
+   <Flex flexDirection="column" ml="20px" mr="20px">
+    <FormProvider {...methods} >
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box mt="20px">
-            <Label>닉네임</Label>
+          <Text fontSize="24px" color={GRAY[2]} fontWeight="600">
+            회원정보 수정
+          </Text>
+          <Text mt="10px" fontSize="14px" color={GRAY[5]}>
+            비밀번호를 입력해주세요.
+          </Text>
+          <hr css={css`
+            width: 100%;
+            margin-top: 10px;
+            border : none;
+            border-top: 1px solid ${GRAY[2]};
+          `}/>
+        </Box>
+          <Box mt={20}>
+            <Label>Password</Label>
             <Input
-              name="nickname"
+              name="email"
+              width=""
               rules={{
-                required:true, 
-                minLength:{
-                  value:2,
-                  message:'최소 2자, 최대 10자까지 가능해요.'
-                },
-                maxLength:{
-                  value:10, 
-                  message:'최소 2자, 최대 10자까지 가능해요.'
+                required:true,
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "정확한 이메일을 입력해주세요."
                 }
               }}
+              list="emailList"
+              type="email"
               control={control}
-              type="text"
-              counter={nickNameWatch.length + "/10"}
-              placeholder="닉네임을 입력해주세요."
-              comment="최소 2자, 최대 10자까지 가능해요."
-              icon={
-                <span onClick={() => handleReturnNickname()}>
-                  <ReturnIcon />
-                </span>
-              }
-             />
-          </Box>
-          <Box mt={20}>
-            <Label>비밀번호</Label>
-            <Input
-              name="password"
-              type={isPwdVisible ? "text" : "password"}
-              rules={{
-                required:true, 
-                minLength:{
-                  value:6,
-                  message:'최소 6자리로 입력해주세요.'
-                }}
-              }
-              control={control}
-              placeholder="비밀번호를 입력해주세요."
-              icon={isPwdVisible ?
-                (<span onClick={() => setIsPwdVisible(!isPwdVisible)}>
-                    <EyeOnIcon/>
-                  </span>)
-                :
-                (<span onClick={() => setIsPwdVisible(!isPwdVisible)}>
-                    <EyeOffIcon/>
-                  </span>)
-              } 
+              placeholder="이메일을 입력해주세요."
             />
-          </Box>
-          <Box mt={20}>
-            <Label>비밀번호 확인</Label>
-            <Input
-              name="passwordConfirm"
-              rules={{
-                required:true, 
-                minLength:{
-                  value:6,
-                  message:'최소 6자리로 입력해주세요.'
-                },
-                validate: (value) => {
-                  if (value !== passwordWatch) return "비밀번호가 일치하지 않아요.";
-                }
-              }}
-              control={control}
-              type={isPwdConfirmVisible ? "text" : "password"}
-              placeholder="다시 한 번 비밀번호를 입력해주세요."
-              icon={isPwdConfirmVisible ?
-                (<span onClick={() => setIsPwdConfirmVisible(!isPwdConfirmVisible)}>
-                    <EyeOnIcon/>
-                  </span>)
-                :
-                (<span onClick={() => setIsPwdConfirmVisible(!isPwdConfirmVisible)}>
-                    <EyeOffIcon/>
-                  </span>)
-              }/>
+            <StyledDatalist id="emailList">
+              <option key="naver" value="@naver.com" />
+              <option key="gmail" value="@gmail.com" />
+              <option key="kakao" value="@kakao.com" />
+            </StyledDatalist>
           </Box>
           <Box mt={28}>
             <TextButton
@@ -204,7 +123,7 @@ const FindUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps) =
               backgroundColor={PRIMARY[80]}
               onClick={handleSubmit(onSubmit)}
               disabled={!isDirty || !isValid}>
-                회원가입
+                회원정보 찾기
             </TextButton>
           </Box>
         </form>
@@ -214,3 +133,8 @@ const FindUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps) =
   );
 };
 export default FindUserModalContent;
+
+const StyledDatalist = styled.datalist`
+  width: 120px;
+  height: 120px;
+`;

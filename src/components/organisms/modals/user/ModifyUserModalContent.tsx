@@ -48,16 +48,6 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
     setIsBubbleVisible(isBubbleVisible);
   }
 
-  const onSubmit = async (params:IModifyFormInputs) => {
-    try{
-      const { data } = await putUser(params);
-      setUser(data);
-      onClickCloseModal();
-    }catch(err){
-      console.log(err);
-    }
-  };
-
   const methods = useForm<IModifyFormInputs>({
     defaultValues:{
       nickname : user.nickname,
@@ -77,6 +67,15 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
   } = methods;
 
 
+  const onSubmit = async (params:IModifyFormInputs) => {
+    try{
+      const { data } = await putUser(params);
+      setUser(data);
+      onClickCloseModal();
+    }catch(err){
+      console.log(err);
+    }
+  };
 
   const handleReturnNickname = () => {
     const date = new Date();
@@ -85,10 +84,8 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
 
   const onSelectFile = (e:any) => {
     if (!e.target.files || e.target.files.length === 0) {
-        setSelectedFile(undefined)
-        return
+        setSelectedFile(undefined); return;
     }
-
     setSelectedFile(e.target.files[0])
 }
 
@@ -127,7 +124,7 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
       <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Box>
-          <input name="" type='file' onChange={onSelectFile}/>
+          <input id="file-upload-user" type='file' onChange={onSelectFile} style={{ display: "none" }}/>
           <WarpperProfile>
             <ProfileImage src={selectedFile && preview} height="80px" width="80px"/>
           </WarpperProfile>
@@ -225,8 +222,7 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
               fontSize="16px"
               fontColor={BASE[3]}
               backgroundColor={PRIMARY[80]}
-              onClick={handleSubmit(onSubmit)}
-              disabled={!isDirty || !isValid}>
+              onClick={handleSubmit(onSubmit)}>
                 수정하기
             </TextButton>
           </Box>
