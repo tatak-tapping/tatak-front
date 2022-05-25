@@ -15,9 +15,9 @@ const LoginButton = () => {
   const { handleOpenModal, handleCloseModal, renderModal } = useModal({
     width: '428px'
   });
-  
+
   useEffect(() => {
-    if (!modal) setModal("login")
+    if (!modal) setModal("login");
   }, [modal]);
 
   return (
@@ -37,12 +37,7 @@ const LoginButton = () => {
     )}
     <Flex justifyContent="center" alignItems="center" marginLeft="16px">
       <Flex flexDirection="column">
-        <TextButton 
-          width='62px' 
-          height="33px" 
-          fontSize="14px"
-          onClick={() => handleOpenModal()}
-        >
+        <TextButton  width='62px' height="33px" fontSize="14px" onClick={() => handleOpenModal()}>
           로그인
         </TextButton>
       </Flex>

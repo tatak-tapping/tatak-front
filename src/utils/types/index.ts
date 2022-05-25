@@ -1,3 +1,7 @@
+export enum JoinType{
+  KAKAO, TADAK
+}
+
 export interface IUser{
   id :number;
   email:string;
@@ -5,6 +9,7 @@ export interface IUser{
   profileImageUrl:string;
   accessToken:string;
   refreshToken:string;
+  joinType:JoinType;
 }
 
 export interface IAuthor{

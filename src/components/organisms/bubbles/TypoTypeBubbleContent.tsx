@@ -56,19 +56,24 @@ const TypoTypeBubbleContent =({ isVisible, onClose }: TypoTypeBubbleProp) => {
         <Box width="200px" mb="20px">
           <StyledTitle>글꼴 선택</StyledTitle>
           <select id="font">
-            {FontSelectOption.map((value, index)=> {
-               <option value="select">{value}</option>
+            {FontSelectOption.map((font, index)=> {
+              console.log(font);
+              <option value={font.value}>{font.label}</option>
             })}
           </select>
         </Box>
         <Flex width="200px" mb="20px">
           <Box width={1/2}>
             <StyledTitle>글자 크기</StyledTitle>
-            
+            <select id="size">
+              {[...Array(10)].map((value, index) =>
+               <option value={index}>{value}</option>
+              )}
+          </select>
           </Box>
           <Box width={1/2}>
             <StyledTitle>글자 굵기</StyledTitle>
-            
+                
           </Box>
         </Flex>
         <Box width="200px" mb="20px">

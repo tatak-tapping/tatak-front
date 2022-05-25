@@ -32,7 +32,6 @@ const FindUserModalContent = ({onClickCloseModal}:FindUserModalContentProps) => 
   const {
     control,
     formState: {isDirty, isValid, errors},
-
     handleSubmit
   } = methods;
 

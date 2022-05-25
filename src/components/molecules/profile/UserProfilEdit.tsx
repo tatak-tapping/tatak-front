@@ -15,6 +15,7 @@ const Wrapper = styled.div`
   margin-top: 32px;
   height: 50px;
   padding-bottom: 16px;
+  color:${GRAY[4]};
   border-bottom: solid 1px ${GRAY[7]};
 `;
 
@@ -26,19 +27,19 @@ const UserProfileEdit = ({onOpenModal}:UserProfileEditProps) => {
   const user = useRecoilValue(userAtom);
 
   return (
-  <>
-   <Wrapper>
-      <Box as="span">
+  <Wrapper>
+   <Flex>
+      <Box mr="8px">
         <ProfileImage src={user?.profileImageUrl ? user.profileImageUrl : '/images/profile_default.svg'}/>
       </Box>
-      <Box as="span" textAlign="center" justifyContent="center" mr="8px">
+      <Box textAlign="center" justifyContent="center" mr="4px" lineHeight="29px">
         {user?.nickname}
       </Box>
-      <Box as="span" mr="4px" onClick={onOpenModal}>
+      <Box onClick={onOpenModal}>
         <PencilIcon />
       </Box>
-   </Wrapper>
-  </>
+   </Flex>
+  </Wrapper>
   );
 };
 

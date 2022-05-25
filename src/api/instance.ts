@@ -7,7 +7,7 @@ export const DEAFULT_URL = "http://133.186.214.175:8081";//임시 api
 
 const instance = axios.create({
   baseURL: DEAFULT_URL,
-  withCredentials: true,
+  withCredentials: true
 });
 
 instance.interceptors.request.use(
