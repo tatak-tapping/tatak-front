@@ -39,3 +39,10 @@ export const TYPO_PRIMARY = {
     4 : '#798277',
     5 : '#545F53',
 };
+
+export const TYPING = {
+    'CORRECT' : '#303030',
+    'WRONG' : '#EF654D',
+    'CURRENT' : '#ACAB9E',
+    'NEXT' : '#ACAE9E',
+}
