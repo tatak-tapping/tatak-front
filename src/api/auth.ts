@@ -1,4 +1,4 @@
-import instance from './instance';
+import instance, { DEAFULT_URL } from './instance';
 import axios, { AxiosResponse } from 'axios';
 import { IUser } from 'utils/types';
 
@@ -22,6 +22,10 @@ export interface PostConfirmPasswordParams {
   password: string;
 }
 
+export interface PostFindUserParams {
+  email: string;
+}
+
 export const postCommonLogin = (params: PostCommonParams): Promise<{ data: IUser }> =>
   instance.post('/users/login', params);
 
@@ -37,13 +41,8 @@ export const postUser = (params:PostUserParams): Promise<{ data: IUser }> =>
 export const putUser = (params:PutUserParams): Promise<{ data: IUser }> => 
 instance.put('/users', params);
 
-export const postUserImage = (formData:any) => {
-  return axios.post('/users/profile-image', formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    }
-  });
-}
-
 export const postConfirmPassword = (params: PostConfirmPasswordParams): Promise<{ data: boolean }> => 
   instance.post(`/users/confirm`, params);
+
+export const postFindUser = (params: PostFindUserParams): Promise<{ data: boolean }> => 
+  instance.post(`/users/find`, params);

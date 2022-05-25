@@ -39,7 +39,7 @@ const UserProfileBubbleContent =({ isVisible, onClose, onOpenModal }: UserProfil
 
   return(
     <Wrapper ref={wrapperRef}>
-      <Bubble width="200px" height="320px" right="16px" padding="0 16px" isVisible={isVisible}>
+      <Bubble width="200px" height="320px" right="16px" padding="0 16px" top="" isVisible={isVisible}>
         <UserProfileEdit onOpenModal={onOpenModal}/>
         <UserMenuButton />
         <Flex>

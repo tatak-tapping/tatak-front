@@ -13,12 +13,13 @@ import { isAuthLoginAtom, tokenAtom, userAtom } from "modules/atom";
 import { postCommonLogin, putUser } from "api/auth";
 import { useForm, useWatch, FieldValues, FormProvider } from "react-hook-form";
 import CheckBox from "components/atoms/checkbox/Checkbox";
-import { setLocalStorage, setSessionStorage } from "utils/storage";
-import instance from "api/instance";
+import { getLocalStorage, getSessionStorage, setLocalStorage, setSessionStorage } from "utils/storage";
+import instance, { DEAFULT_URL } from "api/instance";
 import Input from "components/atoms/input/Input";
 import { CameraIcon, EyeOffIcon, EyeOnIcon, ReturnIcon } from "components/atoms/icon/Icon";
 import styled from "@emotion/styled";
 import UserModifyBubbleContent from "components/organisms/bubbles/UserModifyBubbleContent";
+import axios from "axios";
 
 interface  ModifyUserModalContentProps {
   onClickCloseModal? : () => void;
@@ -48,16 +49,6 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
     setIsBubbleVisible(isBubbleVisible);
   }
 
-  const onSubmit = async (params:IModifyFormInputs) => {
-    try{
-      const { data } = await putUser(params);
-      setUser(data);
-      onClickCloseModal();
-    }catch(err){
-      console.log(err);
-    }
-  };
-
   const methods = useForm<IModifyFormInputs>({
     defaultValues:{
       nickname : user.nickname,
@@ -69,14 +60,42 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
 
   const {
     control,
-    setError,
-    formState: {isSubmitting, isDirty, isValid, errors},
+    formState: {isDirty},
     setValue,
-    watch,
     handleSubmit
   } = methods;
 
+  const onSubmit = async (params:IModifyFormInputs) => {
+    if(selectedFile){
+      profileSave();
+    }
+    try{
+      const { data } = await putUser(params);
+      setUser(data);
+      if(getSessionStorage("tatak_user")) setSessionStorage("tatak_user", data);
+      if(getLocalStorage("tatak_user")) setLocalStorage("tatak_user", data);
 
+      onClickCloseModal();
+    }catch(err){
+      console.log(err);
+    }
+  };
+
+  const profileSave = async () => {
+    const formData = new FormData();
+      formData.append("profileImage", selectedFile);
+      try {
+        await axios.put(`${DEAFULT_URL}/users/profile-image`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data; boundary=<calculated when request is sent>",
+            "Authorization" : `Bearer ${user.accessToken}`
+          }
+        });
+        console.log("성공")
+      } catch(err){
+        console.log(err);
+      }
+  }
 
   const handleReturnNickname = () => {
     const date = new Date();
@@ -85,10 +104,8 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
 
   const onSelectFile = (e:any) => {
     if (!e.target.files || e.target.files.length === 0) {
-        setSelectedFile(undefined)
-        return
+        setSelectedFile(undefined); return;
     }
-
     setSelectedFile(e.target.files[0])
 }
 
@@ -100,10 +117,8 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
         setPreview(undefined)
         return
     }
-
     const objectUrl = URL.createObjectURL(selectedFile)
     setPreview(objectUrl)
-
     return () => URL.revokeObjectURL(objectUrl)
 }, [selectedFile])
 
@@ -126,19 +141,19 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
       </Box>
       <FormProvider {...methods}>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <Box>
-          <input name="" type='file' onChange={onSelectFile}/>
+        <Flex alignContent="center">
+          <input id="file-upload-user" type='file' onChange={onSelectFile} style={{ display: "none" }}/>
           <WarpperProfile>
             <ProfileImage src={selectedFile && preview} height="80px" width="80px"/>
           </WarpperProfile>
-          <Box onClick={handleToggleBubble}>
+          <WrapperIcon onClick={handleToggleBubble}>
             <CameraIcon />
-          </Box>
-          <UserModifyBubbleContent 
+          </WrapperIcon>
+        </Flex>
+        <UserModifyBubbleContent 
             isVisible={isBubbleVisible} 
             onClose={handleCloseBubble} 
           />
-        </Box>
         <Box mt="20px">
             <Label>닉네임</Label>
             <Input
@@ -172,7 +187,6 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
               name="password"
               type={isPwdVisible ? "text" : "password"}
               rules={{
-                required:true, 
                 minLength:{
                   value:6,
                   message:'최소 6자리로 입력해주세요.'
@@ -196,7 +210,6 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
             <Input
               name="passwordConfirm"
               rules={{
-                required:true, 
                 minLength:{
                   value:6,
                   message:'최소 6자리로 입력해주세요.'
@@ -218,18 +231,15 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
                   </span>)
               }/>
           </Box>
-          <Box mt={28}>
-            <TextButton
-              width="348px"
-              height="43px"
-              fontSize="16px"
-              fontColor={BASE[3]}
-              backgroundColor={PRIMARY[80]}
-              onClick={handleSubmit(onSubmit)}
-              disabled={!isDirty || !isValid}>
-                수정하기
+          <Flex mt={28}>
+            <TextButton width="170px" height="43px" fontSize="16px" fontColor={PRIMARY[100]} backgroundColor={BASE[3]} onClick={onClickCloseModal}>
+              취소
             </TextButton>
-          </Box>
+            <TextButton
+              margin="0 0 0 8px" width="170px" height="43px" fontSize="16px" fontColor={BASE[3]} backgroundColor={PRIMARY[80]} onClick={handleSubmit(onSubmit)}>
+              수정하기
+            </TextButton>
+          </Flex>  
         </form>
       </FormProvider>
     </Flex>
@@ -243,14 +253,20 @@ const WrapperIcon = styled.div`
   height: 26px;
   background-color: ${PRIMARY[80]};
   border-radius: 50%;
-  position: absolute;
+  position: relative;
   z-index: 999;
+  top:55px;
+  left: -145px;
+  svg{
+    background-color:  ${PRIMARY[80]} !important;
+    margin: 5px;
+  }
 `;
 
 const WarpperProfile = styled.div`
   width: 80px;
   height: 80px;
   border-radius: 50%;
-  /* border: 2px solid ${PRIMARY[100]}; */
+  margin: auto;
   background-color: ${BASE[3]};
 `;

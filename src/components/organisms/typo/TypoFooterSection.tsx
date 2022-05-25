@@ -30,7 +30,9 @@ const TypoFooterSection = () => {
           height: 40px;
           background-color: white;
           border-radius: 50%;
+          text-align: center;
         `}>
+          {typo?.title}
         </div>
         <Flex flexDirection="column" ml="8px">
           <Box>

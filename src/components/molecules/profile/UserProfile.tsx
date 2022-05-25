@@ -6,10 +6,13 @@ import UserProfileBubbleContent from 'components/organisms/bubbles/UserProfileBu
 import ConfirmModalContent from 'components/organisms/modals/user/ConfirmPasswordModalContent';
 import ModifyUserModalContent from 'components/organisms/modals/user/ModifyUserModalContent';
 import useModal from 'hooks/userModal';
+import { userAtom } from 'modules/atom';
 import { useState } from 'react';
 import { Flex } from 'rebass';
+import { useRecoilState } from 'recoil';
 
 const UserProfile = () => {
+  const [user, setUser] = useRecoilState(userAtom);
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const handleToggleBubble = () => {
     setIsBubbleVisible(!isBubbleVisible);
@@ -38,10 +41,7 @@ const UserProfile = () => {
       </IconButton>
     )}
     <Flex flexDirection="column" ml="16px">
-      <ProfileImage 
-        //src={profileImageUrl ? profileImageUrl : '/images/profile_default.svg'}
-        src =  '/images/profile_default.svg'
-        onClick={handleToggleBubble}/>
+      <ProfileImage src={user?.profileImageUrl ? user.profileImageUrl : '/images/profile_default.svg'} onClick={handleToggleBubble}/>
       <UserProfileBubbleContent 
         isVisible={isBubbleVisible} 
         onOpenModal={handleOpenModal}

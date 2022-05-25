@@ -11,6 +11,8 @@ import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
 import TypeTypeModalContent from "../modals/TypeTypeModalContent";
 import TypeUploadModalContent from "../modals/TypeUploadModalContent";
+import UserProfileBubbleContent from "../bubbles/UserProfileBubbleContent";
+import TypoTypeBubbleContent from "../bubbles/TypoTypeBubbleContent";
 
 enum OpenModal {
   'PENCIL',
@@ -22,7 +24,8 @@ const Header = () => {
   const [openModal, SetOpenModal] = useState(null);
   const [typoContent, setTypoContent] = useState<string>("");
 
-  console.log(useToken);
+  const [isBubbleVisible, setIsBubbleVisible] = useState(false);
+  const handleCloseBubble = () => setIsBubbleVisible(isBubbleVisible);
 
   const handlerFullScreen = () => {
 
@@ -31,10 +34,6 @@ const Header = () => {
   const handlerPencil = () => {
     SetOpenModal(OpenModal.PENCIL);
     handleOpenModal();
-  }
-
-  const handlerType = () => {
-
   }
 
   const handlerSetting = () => {
@@ -64,7 +63,7 @@ const Header = () => {
           <IconButton onClick={handlerSetting} margin="0 4px 0 0">
             <SettingIcon />
           </IconButton>
-          <IconButton onClick={handlerType} margin="0 4px 0 0">
+          <IconButton onClick={()=>setIsBubbleVisible(!isBubbleVisible)} margin="0 4px 0 0">
             <TypeIcon />
           </IconButton>
           <IconButton onClick={handlerPencil} margin="0 4px 0 0">
@@ -85,6 +84,10 @@ const Header = () => {
         </Box>
       </Flex>
     </Flex>
+    <TypoTypeBubbleContent
+      isVisible={isBubbleVisible} 
+      onClose={handleCloseBubble} 
+    />
     </>
   )
 }

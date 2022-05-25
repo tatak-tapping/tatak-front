@@ -1,18 +1,22 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import { TypoContext } from 'context/ScriptContext';
-import { inko } from 'typo/KoreanInputMethod';
+import { inko } from 'utils/typo/KoreanInputMethod';
 import styled from '@emotion/styled';
 import { Box } from 'rebass';
 import { ERROR, GRAY, PRIMARY } from 'styles/colors';
-import { TypoLanguage } from 'utils/types';
+import { IFontOption, TypoLanguage } from 'utils/types';
+import { useRecoilValue } from 'recoil';
+import { fontOptionAtom } from 'modules/atom';
 
 function TypingArticle() {
   const script = useContext(TypoContext);
   const text = script.text.split('');
+  const fontOption = useRecoilValue(fontOptionAtom);
+
   return (
     <>
-    <StyledArticle>
+    <StyledArticle fontOption={fontOption}>
       {
         <li className="word">
           {
@@ -50,11 +54,15 @@ function TypingArticle() {
 export default React.memo(TypingArticle);
 
 
-const StyledArticle = styled.ul`
+const StyledArticle = styled.ul<{fontOption:IFontOption}>`
   list-style-type: none;
-  overflow: 'hidden';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  /* overflow: 'hidden'; */
+  /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; */
+  font-family: ${props => props.fontOption.font};
+  font-size: ${props => `${props.fontOption.size}px`};
+  font-weight: ${props => props.fontOption.weight};
+  text-align: ${props => props.fontOption.align};
   li.word {
     padding: 0 0 0 10px;
     float: left;

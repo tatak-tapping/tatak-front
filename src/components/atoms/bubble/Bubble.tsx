@@ -8,6 +8,7 @@ const Bubble = styled.div<{
   padding?: string;
   margin?:string;
   right?:string;
+  top?:string;
 }>`
   visibility: ${(props) => !props.isVisible && 'hidden'};
   width: ${(props) => props.width};
@@ -15,6 +16,7 @@ const Bubble = styled.div<{
   margin: ${(props) => props.margin};
   padding: ${(props) => props.padding};
   right: ${(props) => props.right};
+  top: ${(props) => props.top};
   position: absolute;
   box-shadow: 0px 0px 2px 0px #00000040;
   background-color: ${BASE[3]};
