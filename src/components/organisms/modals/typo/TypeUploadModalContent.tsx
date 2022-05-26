@@ -234,7 +234,7 @@ const TypeUploadModalContent = ({onClickCloseModal}:TypeUploadModalContentProps)
                   required:true,
                 }}
                 render={({ field }) => (
-                  <Wrapper>
+                  <div css={css` position: relative;`}>
                     <DatePicker
                       dateFormat="yyyy.MM.dd"
                       closeOnScroll={(e) => e.target === document}
@@ -243,8 +243,10 @@ const TypeUploadModalContent = ({onClickCloseModal}:TypeUploadModalContentProps)
                       selected={field.value}
                       css={StyledDateInput}
                     /> 
-                    <DateIcon />
-                  </Wrapper>
+                    <div css={css` position: absolute; top: 7px; right: 7px;`}>
+                      <DateIcon />
+                    </div>
+                  </div>
                 )}
               />
               </Box>
@@ -303,6 +305,7 @@ const StyledDateInput = css`
   height: 40px;
   background-color: ${BASE[3]};
   border:1px solid ${PRIMARY[40]};
+  padding-left: 12px;
   ::placeholder{
     color: ${GRAY[6]};
   }
@@ -311,7 +314,6 @@ const StyledDateInput = css`
   }
 `;
 
-const Wrapper = styled.div`
-
-
+const StyledDateWrapper = styled.div`
+  position: relative;
 `;
