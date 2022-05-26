@@ -27,11 +27,12 @@ const CheckboxTabStyled = styled.div<{width:string}>`
   input[type='checkbox'] {
     display: none;
   }
-  .checked {
+  &.checked {
     background-color: ${PRIMARY[100]};
     border: 1px solid ${PRIMARY[100]};
   }
-  .checked + span {
+  &.checked span {
+    background-color: ${PRIMARY[100]};
     color: ${BASE[1]};
   }
   :not(:last-child){
@@ -40,6 +41,7 @@ const CheckboxTabStyled = styled.div<{width:string}>`
 `;
 
 const CheckboxTab = ({ name, checked, onClick, width }: CheckboxProps) => {
+  console.log(name, checked);
   return  (
     <CheckboxTabStyled onClick={onClick} width={width} className={checked ? 'checked' : undefined}>
       <input type="checkbox" name={name} checked={checked} readOnly />

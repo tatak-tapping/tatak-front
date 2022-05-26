@@ -38,8 +38,8 @@ export enum TypoLength{
 }
 
 export enum TypoLanguage{
-  KOREAN = "한국어",
-  ENGLISH = "영어"
+  "KOREAN" = "한국어",
+  "ENGLISH" = "영어"
 }
 
 export enum TypoApprovalStatus{

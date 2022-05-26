@@ -8,8 +8,8 @@ const LanguageRadioTabs = () => {
   const languageArray = Object.values(TypoLanguage);
   const [ selected , setSeleted ] = useState(TypoLanguage.KOREAN);
 
-  const handleChange = () => {
-    //
+  const handleCheckboxChange = (value:string) => {
+    setSeleted(value === "한국어" ? TypoLanguage.KOREAN : TypoLanguage.ENGLISH);
   }
   return (
     <>
@@ -20,7 +20,7 @@ const LanguageRadioTabs = () => {
           key={index} 
           checked={selected === value} 
           name={value}
-          onClick={handleChange}/>
+          onClick={() => handleCheckboxChange(value)}/>
       ))
     }
     </>
