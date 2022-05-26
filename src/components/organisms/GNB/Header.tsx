@@ -9,8 +9,8 @@ import { tokenAtom } from "modules/atom";
 import { Box, Flex } from "rebass";
 import { useRecoilValue } from "recoil";
 import { useEffect, useState } from "react";
-import TypeTypeModalContent from "../modals/TypeTypeModalContent";
-import TypeUploadModalContent from "../modals/TypeUploadModalContent";
+import TypeTypeModalContent from "../modals/typo/TypeTypeModalContent";
+import TypeUploadModalContent from "../modals/typo/TypeUploadModalContent";
 import UserProfileBubbleContent from "../bubbles/UserProfileBubbleContent";
 import TypoTypeBubbleContent from "../bubbles/TypoTypeBubbleContent";
 
