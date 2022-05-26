@@ -11,12 +11,17 @@ import { ICategory, ITopic, TypoApprovalStatus, TypoLanguage } from "utils/types
 import LanguageRadioTabs from "components/molecules/tabs/LanguageTabs";
 import Select from "components/atoms/input/Select";
 import { useRecoilState, useRecoilValue } from "recoil";
-import { categoriesAtom, tokenAtom, typoOptionAtom } from "modules/atom";
+import { categoriesAtom, languageAtom, tokenAtom, typoOptionAtom } from "modules/atom";
 import useFetchCategories from "hooks/useFetchCategories";
 import DatePicker from "react-datepicker";
 import { DateIcon } from "components/atoms/icon/Icon";
 import 'react-datepicker/dist/react-datepicker.css'
 import { getTopics } from "api/common";
+import { DialogTypes } from "components/atoms/dialog/Dialog";
+import { useDialog } from "context/Dialog";
+import { postTypoUpload } from "api/typo";
+import { useNavigate } from "react-router-dom";
+import moment from "moment";
 
 interface TypeUploadModalContentProps {
   onClickCloseModal : VoidFunction;
@@ -30,6 +35,7 @@ interface ITypoUploadFormInputs extends FieldValues {
   approvalStatus:TypoApprovalStatus;
   writer:string;
   publicationMedia:string;
+  publicationDateInput: Date;
   publicationDate:string;
   contents:string;
 }
@@ -49,14 +55,16 @@ interface ITypoUploadFormInputs extends FieldValues {
 */
 
 const TypeUploadModalContent = ({onClickCloseModal}:TypeUploadModalContentProps) => {
+  const {showDialog, closeDialog} = useDialog(); 
+  const navigate = useNavigate();
 
   const [typoOption, setTypoOption] = useRecoilState(typoOptionAtom);
   const categories = useRecoilValue(categoriesAtom);
   const token = useRecoilValue(tokenAtom);
+  const language = useRecoilValue(languageAtom);
   const [topics, setTopics] = useState<ITopic[]>(null);  
-  const [isNext, setIsNext] = useState<boolean>(true);
-  const [startDate, setStartDate] = useState(null);
-  
+  const [isNext, setIsNext] = useState<boolean>(false);
+
   const methods = useForm<ITypoUploadFormInputs>({
     defaultValues:{
       category:0,
@@ -66,6 +74,7 @@ const TypeUploadModalContent = ({onClickCloseModal}:TypeUploadModalContentProps)
       approvalStatus:null,
       writer:"",
       publicationMedia:"",
+      publicationDateInput:null,
       publicationDate:"",
       contents:""
     },
@@ -78,8 +87,64 @@ const TypeUploadModalContent = ({onClickCloseModal}:TypeUploadModalContentProps)
     handleSubmit
   } = methods;
 
-  const onSubmit = () => {
+  const onSubmit = async (params:ITypoUploadFormInputs) => {
 
+    params.publicationDate = moment(params.publicationDateInput).format('YYYY.MM.DD');
+    params.approvalStatus = TypoApprovalStatus.WAITED;
+    params.language = language;
+    
+    console.log(params);
+
+    try{
+      const { data } = await postTypoUpload(params);
+      onClickCloseModal();
+      showDialog({
+        type : DialogTypes.info,
+        message : (
+          <>
+            <Text>
+              글감 등록이 완료되었어요.
+            </Text>
+            <Flex mt="20px">
+              <Button 
+              onClick={() => navigate("/library")} 
+              width="104px" height="43px"fontSize="16px"
+              >
+                보러가기
+              </Button>
+              <Button 
+              onClick={closeDialog} 
+              width="76px" height="43px"fontSize="16px"fontWeight="600" color={BASE[3]}
+              backgroundColor={PRIMARY[80]} marginLeft="8px">
+                확인
+              </Button>
+            </Flex>
+          </>
+        )
+      });
+      
+    }catch(err){
+      console.log(err);
+      showDialog({
+        type : DialogTypes.error,
+        message : (
+          <>
+            <Text>
+              글감 등록 실패
+            </Text>
+            <Button
+              onClick={closeDialog} 
+              width="76px" 
+              height="43px"
+              fontSize="16px"
+              backgroundColor={PRIMARY[80]}
+              margin="20px">
+              확인
+            </Button>
+          </>
+        )
+      });
+    }
   };
 
   const titleWatch = useWatch({control, name: "title"});
@@ -229,7 +294,7 @@ const TypeUploadModalContent = ({onClickCloseModal}:TypeUploadModalContentProps)
               <Box>
               <Controller
                 control={control}
-                name="dateInput"
+                name="publicationDateInput"
                 rules={{
                   required:true,
                 }}
@@ -253,11 +318,13 @@ const TypeUploadModalContent = ({onClickCloseModal}:TypeUploadModalContentProps)
             </Flex>
           </Box>
           <Flex mt="40px" justifyContent="flex-end" >
-            <Button onClick={() => setIsNext(!isNext)}
-            alignContent="center" mr="8px" width="76px" height="43px" fontSize="16px" fontWeight="600" color={PRIMARY[40]}>
+            <Button 
+              onClick={() => setIsNext(!isNext)}
+              alignContent="center" mr="8px" width="76px" height="43px" fontSize="16px" fontWeight="600" color={PRIMARY[40]}>
               이전으로
             </Button>
             <NextButton
+              disabled={!isDirty || !isValid}
               onClick={() => handleSubmit(onSubmit)}>
               등록하기
             </NextButton>

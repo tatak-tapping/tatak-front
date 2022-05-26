@@ -5,7 +5,6 @@ import { getArticle, getCategories, getTopics } from "api/common";
 import { getUserTypoFilter } from "api/typo";
 import TextButton from "components/atoms/button/TextButton";
 import Chip from "components/atoms/chip/Chip";
-import LanguageTabs from "components/molecules/tabs/LanguageTabs";
 import LengthTabs from "components/molecules/tabs/LengthTabs";
 import { tokenAtom, typoOptionAtom, typoAtom } from "modules/atom";
 import { useEffect } from "react";
@@ -94,8 +93,6 @@ const TypeTypeModalContent = () => {
         `}/>
       </Box>
       <Box mt="20px">
-        <StyledTitle>언어</StyledTitle>
-        <LanguageTabs />
       </Box>
       <Box mt="20px">
         <StyledTitle>글 유형</StyledTitle>
