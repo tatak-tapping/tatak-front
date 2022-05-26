@@ -1,7 +1,7 @@
 import { getCategories } from "api/common";
 import { getCategoriesSelector } from "modules/selector";
 import { atom } from "recoil";
-import { FontAlign, FontWeight, ICategory, IFontOption, ITypo, ITypoOption, IUser } from "utils/types";
+import { FontAlign, FontWeight, ICategory, IFontOption, ITopic, ITypo, ITypoOption, IUser } from "utils/types";
 
 
 
@@ -24,10 +24,12 @@ export const typoAtom = atom<ITypo | undefined>({
   key: "typoTextAtom",
   default: undefined
 });
+
 export const modalAtom = atom<string | undefined>({
   key: "modalAtom",
   default:undefined
 })
+
 export const isOpenModalAtom = atom<boolean>({
   key:"isOpenModalAtom",
   default:false,
@@ -53,7 +55,7 @@ export const categoriesAtom = atom<ICategory[] | undefined>({
   default: undefined
 });
 
-export const topicsAtom = atom<IFontOption | undefined>({
+export const topicsAtom = atom<ITopic[] | undefined>({
   key: "topicsAtom",
   default: undefined
 });

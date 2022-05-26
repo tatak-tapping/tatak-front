@@ -41,7 +41,6 @@ const CheckboxTabStyled = styled.div<{width:string}>`
 `;
 
 const CheckboxTab = ({ name, checked, onClick, width }: CheckboxProps) => {
-  console.log(name, checked);
   return  (
     <CheckboxTabStyled onClick={onClick} width={width} className={checked ? 'checked' : undefined}>
       <input type="checkbox" name={name} checked={checked} readOnly />
