@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { TypoContext } from 'context/ScriptContext';
+import { TypoContext } from 'context/TypoContext';
 import { inko } from 'utils/typo/KoreanInputMethod';
 import styled from '@emotion/styled';
 import { Box } from 'rebass';
-import { ERROR, GRAY, PRIMARY } from 'styles/colors';
+import { ERROR, GRAY, PRIMARY, TYPING } from 'styles/colors';
 import { IFontOption, TypoLanguage } from 'utils/types';
 import { useRecoilValue } from 'recoil';
 import { fontOptionAtom } from 'modules/atom';
@@ -56,9 +56,6 @@ export default React.memo(TypingArticle);
 
 const StyledArticle = styled.ul<{fontOption:IFontOption}>`
   list-style-type: none;
-  /* overflow: 'hidden'; */
-  /* -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; */
   font-family: ${props => props.fontOption.font};
   font-size: ${props => `${props.fontOption.size}px`};
   font-weight: ${props => props.fontOption.weight};
@@ -70,16 +67,16 @@ const StyledArticle = styled.ul<{fontOption:IFontOption}>`
     white-space: pre-wrap;
   }
   span.correct{
-    color: ${GRAY[2]};
+    color :${TYPING['CORRECT']};
   }
   span.wrong{
-    color: ${ERROR};
+    color: ${TYPING['WRONG']};
     min-width: auto;
   }
   span.current{
-    color: ${GRAY[4]};
+    color: ${TYPING['CURRENT']};
   }
   span.next{
-    color: ${PRIMARY[40]};
+    color: ${TYPING['NEXT']};
   }
 `;
