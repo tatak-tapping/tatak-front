@@ -22,6 +22,7 @@ export interface IAuthor{
 export interface ICategory{
   categoryCode: number;
   categoryName: string;
+  emoji: string;
 }
 
 export interface ITopic{

@@ -31,8 +31,9 @@ const TypoFooterSection = () => {
           background-color: white;
           border-radius: 50%;
           text-align: center;
+          line-height: 40px;
         `}>
-          {typo?.title}
+          {typo?.category.emoji}
         </div>
         <Flex flexDirection="column" ml="8px">
           <Box>
