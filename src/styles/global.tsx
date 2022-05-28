@@ -1,5 +1,5 @@
 import { css, Global } from '@emotion/react';
-import { BASE } from './colors';
+import { BASE, PRIMARY } from './colors';
 
 const style = css`
   *,
@@ -11,7 +11,7 @@ const style = css`
     line-height: 150%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: ${BASE[1]};
+    /* background-color: ${BASE[1]}; */
   }
   button {
     cursor: pointer;
@@ -29,6 +29,17 @@ const style = css`
   }
   caption{
     font-size: 0.875em;
+  }
+  ::-webkit-scrollbar{
+    width: 4px;
+    border-radius: 100px;
+  }
+  ::-webkit-scrollbar-track {
+    background-color: none; 
+  }
+  ::-webkit-scrollbar-thumb {
+    background: ${PRIMARY[20]};
+    border-radius: 100px;
   }
 `;
 

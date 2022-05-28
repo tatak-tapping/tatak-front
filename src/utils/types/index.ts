@@ -22,6 +22,7 @@ export interface IAuthor{
 export interface ICategory{
   categoryCode: number;
   categoryName: string;
+  emoji: string;
 }
 
 export interface ITopic{
@@ -37,8 +38,8 @@ export enum TypoLength{
 }
 
 export enum TypoLanguage{
-  KOREAN = "한국어",
-  ENGLISH = "영어"
+  KOREAN = "KOREAN",
+  ENGLISH = "ENGLISH"
 }
 
 export enum TypoApprovalStatus{

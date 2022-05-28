@@ -19,6 +19,7 @@ interface SelectProps<
    icon?:React.ReactElement;
    options?: Option[];
    comment?:string;
+   onChange?: VoidFunction;
 }
 
 const StyledSelect = styled.select` 

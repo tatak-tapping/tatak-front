@@ -8,7 +8,7 @@ import { ITypo, ITypoOption, TypoLanguage } from "utils/types";
 import { useNavigate } from "react-router-dom";
 import { inko, KoreanInputMethod } from "utils/typo/KoreanInputMethod";
 import TypingArticle from "./TypingArticle";
-import { TypoContext } from "context/ScriptContext";
+import { TypoContext } from "context/TypoContext";
 
 const TypoMainSection = () => {
   const [userInput, setUserInput] = useState("");
@@ -40,6 +40,7 @@ const TypoMainSection = () => {
       if (event.key.length > 1) return text;
       return text.concat(event.key);
     });
+    
   }, [language, userInput]);
 
   useEffect(() => {
