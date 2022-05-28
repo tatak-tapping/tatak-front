@@ -11,7 +11,7 @@ import { BASE, PRIMARY } from "styles/colors";
 import { FontAlign, FontWeight, TypoLanguage } from "utils/types";
 
 const FontAlignTabs = () => {
-  const [fontOption, SetFontOption] = useRecoilState(tempfontOptionAtom);
+  const [tempFontOption, SetTempFontOption] = useRecoilState(tempfontOptionAtom);
   const [ selected , setSeleted ] = useState(FontAlign.CENTER);
 
   const alignArray = Object.values(FontAlign);
@@ -19,16 +19,18 @@ const FontAlignTabs = () => {
   const handleCheckboxChange = (value:string) => {
     setSeleted(value === "center" ? FontAlign.CENTER
       : value === "left" ? FontAlign.LEFT : FontAlign.RIGHT);
-    SetFontOption({
-      ...fontOption,
+    SetTempFontOption({
+      ...tempFontOption,
       align: selected
     });
+    console.log("FontAlign", tempFontOption);
   }
   return (
     <>
     {
       alignArray.map((value, index) => (
         <RadioTabStyled 
+          key={index}
           weight={value} 
           onClick={() => handleCheckboxChange(value)} className={selected === value ? 'checked' : undefined}>
           <input type="checkbox" name={value} checked={selected === value} readOnly />

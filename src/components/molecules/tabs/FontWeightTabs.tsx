@@ -10,17 +10,18 @@ import { BASE, PRIMARY } from "styles/colors";
 import { FontWeight, TypoLanguage } from "utils/types";
 
 const FontWeightTabs = () => {
-  const [fontOption, SetFontOption] = useRecoilState(tempfontOptionAtom);
+  const [tempFontOption, SetTempFontOption] = useRecoilState(tempfontOptionAtom);
   const [ selected , setSeleted ] = useState(FontWeight.SEMIBLOD);
   const weightArray = Object.values(FontWeight);
 
   const handleCheckboxChange = (value:string) => {
     setSeleted(value === "400" ? FontWeight.REGULER
       : value === "700" ? FontWeight.SEMIBLOD : FontWeight.BLOD);
-    SetFontOption({
-      ...fontOption,
+    SetTempFontOption({
+      ...tempFontOption,
       weight: selected
     });
+    console.log("FontWeight", tempFontOption);
   }
 
   return (
@@ -29,6 +30,7 @@ const FontWeightTabs = () => {
       
       weightArray.map((value, index) => (
         <RadioTabStyled 
+          key={index}
           weight={value} 
           onClick={() => handleCheckboxChange(value)} className={selected === value ? 'checked' : undefined}>
           <input type="checkbox" name={value} checked={selected === value} readOnly />

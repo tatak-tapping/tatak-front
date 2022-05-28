@@ -1,7 +1,8 @@
 import { getCategories } from "api/common";
 import { getCategoriesSelector } from "modules/selector";
 import { atom } from "recoil";
-import { FontAlign, FontWeight, ICategory, IFontOption, ITopic, ITypo, ITypoOption, IUser, TypoLanguage } from "utils/types";
+import { getSessionStorage } from "utils/storage";
+import { FontAlign, FontFamily, FontWeight, ICategory, IFontOption, ISelectOption, ITopic, ITypo, ITypoOption, IUser, TypoLanguage } from "utils/types";
 
 
 
@@ -46,7 +47,7 @@ export const typoOptionAtom = atom<ITypoOption | undefined>({
 
 export const fontOptionAtom = atom<IFontOption | undefined>({
   key: "fontOptionAtom",
-  default: {
+  default: getSessionStorage("tadak_font_option") ?? {
     align:FontAlign.CENTER,
     font: "MapoGoldenPier",
     size: 40,
@@ -56,7 +57,7 @@ export const fontOptionAtom = atom<IFontOption | undefined>({
 
 export const tempfontOptionAtom = atom<IFontOption | undefined>({
   key: "tempfontOptionAtom",
-  default: {
+  default: getSessionStorage("tadak_font_option") ?? {
     align:FontAlign.CENTER,
     font: "MapoGoldenPier",
     size: 40,

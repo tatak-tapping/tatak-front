@@ -12,7 +12,8 @@ import { useEffect, useRef, useState } from "react";
 import { Box, Flex, Link, Text } from "rebass";
 import { useRecoilState } from "recoil";
 import { BASE, GRAY, PRIMARY } from "styles/colors";
-import { FontAlign, FontSelectOption, FontWeight } from "utils/types";
+import { setSessionStorage } from "utils/storage";
+import { FontAlign, FontFamily, FontFamilyOption, FontWeight } from "utils/types";
 
 
 const Wrapper = styled.div`
@@ -28,6 +29,10 @@ const TypoTypeBubbleContent =({ isVisible, onClose }: TypoTypeBubbleProp) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [fontOption, SetFontOption] = useRecoilState(fontOptionAtom);
   const [tempFontOption, setTempFontOption] = useRecoilState(tempfontOptionAtom);
+
+  const sizeArray = Array.from(Array(81).keys());
+
+  
 
   const handleClickOutside = (e: MouseEvent) => {
     if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
@@ -46,27 +51,45 @@ const TypoTypeBubbleContent =({ isVisible, onClose }: TypoTypeBubbleProp) => {
 
   const handleClickSave = () => {
     SetFontOption({
-      ...tempFontOption
+      ...tempFontOption,
     });
+    setSessionStorage("tadak_font_option", fontOption);
   };
+
+  const handleSizeChange = (e:any) => {
+    const {target:{value}} = e;
+    setTempFontOption({
+      ...tempFontOption,
+      size: value
+    })
+  }
+
+  const handleFontChange = (e:any) => {
+    const {target:{value}} = e;
+    console.log(value);
+    setTempFontOption({
+      ...tempFontOption,
+      font: value
+    })
+  }
 
   return(
     <Wrapper ref={wrapperRef}>
       <Bubble width="232px" height="328px" right="16px" padding="0 16px" isVisible={isVisible}>
         <Box width="200px">
           <StyledTitle>글꼴 선택</StyledTitle>
-          <StyledSelect id="font" width="200px">
-            {/* {FontSelectOption.map((font)=> {
-              <option value={font.value}>{font.label}</option>
-            })} */}
+          <StyledSelect id="font" width="200px" value={tempFontOption.font} onChange={handleFontChange}>
+            {FontFamilyOption.map(item => (
+              <option value={item.value}>{item.label}</option>
+            ))}
           </StyledSelect>
         </Box>
         <Flex width="200px" mb="20px">
           <Box width={1/2}>
             <StyledTitle>글자 크기</StyledTitle>
-            <StyledSelect id="size" width="96px">
-              {Array(80-17).map((value, index) =>
-                <option value={index} selected={fontOption.size === index}>{index}</option>
+            <StyledSelect id="size" width="96px" value={tempFontOption.size} onChange={handleSizeChange}>
+              {sizeArray && sizeArray.map((value, index) =>
+                index > 15 && <option key={index} value={index} selected={fontOption.size === index}>{index}</option>
               )}
             </StyledSelect>
           </Box>

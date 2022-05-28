@@ -8,6 +8,7 @@ import { ERROR, GRAY, PRIMARY, TYPING } from 'styles/colors';
 import { IFontOption, TypoLanguage } from 'utils/types';
 import { useRecoilValue } from 'recoil';
 import { fontOptionAtom } from 'modules/atom';
+import 'Font.css';
 
 function TypingArticle() {
   const script = useContext(TypoContext);
@@ -57,6 +58,9 @@ export default React.memo(TypingArticle);
 const StyledArticle = styled.ul<{fontOption:IFontOption}>`
   list-style-type: none;
   font-family: ${props => props.fontOption.font};
+  li span{ 
+    font-family: ${props => props.fontOption.font};
+  }
   font-size: ${props => `${props.fontOption.size}px`};
   font-weight: ${props => props.fontOption.weight};
   text-align: ${props => props.fontOption.align};
