@@ -28,9 +28,7 @@ const Main = () => {
   return  (
     <>
       <Header />
-      <Suspense fallback="잠시만 기다료">
-        <TypoTemplate />
-      </Suspense>
+      <TypoTemplate />
       <FeedTemplate />
       <Footer />
     </>
