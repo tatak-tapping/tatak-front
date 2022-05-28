@@ -42,6 +42,19 @@ export enum TypoLanguage{
   ENGLISH = "ENGLISH"
 }
 
+export enum FontWeight{
+  REGULER = "400",
+  SEMIBLOD = "700",
+  BLOD = "900"
+}
+
+
+export enum FontAlign{
+  LEFT = "left",
+  CENTER = "center",
+  RIGHT = "right"
+}
+
 export enum TypoApprovalStatus{
   WAITED,
   APPROVED,
@@ -92,18 +105,6 @@ export const FontSelectOption: ISelectOption[] = [
   { value: "Hahmlet", label: "함렛" },
   { value: "LeferiBaseType", label: "Leferi Base Type" },
 ];
-
-export enum FontWeight{
-  REGULER = 400,
-  SEMIBLOD = 600,
-  BLOD = 800
-}
-
-export enum FontAlign{
-  LEFT = "left",
-  CENTER = "center",
-  RIGHT = "right"
-}
 
 export interface IFontOption{
   font: string;

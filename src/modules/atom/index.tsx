@@ -29,7 +29,6 @@ export const languageAtom = atom<TypoLanguage | undefined>({
   key: "languageAtom",
   default: TypoLanguage.KOREAN
 });
-
 export const modalAtom = atom<string | undefined>({
   key: "modalAtom",
   default:undefined
@@ -47,6 +46,16 @@ export const typoOptionAtom = atom<ITypoOption | undefined>({
 
 export const fontOptionAtom = atom<IFontOption | undefined>({
   key: "fontOptionAtom",
+  default: {
+    align:FontAlign.CENTER,
+    font: "MapoGoldenPier",
+    size: 40,
+    weight: FontWeight.REGULER
+  }
+});
+
+export const tempfontOptionAtom = atom<IFontOption | undefined>({
+  key: "tempfontOptionAtom",
   default: {
     align:FontAlign.CENTER,
     font: "MapoGoldenPier",
