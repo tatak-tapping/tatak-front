@@ -18,6 +18,11 @@ import { ReactComponent as Date } from 'assets/icons/date.svg';
 import { ReactComponent as Camera } from 'assets/icons/camera.svg';
 
 
+import { ReactComponent as AlignLeft } from 'assets/icons/align_left.svg';
+import { ReactComponent as AlignCenter } from 'assets/icons/align_center.svg';
+import { ReactComponent as AlignRight } from 'assets/icons/align_right.svg';
+
+
 export const CloseIcon = () => <Close />;
 export const FullScreenIcon = () => <FullScreen />;
 export const PencilIcon = () => <Pencil />;
@@ -30,4 +35,7 @@ export const BookMarkIcon = () => <BookMark />;
 export const TurnUpIcon = () => <TurnUp />;
 export const DateIcon = () => <Date />;
 export const CameraIcon = () => <Camera />;
+export const AlignLeftIcon = () => <AlignLeft />;
+export const AlignCenterIcon = () => <AlignCenter />;
+export const AlignRightIcon = () => <AlignRight />;
 
