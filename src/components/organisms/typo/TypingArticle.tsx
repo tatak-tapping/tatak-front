@@ -60,6 +60,8 @@ const StyledArticle = styled.ul<{fontOption:IFontOption}>`
   font-size: ${props => `${props.fontOption.size}px`};
   font-weight: ${props => props.fontOption.weight};
   text-align: ${props => props.fontOption.align};
+  justify-content: ${props => props.fontOption.align};
+  display: flex;
   li.word {
     padding: 0 0 0 10px;
     float: left;
