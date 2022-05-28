@@ -40,20 +40,6 @@ interface ITypoUploadFormInputs extends FieldValues {
   contents:string;
 }
 
-/*
-{
-    "category" : 1,
-    "topic" : 2,
-    "title" : "별 헤는 밤",
-    "language" : "KOREAN",
-    "writer" : "윤동주",
-    "publicationMedia" : "타닥",
-    "publicationDate" :  "2022.05.26",
-    "contents" : "불러 별 사람들의 가난한 별 지나가는 봅니다. 잔디가 부끄러운 가난한 별 이름자를 봅니다. 쉬이 것은 패, 이름자 다 까닭입니다. 하나에 비둘기, 그러나 하나 밤을 하나에 이름과 덮어 버리었습니다. 하나에 가슴속에 별 하나에 못 말 마디씩 봅니다. 노새, 경, 어머님, 소녀들의 딴은 쓸쓸함과 봅니다.\n그리고 된 멀리 시와 별빛이 헤는 가득 아침이 이름을 거외다. 무덤 이름과 이름과, 때 노루, 계십니다. 이름과 쓸쓸함과 아이들의 어머니, 하늘에는 내 말 강아지, 한 거외다. 나의 그리고 지나고 가을 것은 속의 어머님, 했던 오는 있습니다. 이름자를 노새, 까닭이요, 별에도 나의 내린 헤는 봅니다. 새겨지는 시인의 소녀들의 아무 프랑시스 않은 봅니다.\n마리아 다 새워 내린 겨울이 멀리 이웃 덮어 까닭입니다. 벌레는 별 말 새워 봅니다. 별 무덤 피어나듯이 계십니다. 나는 덮어 남은 하나에 하나에 프랑시스 별들을 있습니다. 헤는 한 소녀들의 지나고 가을 까닭입니다. 별들을 멀리 토끼, 보고, 이제 계집애들의 벌써 멀리 별이 계십니다. 걱정도 토끼, 불러 이웃 노새, 계십니다.",
-    "approvalStatus" : "APPROVED"
-}
-*/
-
 const TypeUploadModalContent = ({onClickCloseModal}:TypeUploadModalContentProps) => {
   const {showDialog, closeDialog} = useDialog(); 
   const navigate = useNavigate();
