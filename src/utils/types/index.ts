@@ -42,6 +42,19 @@ export enum TypoLanguage{
   ENGLISH = "ENGLISH"
 }
 
+export enum FontWeight{
+  REGULER = "400",
+  SEMIBLOD = "700",
+  BLOD = "900"
+}
+
+
+export enum FontAlign{
+  LEFT = "left",
+  CENTER = "center",
+  RIGHT = "right"
+}
+
 export enum TypoApprovalStatus{
   WAITED,
   APPROVED,
@@ -78,32 +91,35 @@ export interface ITypoOption{
   refreshToken:string;
 }
 
-export const FontSelectOption: ISelectOption[] = [
-  { value: "Eulyoo1945", label: "을유1945" },
-  { value: "MapoFlowerIsland", label: "마포꽃섬" },
-  { value: "MapoGoldenPier", label: "마포금빛나루" },
-  { value: "MaruBuri", label: "마루부리" },
-  { value: "SunBatang", label: "순바탕light" },
-  { value: "NanumMyeongjo", label: "나눔명조" },
-  { value: "MinSans", label: "민산스" },
-  { value: "ChosunGu", label: "조선굴림체" },
-  { value: "RIDIBatang", label: "리디바탕" },
-  { value: "KoPubBatang", label: "kopub바탕" },
-  { value: "Hahmlet", label: "함렛" },
-  { value: "LeferiBaseType", label: "Leferi Base Type" },
+export enum FontFamily{
+  Eulyoo1945 = "Eulyoo1945",
+  MapoFlowerIsland = "MapoFlowerIsland",
+  MapoGoldenPier = "MapoGoldenPier",
+  MaruBuri = "MaruBuri",
+  SunBatang = "SunBatang",
+  NanumMyeongjo = "NanumMyeongjo",
+  MinSans = "MinSans",
+  ChosunGu = "ChosunGu",
+  RIDIBatang = "RIDIBatang",
+  KoPubBatang = "KoPubBatang", 
+  Hahmlet = "Hahmlet", 
+  LeferiBaseType = "LeferiBaseType",
+}
+
+export const FontFamilyOption : ISelectOption[] = [
+  { value:FontFamily.Eulyoo1945, label: "을유1945" },
+  { value:FontFamily.MapoFlowerIsland, label: "마포꽃섬" },
+  { value:FontFamily.MapoGoldenPier, label: "마포금빛나루" },
+  { value:FontFamily.MaruBuri, label: "마루부리" },
+  { value:FontFamily.SunBatang, label: "순바탕light" },
+  { value:FontFamily.NanumMyeongjo, label: "나눔명조" },
+  { value:FontFamily.MinSans, label: "민산스" },
+  { value:FontFamily.ChosunGu, label: "조선굴림체" },
+  { value:FontFamily.RIDIBatang, label: "리디바탕" },
+  { value:FontFamily.KoPubBatang, label: "kopub바탕" },
+  { value:FontFamily.Hahmlet, label: "함렛" },
+  { value:FontFamily.LeferiBaseType, label: "Leferi Base Type" },
 ];
-
-export enum FontWeight{
-  REGULER = 400,
-  SEMIBLOD = 600,
-  BLOD = 800
-}
-
-export enum FontAlign{
-  LEFT = "left",
-  CENTER = "center",
-  RIGHT = "right"
-}
 
 export interface IFontOption{
   font: string;
