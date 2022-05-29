@@ -5,13 +5,13 @@ import FindUserModalContent from "components/organisms/modals/user/FindUserModal
 import LoginModalContent from "components/organisms/modals/user/LoginModalContent";
 import SignUpModalContent from "components/organisms/modals/user/SignUpModalContent";
 import useModal from "hooks/userModal";
-import { modalAtom } from "modules/atom";
+import { userModalAtom } from "modules/atom";
 import { useEffect, useState } from "react";
 import { Flex } from 'rebass';
 import { useRecoilState } from "recoil";
 
 const LoginButton = () => {
-  const [modal, setModal] = useRecoilState(modalAtom);
+  const [modal, setModal] = useRecoilState(userModalAtom);
   const { handleOpenModal, handleCloseModal, renderModal } = useModal({
     width: '428px'
   });
@@ -27,7 +27,7 @@ const LoginButton = () => {
           <SignUpModalContent onClickLoginButton={() => setModal("login")} onClickCloseModal={handleCloseModal}/>
         ) : 
         modal === "login" ? (
-          <LoginModalContent onClickFindUserButton={() => setModal("find")} onClickSignUpButton={() => setModal("sign")} onClickCloseModal={handleCloseModal}/>
+          <LoginModalContent onOpenModal={() => handleOpenModal} onClickFindUserButton={() => setModal("find")} onClickSignUpButton={() => setModal("sign")} onClickCloseModal={handleCloseModal}/>
         ) : (
           <FindUserModalContent onClickCloseModal={handleCloseModal} />
         )

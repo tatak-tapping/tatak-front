@@ -2,7 +2,7 @@ import { getCategories } from "api/common";
 import { getCategoriesSelector } from "modules/selector";
 import { atom } from "recoil";
 import { getSessionStorage } from "utils/storage";
-import { FontAlign, FontFamily, FontWeight, ICategory, IFontOption, ISelectOption, ITopic, ITypo, ITypoOption, IUser, TypoLanguage } from "utils/types";
+import { FontAlign, FontWeight, ICategory, IFontOption, ISelectOption, ITopic, ITypo, ITypoOption, IUser, TypoLanguage } from "utils/types";
 
 
 
@@ -30,8 +30,14 @@ export const languageAtom = atom<TypoLanguage | undefined>({
   key: "languageAtom",
   default: TypoLanguage.KOREAN
 });
-export const modalAtom = atom<string | undefined>({
-  key: "modalAtom",
+
+export const userModalAtom = atom<string | undefined>({
+  key: "userModalAtom",
+  default:undefined
+})
+
+export const typoModalAtom = atom<string | undefined>({
+  key: "typoModalAtom",
   default:undefined
 })
 

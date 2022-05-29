@@ -20,7 +20,7 @@ export interface DialogProps {
 }
 
 const StyledDialog = styled.div<{width:string}>`
-  width: ${(props) => props.width};
+  width: 428px;
   padding: 40px 0 20px 0;
   margin: auto;
   box-shadow: 0px 0px 10px 0px #00000033;

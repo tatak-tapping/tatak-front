@@ -91,7 +91,6 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
             "Authorization" : `Bearer ${user.accessToken}`
           }
         });
-        console.log("성공")
       } catch(err){
         console.log(err);
       }
@@ -144,7 +143,7 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
         <Flex alignContent="center">
           <input id="file-upload-user" type='file' onChange={onSelectFile} style={{ display: "none" }}/>
           <WarpperProfile>
-            <ProfileImage src={selectedFile && preview} height="80px" width="80px"/>
+            <ProfileImage src={selectedFile ? preview : user?.profileImageUrl} height="80px" width="80px"/>
           </WarpperProfile>
           <WrapperIcon onClick={handleToggleBubble}>
             <CameraIcon />

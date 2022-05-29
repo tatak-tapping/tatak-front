@@ -15,6 +15,9 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { BASE, GRAY, PRIMARY } from "styles/colors";
 import { ICategory, ITopic, ITypo } from "utils/types";
 
+interface TypeSettingModalContentProps {
+  onClickCloseModal : VoidFunction;
+}
 
 const StyledTitle = styled.div`
   font-style: normal;
@@ -25,7 +28,7 @@ const StyledTitle = styled.div`
   margin-bottom: 12px;
 `;
 
-const TypeTypeModalContent = () => {
+const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProps) => {
   const [topics, setTopics] =  useState<ITopic[]>(undefined);
   const [categories, setCategories] =  useState<ICategory[]>(undefined);
   const [category, setCategory] =  useState<number>(0);
@@ -141,4 +144,5 @@ const TypeTypeModalContent = () => {
     </Flex>
   );
 };
-export default TypeTypeModalContent;
+
+export default TypeSettingModalContent;

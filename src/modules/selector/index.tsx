@@ -1,5 +1,4 @@
 import { getCategories } from "api/common";
-import { modalAtom } from "modules/atom";
 import { selector } from "recoil"
 import { ICategory } from "utils/types";
 

@@ -5,7 +5,7 @@ import LoginButton from "components/molecules/button/LoginButton";
 import MusicPlayer from "components/molecules/button/MusicPlayer";
 import UserProfile from "components/molecules/profile/UserProfile";
 import useModal from "hooks/userModal";
-import { modalAtom, tokenAtom } from "modules/atom";
+import { isOpenModalAtom, tokenAtom, typoModalAtom } from "modules/atom";
 import { Box, Flex } from "rebass";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useEffect, useState } from "react";
@@ -14,37 +14,30 @@ import TypeSettingModalContent from "../modals/typo/TypeSettingModalContent";
 import TypoTypeBubbleContent from "../bubbles/TypoTypeBubbleContent";
 import { FullScreenHandle, FullScreenProps, useFullScreenHandle } from "react-full-screen";
 
-enum OpenModal {
-  'PENCIL',
-  'FILTER',
-}
-
 interface HeaderProps {
   handleFullScreen?: FullScreenHandle
 }
 
 const Header = ({handleFullScreen}:HeaderProps) => {
   const useToken = useRecoilValue(tokenAtom);
-  const [openModal, SetOpenModal] = useState(null);
-  const [modal, setModal] = useRecoilState(modalAtom);
+  const [modal, SetModal] = useRecoilState(typoModalAtom);
   const [typoContent, setTypoContent] = useState<string>("");
+  const [isOpenModal, setIsOpenModal] = useRecoilState(isOpenModalAtom);
 
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const handleCloseBubble = () => setIsBubbleVisible(isBubbleVisible);
 
   const handlerPencil = () => {
-    setModal("pendil")
+    SetModal("pencil")
+    setIsOpenModal(true);
     handleOpenModal();
   }
 
   const handlerSetting = () => {
-    setModal("setting")
+    SetModal("setting")
+    setIsOpenModal(true);
     handleOpenModal();
   }
-
-  useEffect(() => {
-    if (!modal) setModal("login");
-  }, [modal]);
   
   const { handleOpenModal, handleCloseModal, renderModal } = useModal({
     width:  '700px'
@@ -53,10 +46,10 @@ const Header = ({handleFullScreen}:HeaderProps) => {
   return  (
     <>
     {renderModal(
-      openModal === OpenModal.PENCIL ? 
-      <TypeUploadModalContent onClickCloseModal={handleCloseModal}/> 
+      modal === "pencil" ? 
+        <TypeUploadModalContent onClickCloseModal={handleCloseModal}/> 
       : 
-      <TypeSettingModalContent onClickCloseModal={handleCloseModal}/> ,
+        <TypeSettingModalContent onClickCloseModal={handleCloseModal}/> ,
       <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
         <CloseIcon />
       </IconButton>
