@@ -19,6 +19,11 @@ const TypoMainSection = () => {
   const text = typo?.contents ?? "";
   const language = typo?.language;
 
+  useEffect(() => {
+    setUserInput("");
+    setKoreanBuffer("");
+  }, [typo]);
+
   const onKeyDown = useCallback((event) => {
     event.preventDefault();
     if (language === TypoLanguage.KOREAN) {
@@ -53,11 +58,12 @@ const TypoMainSection = () => {
   }, [isOpenModal]);
 
   return(
-    <Box justifyContent="center" alignItems="center" marginLeft="auto"  marginRight="auto" width={1000} height={600} max-height={600} overflowY="auto">
+    <Flex justifyContent="center" 
+      mb="18px" alignItems="center" marginLeft="auto"  marginRight="auto" width="1000px" height="600px" max-height="600px" overflowY="auto">
        <TypoContext.Provider value={{ text, userInput, language, koreanBuffer }}>
         <TypingArticle />
       </TypoContext.Provider>
-    </Box>
+    </Flex>
   )
 }
 
