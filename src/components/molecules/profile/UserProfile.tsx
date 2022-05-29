@@ -14,6 +14,7 @@ import { useRecoilState } from 'recoil';
 const UserProfile = () => {
   const [user, setUser] = useRecoilState(userAtom);
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
+
   const handleToggleBubble = () => {
     setIsBubbleVisible(!isBubbleVisible);
   };
@@ -22,15 +23,10 @@ const UserProfile = () => {
     setIsBubbleVisible(isBubbleVisible);
   };
 
-  const [isModify, setIsModify] = useState(null);
 
   const { handleOpenModal, handleCloseModal, renderModal } = useModal({
     width: '428px'
   });
-
-  const handleOpenAnotherModal = () => {
-    setIsModify(!isModify);
-  };
 
   return (
    <>

@@ -2,18 +2,19 @@ import { getCategories } from "api/common";
 import { getCategoriesSelector } from "modules/selector";
 import { atom } from "recoil";
 import { getSessionStorage } from "utils/storage";
+import { getTokenStorage, getUserStorage } from "utils/storageUser";
 import { FontAlign, FontWeight, ICategory, IFontOption, ISelectOption, ITopic, ITypo, ITypoOption, IUser, TypoLanguage } from "utils/types";
 
 
 
 export const tokenAtom = atom<string>({
   key: "tokenAtom",
-  default: localStorage.getItem("access_token_tatak") ?? sessionStorage.getItem("access_token_tatak"),
+  default: getTokenStorage()
 });
 
 export const userAtom = atom<IUser>({
   key: "userAtom",
-  default: JSON.parse(localStorage?.getItem("tatak_user")) ?? JSON.parse(sessionStorage.getItem("tatak_user"))
+  default: getUserStorage()
 });
 
 export const isAuthLoginAtom = atom<boolean>({

@@ -79,8 +79,6 @@ const TypeUploadModalContent = ({onClickCloseModal}:TypeUploadModalContentProps)
     params.approvalStatus = TypoApprovalStatus.WAITED;
     params.language = language;
     
-    console.log(params);
-
     try{
       const { data } = await postTypoUpload(params);
       onClickCloseModal();

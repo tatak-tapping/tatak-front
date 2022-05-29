@@ -20,6 +20,9 @@ import { CameraIcon, EyeOffIcon, EyeOnIcon, ReturnIcon } from "components/atoms/
 import styled from "@emotion/styled";
 import UserModifyBubbleContent from "components/organisms/bubbles/UserModifyBubbleContent";
 import axios from "axios";
+import { setUserStorage } from "utils/storageUser";
+import { DialogTypes } from "components/atoms/dialog/Dialog";
+import { useDialog } from "context/Dialog";
 
 interface  ModifyUserModalContentProps {
   onClickCloseModal? : () => void;
@@ -33,14 +36,16 @@ interface IModifyFormInputs extends FieldValues{
 }
 
 const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps) => {
+  const {showDialog, closeDialog} = useDialog();
+  const [user, setUser] = useRecoilState(userAtom);
+
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isPwdConfirmVisible, setIsPwdConfirmVisible] = useState(false);
-  const [user, setUser] = useRecoilState(userAtom);
+  const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState<string>();
 
 
-  const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const handleToggleBubble = () => {
     setIsBubbleVisible(!isBubbleVisible);
   };
@@ -71,13 +76,35 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
     }
     try{
       const { data } = await putUser(params);
+      
+      setUserStorage(data);
       setUser(data);
-      if(getSessionStorage("tatak_user")) setSessionStorage("tatak_user", data);
-      if(getLocalStorage("tatak_user")) setLocalStorage("tatak_user", data);
 
       onClickCloseModal();
+      showDialog({
+        type : DialogTypes.success,
+        message : (
+          <>
+            <Text color={GRAY[2]}>회원정보 수정이 완료되었어요.</Text>
+            <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
+              확인
+            </Button>
+          </>
+        )
+      });
     }catch(err){
       console.log(err);
+      showDialog({
+        type : DialogTypes.success,
+        message : (
+          <>
+            <Text color={GRAY[2]}>회원정보 수정을 실패했습니다.</Text>
+            <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
+              확인
+            </Button>
+          </>
+        )
+      });
     }
   };
 
@@ -93,6 +120,17 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
         });
       } catch(err){
         console.log(err);
+        showDialog({
+          type : DialogTypes.success,
+          message : (
+            <>
+              <Text color={GRAY[2]}>회원정보 수정을 실패했습니다.(이미지 오류)</Text>
+              <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
+                확인
+              </Button>
+            </>
+          )
+        });
       }
   }
 
@@ -143,7 +181,7 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
         <Flex alignContent="center">
           <input id="file-upload-user" type='file' onChange={onSelectFile} style={{ display: "none" }}/>
           <WarpperProfile>
-            <ProfileImage src={selectedFile ? preview : user?.profileImageUrl} height="80px" width="80px"/>
+            <ProfileImage src={selectedFile ? preview : user?.profileImageUrl ? user?.profileImageUrl : '/images/profile_default.svg'} height="80px" width="80px"/>
           </WarpperProfile>
           <WrapperIcon onClick={handleToggleBubble}>
             <CameraIcon />

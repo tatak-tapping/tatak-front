@@ -18,6 +18,7 @@ import { setLocalStorage, setSessionStorage } from "utils/storage";
 import instance from "api/instance";
 import Input from "components/atoms/input/Input";
 import { EyeOffIcon, EyeOnIcon } from "components/atoms/icon/Icon";
+import { LOGIN_TYPE, setTokenStorage } from "utils/storageUser";
 
 
 interface LoginModalContentProps {
@@ -48,17 +49,8 @@ const LoginModalContent = ({ onOpenModal, onClickFindUserButton, onClickSignUpBu
   const onSubmit = async (params:ILoginFormInputs) => {
     try{
       const { data } = await postCommonLogin(params);
-     if(isAuthLogin){
-        console.log(isAuthLogin, "local");
-        setLocalStorage("access_token_tatak", data.accessToken);
-        setLocalStorage("tatak_user", data);
-      } else{
-        console.log(isAuthLogin, "session");
-        setSessionStorage("access_token_tatak", data.accessToken);
-        setSessionStorage("tatak_user", data);
-      }
-
       instance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
+      setTokenStorage(isAuthLogin ? LOGIN_TYPE.LOCAL : LOGIN_TYPE.SESSION, data);
       setUserToken(data.accessToken);
       setUser(data);
       onClickCloseModal();

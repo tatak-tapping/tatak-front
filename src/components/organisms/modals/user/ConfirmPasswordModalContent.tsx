@@ -12,7 +12,6 @@ import { isAuthLoginAtom, tokenAtom, userAtom } from "modules/atom";
 import { postCommonLogin, postConfirmPassword, putUser } from "api/auth";
 import { useForm, useWatch, FieldValues, FormProvider } from "react-hook-form";
 import CheckBox from "components/atoms/checkbox/Checkbox";
-import { setLocalStorage, setSessionStorage } from "utils/storage";
 import instance from "api/instance";
 import Input from "components/atoms/input/Input";
 import { EyeOffIcon, EyeOnIcon, ReturnIcon } from "components/atoms/icon/Icon";

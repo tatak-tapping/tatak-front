@@ -1,3 +1,5 @@
+import moment from "moment";
+
 const getLocalStorage = <T>(key: string) => {
   const json = JSON.parse(localStorage.getItem(key)!) as T;
   return json;

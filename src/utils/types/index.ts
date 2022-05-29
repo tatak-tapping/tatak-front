@@ -2,6 +2,11 @@ export enum JoinType{
   KAKAO, TADAK
 }
 
+export interface IToken{
+  accessToken: string;
+  refreshToken : string;
+}
+
 export interface IUser{
   id :number;
   email:string;
