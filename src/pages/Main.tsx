@@ -6,9 +6,11 @@ import FeedTemplate from 'components/templates/feed/FeedTemplate';
 import TypoTemplate from 'components/templates/typo/TypoTemplate';
 import { categoriesAtom, topicsAtom, typoAtom } from 'modules/atom';
 import { Suspense } from 'react';
+import { useFullScreenHandle } from 'react-full-screen';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { ICategory, ITopic, ITypo } from 'utils/types';
 const Main = () => {
+  const fullScreen = useFullScreenHandle();
   const setTypo = useSetRecoilState<ITypo>(typoAtom);
   const setCategories = useSetRecoilState<ICategory[]>(categoriesAtom);
 
@@ -27,8 +29,8 @@ const Main = () => {
 
   return  (
     <>
-      <Header />
-      <TypoTemplate />
+      <Header handleFullScreen={fullScreen}/>
+      <TypoTemplate handleFullScreen={fullScreen}/>
       <FeedTemplate />
       <Footer />
     </>

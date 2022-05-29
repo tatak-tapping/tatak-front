@@ -5,39 +5,46 @@ import LoginButton from "components/molecules/button/LoginButton";
 import MusicPlayer from "components/molecules/button/MusicPlayer";
 import UserProfile from "components/molecules/profile/UserProfile";
 import useModal from "hooks/userModal";
-import { tokenAtom } from "modules/atom";
+import { modalAtom, tokenAtom } from "modules/atom";
 import { Box, Flex } from "rebass";
-import { useRecoilValue } from "recoil";
-import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { useCallback, useEffect, useState } from "react";
 import TypeUploadModalContent from "../modals/typo/TypeUploadModalContent";
+import TypeSettingModalContent from "../modals/typo/TypeSettingModalContent";
 import TypoTypeBubbleContent from "../bubbles/TypoTypeBubbleContent";
+import { FullScreenHandle, FullScreenProps, useFullScreenHandle } from "react-full-screen";
 
 enum OpenModal {
   'PENCIL',
   'FILTER',
 }
 
-const Header = () => {
+interface HeaderProps {
+  handleFullScreen?: FullScreenHandle
+}
+
+const Header = ({handleFullScreen}:HeaderProps) => {
   const useToken = useRecoilValue(tokenAtom);
   const [openModal, SetOpenModal] = useState(null);
+  const [modal, setModal] = useRecoilState(modalAtom);
   const [typoContent, setTypoContent] = useState<string>("");
 
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const handleCloseBubble = () => setIsBubbleVisible(isBubbleVisible);
 
-  const handlerFullScreen = () => {
-
-  };
-
   const handlerPencil = () => {
-    SetOpenModal(OpenModal.PENCIL);
+    setModal("pendil")
     handleOpenModal();
   }
 
   const handlerSetting = () => {
-    SetOpenModal('SETTING');
+    setModal("setting")
     handleOpenModal();
   }
+
+  useEffect(() => {
+    if (!modal) setModal("login");
+  }, [modal]);
   
   const { handleOpenModal, handleCloseModal, renderModal } = useModal({
     width:  '700px'
@@ -46,7 +53,10 @@ const Header = () => {
   return  (
     <>
     {renderModal(
-     <TypeUploadModalContent onClickCloseModal={handleCloseModal}/>,
+      openModal === OpenModal.PENCIL ? 
+      <TypeUploadModalContent onClickCloseModal={handleCloseModal}/> 
+      : 
+      <TypeSettingModalContent onClickCloseModal={handleCloseModal}/> ,
       <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
         <CloseIcon />
       </IconButton>
@@ -67,7 +77,7 @@ const Header = () => {
           <IconButton onClick={handlerPencil} margin="0 4px 0 0">
             <PencilIcon />
           </IconButton>
-          <IconButton onClick={handlerFullScreen}>
+          <IconButton onClick={handleFullScreen.enter}>
             <FullScreenIcon />
           </IconButton>
         </Box>
@@ -82,11 +92,11 @@ const Header = () => {
         </Box>
       </Flex>
     </Flex>
-    <TypoTypeBubbleContent
-      isVisible={isBubbleVisible} 
-      onClose={handleCloseBubble} 
-    />
-    </>
+      <TypoTypeBubbleContent
+        isVisible={isBubbleVisible} 
+        onClose={handleCloseBubble} 
+      />
+  </>
   )
 }
 
