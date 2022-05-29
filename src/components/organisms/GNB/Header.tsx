@@ -4,15 +4,19 @@ import Logo from "components/atoms/logo/Logo";
 import LoginButton from "components/molecules/button/LoginButton";
 import MusicPlayer from "components/molecules/button/MusicPlayer";
 import UserProfile from "components/molecules/profile/UserProfile";
+import TextButton from "components/atoms/button/TextButton";
 import useModal from "hooks/userModal";
 import { isOpenModalAtom, tokenAtom, typoModalAtom } from "modules/atom";
-import { Box, Flex } from "rebass";
+import { Box, Flex, Text } from "rebass";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useEffect, useState } from "react";
 import TypeUploadModalContent from "../modals/typo/TypeUploadModalContent";
 import TypeSettingModalContent from "../modals/typo/TypeSettingModalContent";
 import TypoTypeBubbleContent from "../bubbles/TypoTypeBubbleContent";
-import { FullScreenHandle, FullScreenProps, useFullScreenHandle } from "react-full-screen";
+import { FullScreenHandle} from "react-full-screen";
+import { useDialog } from "context/Dialog";
+import { DialogTypes } from "components/atoms/dialog/Dialog";
+import { BASE, PRIMARY } from "styles/colors";
 
 interface HeaderProps {
   handleFullScreen?: FullScreenHandle
@@ -20,6 +24,7 @@ interface HeaderProps {
 
 const Header = ({handleFullScreen}:HeaderProps) => {
   const useToken = useRecoilValue(tokenAtom);
+  const {showDialog, closeDialog} = useDialog();
   const [modal, SetModal] = useRecoilState(typoModalAtom);
   const [typoContent, setTypoContent] = useState<string>("");
   const [isOpenModal, setIsOpenModal] = useRecoilState(isOpenModalAtom);
@@ -28,6 +33,41 @@ const Header = ({handleFullScreen}:HeaderProps) => {
   const handleCloseBubble = () => setIsBubbleVisible(isBubbleVisible);
 
   const handlerPencil = () => {
+    if(!useToken){
+      showDialog({
+        type : DialogTypes.info,
+        message : (
+          <>
+            <Text>타닥에 가입하고 좋아하는 글을 올려보세요.</Text>
+            <Flex>
+            <TextButton
+              onClick={closeDialog} 
+              width="76px" 
+              height="43px"
+              fontSize="16px"
+              color={PRIMARY[100]} 
+              backgroundColor={BASE[3]}
+              border={`${PRIMARY[40]} 1px soild`}
+              margin="20px">
+              취소
+            </TextButton>
+            <TextButton
+              onClick={closeDialog} 
+              width="135px" 
+              height="43px"
+              fontSize="16px"
+              color={BASE[3]}
+              backgroundColor={PRIMARY[80]}
+              border={`${PRIMARY[40]} 1px soild`}
+              margin="20px">
+              회원가입
+            </TextButton>
+            </Flex>
+          </>
+        )
+      });
+      return;
+    }
     SetModal("pencil")
     setIsOpenModal(true);
     handleOpenModal();
