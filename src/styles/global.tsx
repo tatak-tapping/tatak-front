@@ -41,6 +41,12 @@ const style = css`
     background: ${PRIMARY[20]};
     border-radius: 100px;
   }
+  .fullscreen-enabled {
+    background: ${BASE[3]};
+  }
+  .fullscreen-enabled > div{
+    height: 100% !important;
+  }
 `;
 
 const GlobalStyle = () => {
