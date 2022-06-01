@@ -19,12 +19,10 @@ interface TypeSettingModalContentProps {
 }
 
 interface toggleCheckProps {
-  value: string;
-  checked: boolean;
+  [key: string]: boolean;
 }
 
 const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProps) => {
-  
   const categories = useRecoilValue(categoriesAtom);
   const categoryWithTopic = useRecoilValue(categoryWithTopicAtom);
   const languageArray = Object.values(TypoLanguage);
@@ -36,20 +34,48 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
 
   const navigate = useNavigate();
 
-  const initialState = {
-    "KOREAN" : false,
-    "ENGLISH" : false,
-  }
+  const dataArray = categoryWithTopic.map((item_x, index_x) =>{
+    return (
+      item_x.topics.map((item_y, index_y) => item_y.topicCode.toString())
+    )
+  }).reduce(function(pre, cur) {
+    return pre.concat(cur);
+ });
+
+  const initialState:toggleCheckProps = dataArray.reduce((o, key:string) => (
+    {
+      ...o,
+      [key] : false,
+    })
+  , {});
+
+  initialState["KOREAN"] = false;
+  initialState["ENGLISH"] = false;
+  initialState["LONG"] = false;
+  initialState["MEDIUM"] = false;
+  initialState["SHORT"] = false;
+
   const [checkedAll, setCheckedAll] = useState(false);
   const [checked, setChecked] = useState(initialState);
 
-  const handleToggleCheck = (name:any) => {
-    console.log(name);
+  const handleToggleAllCheck = () => {
+    setCheckedAll(!checkedAll);
     setChecked((prev:any) => {
       const newState = { ...prev };
-      if(newState.value === name){
-        newState.checked = !newState.checked;
+      for (const inputName in initialState) {
+        if(inputName !== "KOREAN" && inputName !== "ENGLISH"
+        && inputName !== "LONG" && inputName !== "MEDIUM" && inputName !== "SHORT")
+          newState[inputName] = !checkedAll;
+          console.log(inputName);
       }
+      return newState;
+    });
+  };
+
+  const handleToggleCheck = (name:string|number) => {
+    setChecked((prev:any) => {
+      const newState = { ...prev };
+      newState[name] = !prev[name];
       return newState;
     });
   }
@@ -81,9 +107,10 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
           languageArray.map((value, index) => (
             <Chip
               key={index}
-              name={value === "KOREAN" ? "한글" : "영문"}
+              name={value}
+              label={value === "KOREAN" ? "한글" : "영문"}
               onClick={() => handleToggleCheck(value)}
-              checked={checked(value)} />
+              checked={checked[value]} />
           ))
         }
       </Box>
@@ -92,15 +119,25 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
         {
           lengthArray.map((value, index) => (
             <Chip
-              key={index} 
-              checked={false} 
-              name={value === "LONG" ? "긴 글" : value === "MEDIUM" ? "중간 글" : "짧은 글"}
-              onClick={() => handleToggleCheck(value)}/>
+              key={index}
+              name={value}
+              label={value === "LONG" ? "긴 글" : value === "MEDIUM" ? "중간 글" : "짧은 글"}
+              onClick={() => handleToggleCheck(value)}
+              checked={checked[value]}/>
           ))
         }
       </Box>
       <Box mt="20px">
-        <StyledTitle>주제</StyledTitle>
+       <Flex flexDirection="inherit">
+        <StyledTitle width="50%">주제</StyledTitle>
+          <StyledClickText>
+            <span onClick={handleToggleAllCheck}>
+            {
+              checkedAll ? "전체 해제" : "전체 선택"
+            }
+            </span>
+          </StyledClickText>
+       </Flex>
         <Box backgroundColor={BASE[2]} height="342px" padding="16px 20px" overflowY="scroll">
           {categoryWithTopic.map((item_x, index_x) =>{
               return (
@@ -113,10 +150,11 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
                   {
                     item_x.topics.map((item_y, index_y) => 
                       <Chip
-                        key={index_y} 
-                        checked={false} 
-                        name={item_y.topicName}
-                        onClick={() => handleToggleCheck(item_y.topicName)}/>
+                        key={index_y}
+                        name={item_y.topicCode.toString()}
+                        label={item_y.topicName}
+                        onClick={() => handleToggleCheck(item_y.topicCode)}
+                        checked={checked[item_y.topicCode.toString()]}/>
                     )
                   }
                 </div>  
@@ -150,12 +188,13 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
 export default TypeSettingModalContent;
 
 
-const StyledTitle = styled.div`
+const StyledTitle = styled.div<{width?:string}>`
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
   line-height: 19px;
   color:${GRAY[2]};
+  width: ${props => props.width};
   margin-bottom: 12px;
 `;
 
@@ -166,4 +205,16 @@ const StyledSubTitle = styled.div`
   line-height: 150%;
   color:${GRAY[3]};
   margin-bottom: 8px;
+`;
+
+const StyledClickText = styled.div`
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  text-align: right;
+  color: ${PRIMARY[40]};
+  width: 50%;
+  span{
+    cursor: pointer;
+  }
 `;

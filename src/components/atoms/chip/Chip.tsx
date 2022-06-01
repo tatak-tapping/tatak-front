@@ -5,6 +5,7 @@ import { BASE, GRAY, PRIMARY } from "styles/colors";
 interface ChipProps {
   name: string;
   checked: boolean;
+  label?: string;
   onClick: VoidFunction;
   children?: React.ReactNode,
 }
@@ -20,7 +21,7 @@ const StyledChip = styled.div`
   font-size: 16px;
   color: ${PRIMARY[40]};
   background-color: ${BASE[3]};
-  border: 1px solid ${PRIMARY[40]};
+  border: 1.3px solid ${PRIMARY[40]};
   border-radius: 4px;
   cursor: pointer;
   user-select: none;
@@ -28,7 +29,7 @@ const StyledChip = styled.div`
     display: none;
   }
   &.checked {
-    border: 1px solid ${PRIMARY[100]};
+    border: 1.5px solid ${PRIMARY[100]};
   }
   &.checked span {
     color: ${PRIMARY[100]};
@@ -38,15 +39,15 @@ const StyledChip = styled.div`
   }
 `;
 
-const Chip = ({name, checked, onClick, children}:ChipProps) => {
+const Chip = ({name, label, checked, onClick, children}:ChipProps) => {
   return (
-    <StyledChip onClick={onClick}>
-      <label htmlFor={name} className={checked ? 'checked' : undefined}>
+    <StyledChip onClick={onClick} className={checked ? 'checked' : undefined}>
+      <label htmlFor={name}>
         <input type="checkbox" name={name} checked={checked} readOnly />
         <span />
       </label>
       <span className="chip-icon">{children}</span>
-      <span>{name}</span>
+      <span>{label}</span>
     </StyledChip>
   );
 };
