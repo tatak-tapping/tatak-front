@@ -5,11 +5,13 @@ import { getArticle, getCategories, getTopics } from "api/common";
 import { getUserTypoFilter } from "api/typo";
 import TextButton from "components/atoms/button/TextButton";
 import Chip from "components/atoms/chip/Chip";
+import { DialogTypes } from "components/atoms/dialog/Dialog";
 import LengthTabs from "components/molecules/tabs/LengthTabs";
+import { useDialog } from "context/Dialog";
 import { tokenAtom, typoOptionAtom, typoAtom, categoriesAtom, categoryWithTopicAtom } from "modules/atom";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Box, Flex, Text } from "rebass";
+import { Box, Button, Flex, Text } from "rebass";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { BASE, GRAY, PRIMARY } from "styles/colors";
 import { ICategory, ITopic, ITypo, TypoLanguage, TypoLength } from "utils/types";
@@ -23,7 +25,7 @@ interface toggleCheckProps {
 }
 
 const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProps) => {
-  const categories = useRecoilValue(categoriesAtom);
+  const {showDialog, closeDialog} = useDialog(); 
   const categoryWithTopic = useRecoilValue(categoryWithTopicAtom);
   const languageArray = Object.values(TypoLanguage);
   const lengthArray = Object.values(TypoLength);
@@ -31,8 +33,6 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
   const [typoOption, setTypoOption] = useRecoilState(typoOptionAtom);
   const [typo, setTypo ] = useRecoilState<ITypo>(typoAtom); 
   const token = useRecoilValue(tokenAtom);
-
-  const navigate = useNavigate();
 
   const dataArray = categoryWithTopic.map((item_x, index_x) =>{
     return (
@@ -66,7 +66,6 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
         if(inputName !== "KOREAN" && inputName !== "ENGLISH"
         && inputName !== "LONG" && inputName !== "MEDIUM" && inputName !== "SHORT")
           newState[inputName] = !checkedAll;
-          console.log(inputName);
       }
       return newState;
     });
@@ -80,12 +79,58 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
     });
   }
   const handleSubmit = () => {
+   const languagesParams : string[] = [];
+   const topicCodesParams : string[] = [];
+   const lengthsParams : string[] = [];
+
+   if(checked["KOREAN"]) languagesParams.push("KOREAN");
+   if(checked["ENGLISH"]) languagesParams.push("ENGLISH");
+
+   if(checked["LONG"]) lengthsParams.push("LONG");
+   if(checked["MEDIUM"]) lengthsParams.push("MEDIUM");
+   if(checked["SHORT"]) lengthsParams.push("SHORT");
+
+   for(const item in checked){
+    if(item !== "KOREAN" && item !== "ENGLISH"
+    && item !== "LONG" && item !== "MEDIUM" && item !== "SHORT"){
+      if(checked[item]) topicCodesParams.push(item);
+    }
+   }
+
+   const params = {
+    languages : languagesParams.toString() ?? "",
+    topicCodes : topicCodesParams.toString() ?? "",
+    lengths :lengthsParams.toString() ?? ""
+   }
+
     const getArticleAsync = async () => {
-      const {data} = await getArticle();
-      console.log(data);
+      const {data} = await getArticle(params);
       setTypo(data);
     };
-    getArticleAsync();
+    try{
+      getArticleAsync();
+      onClickCloseModal();
+    }catch(err){
+      showDialog({
+        type : DialogTypes.error,
+        message : (
+          <>
+            <Text>
+              조건에 만족하는 글감이 없습니다.
+            </Text>
+            <Button
+              onClick={closeDialog} 
+              width="76px" 
+              height="43px"
+              fontSize="16px"
+              backgroundColor={PRIMARY[80]}
+              margin="20px">
+              확인
+            </Button>
+          </>
+        )
+      });
+    }
   }
 
   return(
