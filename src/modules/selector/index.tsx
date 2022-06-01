@@ -1,4 +1,5 @@
 import { getCategories } from "api/common";
+import { categoryWithTopicAtom } from "modules/atom";
 import { selector } from "recoil"
 import { ICategory } from "utils/types";
 

@@ -3,7 +3,7 @@ import { getCategoriesSelector } from "modules/selector";
 import { atom } from "recoil";
 import { getSessionStorage } from "utils/storage";
 import { getTokenStorage, getUserStorage } from "utils/storageUser";
-import { FontAlign, FontWeight, ICategory, IFontOption, ISelectOption, ITopic, ITypo, ITypoOption, IUser, TypoLanguage } from "utils/types";
+import { FontAlign, FontWeight, ICategory, ICategoryAndTopic, IFontOption, ISelectOption, ITopic, ITypo, ITypoOption, IUser, TypoLanguage } from "utils/types";
 
 
 
@@ -77,7 +77,7 @@ export const categoriesAtom = atom<ICategory[] | undefined>({
   default: undefined
 });
 
-export const topicsAtom = atom<ITopic[] | undefined>({
-  key: "topicsAtom",
+export const categoryWithTopicAtom = atom<ICategoryAndTopic[] | undefined>({
+  key: "categoryWithTopicAtom",
   default: undefined
 });

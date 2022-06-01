@@ -6,72 +6,53 @@ import { getUserTypoFilter } from "api/typo";
 import TextButton from "components/atoms/button/TextButton";
 import Chip from "components/atoms/chip/Chip";
 import LengthTabs from "components/molecules/tabs/LengthTabs";
-import { tokenAtom, typoOptionAtom, typoAtom } from "modules/atom";
-import { useEffect } from "react";
-import { useState } from "react";
+import { tokenAtom, typoOptionAtom, typoAtom, categoriesAtom, categoryWithTopicAtom } from "modules/atom";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Box, Flex, Text } from "rebass";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { BASE, GRAY, PRIMARY } from "styles/colors";
-import { ICategory, ITopic, ITypo } from "utils/types";
+import { ICategory, ITopic, ITypo, TypoLanguage, TypoLength } from "utils/types";
 
 interface TypeSettingModalContentProps {
   onClickCloseModal : VoidFunction;
 }
 
-const StyledTitle = styled.div`
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 19px;
-  color:${GRAY[2]};
-  margin-bottom: 12px;
-`;
+interface toggleCheckProps {
+  value: string;
+  checked: boolean;
+}
 
 const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProps) => {
-  const [topics, setTopics] =  useState<ITopic[]>(undefined);
-  const [categories, setCategories] =  useState<ICategory[]>(undefined);
-  const [category, setCategory] =  useState<number>(0);
-  const [topic, setTopic] =  useState<number>(0);
+  
+  const categories = useRecoilValue(categoriesAtom);
+  const categoryWithTopic = useRecoilValue(categoryWithTopicAtom);
+  const languageArray = Object.values(TypoLanguage);
+  const lengthArray = Object.values(TypoLength);
+
   const [typoOption, setTypoOption] = useRecoilState(typoOptionAtom);
   const [typo, setTypo ] = useRecoilState<ITypo>(typoAtom); 
-  const token = useRecoilValue(tokenAtom); 
+  const token = useRecoilValue(tokenAtom);
+
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const Aysnc = async () => {
-      const {data} = await getCategories();
-      console.log(data);
-      setCategories(data);
-    }
-    Aysnc();
-    if(!token) setTypoOption(null);
-    else{
-      const Aysnc = async () => {
-        const {data} = await getUserTypoFilter();
+  const initialState = {
+    "KOREAN" : false,
+    "ENGLISH" : false,
+  }
+  const [checkedAll, setCheckedAll] = useState(false);
+  const [checked, setChecked] = useState(initialState);
+
+  const handleToggleCheck = (name:any) => {
+    console.log(name);
+    setChecked((prev:any) => {
+      const newState = { ...prev };
+      if(newState.value === name){
+        newState.checked = !newState.checked;
       }
-      Aysnc();
-    }
-  }, []);
-
-  useEffect(()=> {
-    const Aysnc = async () => {
-      const {data} = await getTopics(category);
-      console.log(data);
-      setTopics(data);
-    }
-    Aysnc();
-  },[category])
-
-  const handleCategoryClick = (id:number) => {
-    setCategory(id);
-    setTopic(0);
+      return newState;
+    });
   }
-
-  const handleTopicClick = (id:number) => {
-    setTopic(id);
-  }
-
   const handleSubmit = () => {
     const getArticleAsync = async () => {
       const {data} = await getArticle();
@@ -79,11 +60,10 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
       setTypo(data);
     };
     getArticleAsync();
-    navigate('/');
   }
 
   return(
-    <Flex flexDirection="column" ml="40px" mr="40px">
+    <Flex flexDirection="column" ml="20px" mr="20px">
       <Box mt="20px">
         <Text fontSize="24px" color={GRAY[2]} lineHeight="150%" fontWeight="600">
           글감의 종류를 선택해주세요.
@@ -96,31 +76,53 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
         `}/>
       </Box>
       <Box mt="20px">
-      </Box>
-      <Box mt="20px">
-        <StyledTitle>글 유형</StyledTitle>
-        {categories && categories.map(({categoryCode, categoryName}) => (
-          // <Chip 
-          //   key={categoryCode} 
-          //   name={categoryName}
-          //   onClick={() => handleCategoryClick(categoryCode)} 
-          //   //checked={categoryCode}
-          //   margin="0 4px 0 0 ">{categoryName}</Chip>
-          <></>
-        ))}
-      </Box>
-      <Box mt="20px">
-        <StyledTitle>주제</StyledTitle>
-        <Box  minHeight="80px" maxHeight="80px" overflowY="scroll">
-        {topics && topics.map(({isVisible, topicCode, topicName}) => (
-          <></>
-          // isVisible && <Chip key={topicCode} onClick={() => handleTopicClick(topicCode)} margin="0 8px 8px 0" active={topic === topicCode ? true : false}>{topicName}</Chip>
-        ))}
-        </Box>
+        <StyledTitle>언어</StyledTitle>
+        {
+          languageArray.map((value, index) => (
+            <Chip
+              key={index}
+              name={value === "KOREAN" ? "한글" : "영문"}
+              onClick={() => handleToggleCheck(value)}
+              checked={checked(value)} />
+          ))
+        }
       </Box>
       <Box mt="20px">
         <StyledTitle>길이</StyledTitle>
-        <LengthTabs />
+        {
+          lengthArray.map((value, index) => (
+            <Chip
+              key={index} 
+              checked={false} 
+              name={value === "LONG" ? "긴 글" : value === "MEDIUM" ? "중간 글" : "짧은 글"}
+              onClick={() => handleToggleCheck(value)}/>
+          ))
+        }
+      </Box>
+      <Box mt="20px">
+        <StyledTitle>주제</StyledTitle>
+        <Box backgroundColor={BASE[2]} height="342px" padding="16px 20px" overflowY="scroll">
+          {categoryWithTopic.map((item_x, index_x) =>{
+              return (
+                <div key={index_x} css={css`
+                  :not(:first-child){
+                    margin-top: 8px;
+                  }
+                `}>
+                  <StyledSubTitle>{item_x.category.categoryName}</StyledSubTitle>
+                  {
+                    item_x.topics.map((item_y, index_y) => 
+                      <Chip
+                        key={index_y} 
+                        checked={false} 
+                        name={item_y.topicName}
+                        onClick={() => handleToggleCheck(item_y.topicName)}/>
+                    )
+                  }
+                </div>  
+              )
+            })} 
+        </Box>
       </Box>
       <hr css={css`
         width: 100%;
@@ -130,7 +132,7 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
       `}/>
       <Flex>
         <Text onClick={() => setTypoOption(null)}>설정 초기화</Text>
-        <Text>취소</Text>
+        <Text onClick={() => setTypoOption(null)}>취소</Text>
         <TextButton
           height="43px"
           width="104px"
@@ -146,3 +148,22 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
 };
 
 export default TypeSettingModalContent;
+
+
+const StyledTitle = styled.div`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 19px;
+  color:${GRAY[2]};
+  margin-bottom: 12px;
+`;
+
+const StyledSubTitle = styled.div`
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 150%;
+  color:${GRAY[3]};
+  margin-bottom: 8px;
+`;

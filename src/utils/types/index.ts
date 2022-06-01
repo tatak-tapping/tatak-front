@@ -36,10 +36,15 @@ export interface ITopic{
   isVisible: boolean;
 }
 
+export interface ICategoryAndTopic{
+  category: ICategory;
+  topics: ITopic[];
+}
+
 export enum TypoLength{
-  SHORT = "짧은 글",
-  MEDIUM = "중간 글",
-  LONG = "긴 글"
+  SHORT = "SHORT",
+  MEDIUM = "MEDIUM",
+  LONG = "LONG"
 }
 
 export enum TypoLanguage{

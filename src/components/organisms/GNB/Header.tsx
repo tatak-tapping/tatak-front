@@ -80,7 +80,7 @@ const Header = ({handleFullScreen}:HeaderProps) => {
   }
   
   const { handleOpenModal, handleCloseModal, renderModal } = useModal({
-    width:  '700px'
+    width: modal === "pencil " ?  '700px' : ' 776px'
   });
   
   return  (

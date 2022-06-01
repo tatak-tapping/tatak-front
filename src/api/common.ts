@@ -1,5 +1,5 @@
 
-import { ICategory, ITopic, ITypo } from 'utils/types';
+import { ICategory, ICategoryAndTopic, ITopic, ITypo } from 'utils/types';
 import instance from './instance';
 
 export const getArticle = (): Promise<{data: ITypo}> => 
@@ -11,3 +11,5 @@ export const getCategories = (): Promise<{data:ICategory[]}> =>
 export const getTopics = (id:number): Promise<{data:ITopic[]}> => 
   instance.get(`/topics/category/${id}`);
 
+export const getCategoryWithTopic  = (): Promise<{data:ICategoryAndTopic[]}> => 
+  instance.get(`/categories/all`);

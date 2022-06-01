@@ -1,69 +1,52 @@
 import styled from "@emotion/styled";
-import { BASE, PRIMARY } from "styles/colors";
+import { BASE, GRAY, PRIMARY } from "styles/colors";
 
 
 interface ChipProps {
-  key: number;
+  name: string;
   checked: boolean;
   onClick: VoidFunction;
-  child?:React.ReactElement;
-  margin?: string;
+  children?: React.ReactNode,
 }
 
-const StyledChip = styled.div<{margin?:string}>`
+const StyledChip = styled.div`
+  /* height: 36px; */
+  padding: 3px 6px;
+  margin: 0 6px 6px 0;
   display: inline-flex;
   justify-content: center;
   align-items: center;
-  margin:${(props) => props.margin};
-  text-align: center;
-  border-radius: 4px;
-  border: 1px solid ${PRIMARY[40]};
-  background-color: none;
-  color: ${PRIMARY[40]};
   font-weight: 600;
   font-size: 16px;
+  color: ${PRIMARY[40]};
+  background-color: ${BASE[3]};
+  border: 1px solid ${PRIMARY[40]};
+  border-radius: 4px;
   cursor: pointer;
   user-select: none;
   input[type='checkbox'] {
     display: none;
   }
-  :active{
-    background-color: ${PRIMARY[100]};
-    border: 1px solid ${PRIMARY[40]};
-    color: ${BASE[1]};
+  &.checked {
+    border: 1px solid ${PRIMARY[100]};
   }
-  > label {
-    width: 20px;
-    height: 20px;
-    border-radius: 4px;
-    background-color: ${BASE[3]};
-    border: 1px solid ${PRIMARY[40]};
-    display: inline-block;
-    vertical-align: middle;
-    margin-right: 8px;
-    cursor: pointer;
+  &.checked span {
+    color: ${PRIMARY[100]};
   }
-  label.checked {
-    background-color: ${PRIMARY[100]};
-    border: 1px solid ${PRIMARY[40]};
-    color: ${BASE[1]};
+  .chip-icon{
+    line-height: 24px;
   }
 `;
 
-const Chip = ({
-  onClick,
-  margin,
-  key,
-  checked,
-  child,
-  ...rest
-}:ChipProps) => {
+const Chip = ({name, checked, onClick, children}:ChipProps) => {
   return (
-    <StyledChip margin={margin} onClick={onClick}>
-      {/* <label htmlFor={key} className={checked ? 'checked' : undefined}>
-        <input type="checkbox" name={key} checked={checked} readOnly />
-      </label> */}
-      {child}
+    <StyledChip onClick={onClick}>
+      <label htmlFor={name} className={checked ? 'checked' : undefined}>
+        <input type="checkbox" name={name} checked={checked} readOnly />
+        <span />
+      </label>
+      <span className="chip-icon">{children}</span>
+      <span>{name}</span>
     </StyledChip>
   );
 };

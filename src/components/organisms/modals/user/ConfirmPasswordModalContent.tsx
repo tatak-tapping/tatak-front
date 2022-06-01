@@ -20,6 +20,7 @@ import { DialogTypes } from "components/atoms/dialog/Dialog";
 
 interface  ConfirmPasswordModalContentProps {
   onClickModifyButton? : () => void;
+  onClickCloseModal? : () => void;
 }
 
 interface IModifyFormInputs extends FieldValues{
@@ -28,7 +29,7 @@ interface IModifyFormInputs extends FieldValues{
   passwordConfirm:string;
 }
 
-const ConfirmModalContent = ({onClickModifyButton}:ConfirmPasswordModalContentProps) => {
+const ConfirmPasswordModalContent = ({onClickModifyButton, onClickCloseModal}:ConfirmPasswordModalContentProps) => {
   const {showDialog, closeDialog} = useDialog();
 
   const onSubmit = async (params:IModifyFormInputs) => {
@@ -37,6 +38,7 @@ const ConfirmModalContent = ({onClickModifyButton}:ConfirmPasswordModalContentPr
       if(data){
         onClickModifyButton();
       }else{
+        onClickCloseModal();
         showDialog({
           type : DialogTypes.error,
           message : (
@@ -141,4 +143,4 @@ const ConfirmModalContent = ({onClickModifyButton}:ConfirmPasswordModalContentPr
   </>
   );
 };
-export default ConfirmModalContent;
+export default ConfirmPasswordModalContent;
