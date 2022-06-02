@@ -13,8 +13,7 @@ const instance = axios.create({
 instance.interceptors.request.use(
   (config:AxiosRequestConfig) => {
     return{
-      ...config,
-      refresh
+      ...config
     }
   },
   (error:AxiosError) => {
@@ -31,6 +30,10 @@ instance.interceptors.response.use(
   },
   (error:AxiosError) => {
     console.log(error);
+    if (error.response.status === 401) {
+      const originalConfig = error.config;
+      return refresh(originalConfig);
+    }
     return Promise.reject(error.response);
   }
 );
@@ -43,7 +46,12 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
   if (!(moment(expiresAt).diff(moment()) < 0)) return config;
   if (!(accessToken && refreshToken)) return config;
 
-  const { data } = await postRefrshToken(accessToken, refreshToken);
+  const params = {
+    accessToken,
+    refreshToken
+  }
+
+  const { data } = await postRefrshToken(params);
   setRefreshTokenStorage(data.accessToken, data.refreshToken);
   instance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
 

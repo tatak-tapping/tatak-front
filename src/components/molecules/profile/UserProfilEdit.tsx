@@ -2,8 +2,6 @@ import styled from '@emotion/styled';
 import IconButton from 'components/atoms/button/IconButton';
 import { CloseIcon, PencilIcon } from 'components/atoms/icon/Icon';
 import ProfileImage from 'components/atoms/profile/ProfileImage';
-import UserProfileBubbleContent from 'components/organisms/bubbles/UserProfileBubbleContent';
-import ConfirmModalContent from 'components/organisms/modals/user/ConfirmPasswordModalContent';
 import useModal from 'hooks/userModal';
 import { userAtom } from 'modules/atom';
 import { useState } from 'react';

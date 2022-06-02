@@ -2,11 +2,10 @@
 import { css } from "@emotion/react";
 import styled from "@emotion/styled";
 import { getArticle, getCategories, getTopics } from "api/common";
-import { getUserTypoFilter } from "api/typo";
+import { getUserTypoFilter, putUserTypoFilter } from "api/typo";
 import TextButton from "components/atoms/button/TextButton";
 import Chip from "components/atoms/chip/Chip";
 import { DialogTypes } from "components/atoms/dialog/Dialog";
-import LengthTabs from "components/molecules/tabs/LengthTabs";
 import { useDialog } from "context/Dialog";
 import { tokenAtom, typoOptionAtom, typoAtom, categoriesAtom, categoryWithTopicAtom } from "modules/atom";
 import React, { useEffect, useState } from "react";
@@ -14,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { Box, Button, Flex, Text } from "rebass";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { BASE, GRAY, PRIMARY } from "styles/colors";
+import { setTypoFontStorage, setTypoOptionStorage } from "utils/storageTypo";
 import { ICategory, ITopic, ITypo, TypoLanguage, TypoLength } from "utils/types";
 
 interface TypeSettingModalContentProps {
@@ -58,6 +58,24 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
   const [checkedAll, setCheckedAll] = useState(false);
   const [checked, setChecked] = useState(initialState);
 
+  useEffect(() => {
+    setChecked((prev:any) => {
+      const newState = { ...prev };
+      typoOption?.lengths?.map(item => {
+        newState[item] = true;
+      })
+      typoOption?.topicCodes?.map(item => {
+        newState[item] = true;
+      })
+      typoOption?.languages?.map(item => {
+        newState[item] = true;
+      })
+      return newState;
+    });
+
+    console.log(typoOption);
+  }, []);
+
   const handleToggleAllCheck = () => {
     setCheckedAll(!checkedAll);
     setChecked((prev:any) => {
@@ -77,37 +95,57 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
       newState[name] = !prev[name];
       return newState;
     });
-  }
+  };
+
   const handleSubmit = () => {
-   const languagesParams : string[] = [];
-   const topicCodesParams : string[] = [];
-   const lengthsParams : string[] = [];
+   const languagesParams : TypoLanguage[] = [];
+   const topicCodesParams : number[] = [];
+   const lengthsParams : TypoLength[] = [];
 
-   if(checked["KOREAN"]) languagesParams.push("KOREAN");
-   if(checked["ENGLISH"]) languagesParams.push("ENGLISH");
+   if(checked["KOREAN"]) languagesParams.push(TypoLanguage.KOREAN);
+   if(checked["ENGLISH"]) languagesParams.push(TypoLanguage.ENGLISH);
 
-   if(checked["LONG"]) lengthsParams.push("LONG");
-   if(checked["MEDIUM"]) lengthsParams.push("MEDIUM");
-   if(checked["SHORT"]) lengthsParams.push("SHORT");
+   if(checked["LONG"]) lengthsParams.push(TypoLength.LONG);
+   if(checked["MEDIUM"]) lengthsParams.push(TypoLength.MEDIUM);
+   if(checked["SHORT"]) lengthsParams.push(TypoLength.SHORT);
 
    for(const item in checked){
     if(item !== "KOREAN" && item !== "ENGLISH"
     && item !== "LONG" && item !== "MEDIUM" && item !== "SHORT"){
-      if(checked[item]) topicCodesParams.push(item);
+      if(checked[item]) topicCodesParams.push(Number.parseInt(item));
     }
    }
 
-   const params = {
-    languages : languagesParams.toString() ?? "",
-    topicCodes : topicCodesParams.toString() ?? "",
-    lengths :lengthsParams.toString() ?? ""
+   const putParams = {
+    languages : languagesParams,
+    topicCodes : topicCodesParams,
+    lengths :lengthsParams
    }
 
+   
     const getArticleAsync = async () => {
+      const params = {
+        languages : languagesParams.toString() ?? "",
+        topicCodes : topicCodesParams.toString() ?? "",
+        lengths :lengthsParams.toString() ?? ""
+       }
+       
       const {data} = await getArticle(params);
       setTypo(data);
     };
+
+    const putTypoOptionAsync =async () => {
+      const {data} = await putUserTypoFilter(putParams);
+      setTypoOption(data);
+      console.log("put okok");
+    }
+
+    //TODO : 변경 필요
+    setTypoOptionStorage(putParams);
+    setTypoOption(putParams);
+
     try{
+      if(token) putTypoOptionAsync();
       getArticleAsync();
       onClickCloseModal();
     }catch(err){
@@ -134,7 +172,7 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
   }
 
   return(
-    <Flex flexDirection="column" ml="20px" mr="20px">
+    <Flex flexDirection="column" ml="20px" mr="20px" width="696px">
       <Box mt="20px">
         <Text fontSize="24px" color={GRAY[2]} lineHeight="150%" fontWeight="600">
           글감의 종류를 선택해주세요.
@@ -213,9 +251,14 @@ const TypeSettingModalContent = ({onClickCloseModal}:TypeSettingModalContentProp
         border : none;
         border-top: 1px solid ${GRAY[2]};
       `}/>
-      <Flex>
-        <Text onClick={() => setTypoOption(null)}>설정 초기화</Text>
-        <Text onClick={() => setTypoOption(null)}>취소</Text>
+      <Flex  justifyContent="flex-end">
+        <Text 
+          height="43px"
+          width="76px"
+          lineHeight="43px"
+          fontWeight="600"
+          color={PRIMARY[40]}
+          onClick={() => setTypoOption(null)}>취소</Text>
         <TextButton
           height="43px"
           width="104px"

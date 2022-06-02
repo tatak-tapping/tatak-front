@@ -1,17 +1,12 @@
-import { ITypo, TypoApprovalStatus, TypoLanguage } from "utils/types";
+import { ITypo, ITypoOption, TypoApprovalStatus, TypoLanguage, TypoLength } from "utils/types";
 import instance from "./instance";
 
-export interface ITypoFilter{
-  languages: [],
-  categoryCodes: [],
-  topicCodes: [],
-  lengths: []
-}
 
-export interface PostTypoFilterParams {
-  email : string;
-  password: string;
-  nickname: string;
+export interface PutTypoOptionParams {
+  languages : string[];
+  categoryCodes?: number[] | [];
+  topicCodes:number[];
+  lengths:string[];
 }
 
 export interface PostTypoUploadParams {
@@ -27,10 +22,10 @@ export interface PostTypoUploadParams {
 }
 
 
-export const getUserTypoFilter = (): Promise<{ data: ITypoFilter }> =>
+export const getUserTypoFilter = (): Promise<{ data: ITypoOption }> =>
   instance.get('/users/conditional');
 
-export const putUserTypoFilter = (params: PostTypoFilterParams): Promise<{ data: ITypoFilter }> =>
+export const putUserTypoFilter = (params: PutTypoOptionParams): Promise<{ data: ITypoOption }> =>
   instance.put('/users/conditional', params);
 
 export const postTypoUpload = (params: PostTypoUploadParams): Promise<{ data: ITypo }> =>

@@ -1,20 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { Box, Button, Flex, Text } from "rebass";
 import { BASE, GRAY, PRIMARY } from "styles/colors";
 import TextButton from "components/atoms/button/TextButton";
 import Label from "components/atoms/label/Label";
-import KakaoAccountButton from "components/molecules/button/KakaoAccountButton";
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { isAuthLoginAtom, tokenAtom, userAtom } from "modules/atom";
 import { postCommonLogin, postConfirmPassword, putUser } from "api/auth";
 import { useForm, useWatch, FieldValues, FormProvider } from "react-hook-form";
-import CheckBox from "components/atoms/checkbox/Checkbox";
-import instance from "api/instance";
 import Input from "components/atoms/input/Input";
-import { EyeOffIcon, EyeOnIcon, ReturnIcon } from "components/atoms/icon/Icon";
 import { useDialog } from "context/Dialog";
 import { DialogTypes } from "components/atoms/dialog/Dialog";
 

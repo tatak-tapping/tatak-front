@@ -10,6 +10,7 @@ import { inko, KoreanInputMethod } from "utils/typo/KoreanInputMethod";
 import TypingArticle from "./TypingArticle";
 import { TypoContext } from "context/TypoContext";
 import { FullScreen, FullScreenHandle } from "react-full-screen";
+import styled from "@emotion/styled";
 
 const TypoMainSection = () => {
   const [userInput, setUserInput] = useState("");
@@ -52,7 +53,6 @@ const TypoMainSection = () => {
   }, [onKeyDown]);
 
   useEffect(() => {
-    console.log(isOpenModal);
     if (isOpenModal) document.body.removeEventListener("keydown", onKeyDown);
     else document.body.addEventListener("keydown", onKeyDown);
   }, [isOpenModal]);

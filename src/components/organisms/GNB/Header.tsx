@@ -30,7 +30,7 @@ const Header = ({handleFullScreen}:HeaderProps) => {
   const [isOpenModal, setIsOpenModal] = useRecoilState(isOpenModalAtom);
 
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
-  const handleCloseBubble = () => setIsBubbleVisible(isBubbleVisible);
+  const handleCloseBubble = () => setIsBubbleVisible(!isBubbleVisible);
 
   const handlerPencil = () => {
     if(!useToken){
@@ -80,7 +80,7 @@ const Header = ({handleFullScreen}:HeaderProps) => {
   }
   
   const { handleOpenModal, handleCloseModal, renderModal } = useModal({
-    width: modal === "pencil " ?  '700px' : ' 776px'
+    //width: modal === "pencil " ?  '700px' : '776px'
   });
   
   return  (
@@ -98,7 +98,7 @@ const Header = ({handleFullScreen}:HeaderProps) => {
       <Logo />
       <Flex justifyContent="center" alignItems="center" marginLeft="auto">
         <Box>
-          <MusicPlayer />
+          {/* <MusicPlayer /> */}
         </Box>
         <Box>
           <IconButton onClick={handlerSetting} margin="0 4px 0 0">

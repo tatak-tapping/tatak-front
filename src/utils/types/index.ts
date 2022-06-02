@@ -93,12 +93,10 @@ export interface ITypo{
 }
 
 export interface ITypoOption{
-  id :number;
-  email:string;
-  nickname:string;
-  profileImageUrl:string;
-  accessToken:string;
-  refreshToken:string;
+  languages : TypoLanguage[];
+  categoryCodes?: number[];
+  topicCodes:number[];
+  lengths:TypoLength[];
 }
 
 export enum FontFamily{

@@ -2,6 +2,7 @@ import { getCategories } from "api/common";
 import { getCategoriesSelector } from "modules/selector";
 import { atom } from "recoil";
 import { getSessionStorage } from "utils/storage";
+import { getTypoFontStorage, getTypoOptionStorage } from "utils/storageTypo";
 import { getTokenStorage, getUserStorage } from "utils/storageUser";
 import { FontAlign, FontWeight, ICategory, ICategoryAndTopic, IFontOption, ISelectOption, ITopic, ITypo, ITypoOption, IUser, TypoLanguage } from "utils/types";
 
@@ -49,12 +50,12 @@ export const isOpenModalAtom = atom<boolean>({
 
 export const typoOptionAtom = atom<ITypoOption | undefined>({
   key: "typoOptionAtom",
-  default: undefined
+  default: getTypoOptionStorage() ?? undefined
 });
 
 export const fontOptionAtom = atom<IFontOption | undefined>({
   key: "fontOptionAtom",
-  default: getSessionStorage("tadak_font_option") ?? {
+  default: getTypoFontStorage() ?? {
     align:FontAlign.CENTER,
     font: "MapoGoldenPier",
     size: 40,

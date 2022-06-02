@@ -26,8 +26,15 @@ export interface PostFindUserParams {
   email: string;
 }
 
-export const postRefrshToken = (accessToken: string, refreshToken: string): Promise<{ data: IToken }> => 
-  instance.post('/jwt/reissue', {accessToken, refreshToken});
+export interface PostReissueToken {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export const postRefrshToken = (params: PostReissueToken): Promise<{ data: IToken }> => 
+{  
+  return instance.post('/jwt/reissue', params);
+}
 
 export const postCommonLogin = (params: PostCommonParams): Promise<{ data: IUser }> =>
   instance.post('/users/login', params);

@@ -24,11 +24,13 @@ const UserModifyBubbleContent =({ isVisible, onClose }: UserModifyBubbleProp) =>
   };
 
   const handleClickClear = () => {
-    (document as any).getElementById("file-upload-user").reset();
+    (document as any).getElementById("file-upload-user").files = undefined;
+    onClose();
   };
 
   const handleClickUpload = () => {
     (document as any).getElementById("file-upload-user").click();
+    onClose();
   };
 
   useEffect(() => {
@@ -60,8 +62,8 @@ export default UserModifyBubbleContent;
 
 const Wrapper = styled.div`
   position: relative;
+  z-index: 999;
 `;
-
 
 const StyledButton = styled.div`
   cursor: pointer;

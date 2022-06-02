@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { setLocalStorage, setSessionStorage } from "utils/storage";
-import { setTokenStorage, LOGIN_TYPE, getRefreshTokenStorage, getTokenStorage, setRefreshTokenStorage} from "utils/storageUser";
+import { setTokenStorage, LOGIN_TYPE, getRefreshTokenStorage, getTokenStorage, setRefreshTokenStorage, setUserStorage} from "utils/storageUser";
 
 const Auth = () => {
   const navigate = useNavigate();

@@ -11,6 +11,7 @@ import { BASE, GRAY, PRIMARY } from "styles/colors";
 
 const Wrapper = styled.div`
   position: relative;
+  z-index: 999;
 `;
 
 interface UserProfileBubbleProp  {
@@ -40,15 +41,24 @@ const UserProfileBubbleContent =({ isVisible, onClose, onOpenModal }: UserProfil
   return(
     <Wrapper ref={wrapperRef}>
       <Bubble width="200px" height="320px" right="16px" padding="0 16px" top="" isVisible={isVisible}>
-        <UserProfileEdit onOpenModal={onOpenModal}/>
+        <UserProfileEdit onOpenModal={onOpenModal} />
         <UserMenuButton />
-        <Flex>
-          <Text>Feedback</Text>
-          <Text>Terms</Text>
-          <Text>Privacy</Text>
-        </Flex>
+        <StyleFooter>
+          <Text as="span" width={1/3} mr="8px">Feedback</Text>
+          <Text as="span" width={1/3} mr="8px">Terms</Text>
+          <Text as="span" width={1/3}>Privacy</Text>
+        </StyleFooter>
       </Bubble>
     </Wrapper>
   );
 };
 export default UserProfileBubbleContent;
+
+const StyleFooter = styled.div`
+  width: 100%;
+  flex-direction: inherit;
+  margin-top: 24px;
+  font-size: 10px;
+  line-height: 12px;
+  color: ${GRAY[6]};
+`;

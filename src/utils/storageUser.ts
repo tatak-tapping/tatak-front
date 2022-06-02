@@ -53,9 +53,11 @@ const getExpiresTokenStorage = () => {
 
 const getUserStorage = () => {
   if(getSessionStorage("access_token_tadak")){
+    console.log("getget ",getSessionStorage<IUser>("user_tadak"))
     return getSessionStorage<IUser>("user_tadak");
   }
   else {
+    console.log("getget local",getSessionStorage<IUser>("user_tadak"))
     return getLocalStorage<IUser>("user_tadak");
   }
 }
