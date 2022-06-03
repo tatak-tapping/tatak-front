@@ -9,7 +9,7 @@ import { useForm, useWatch, FieldValues, FormProvider, Controller } from "react-
 import Input from "components/atoms/input/Input";
 import { ICategory, ITopic, TypoApprovalStatus, TypoLanguage } from "utils/types";
 import LanguageRadioTabs from "components/molecules/tabs/LanguageTabs";
-import Select from "components/atoms/input/Select";
+import Select from "components/atoms/input/select";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { categoriesAtom, languageAtom, tokenAtom, typoOptionAtom } from "modules/atom";
 import useFetchCategories from "hooks/useFetchCategories";
