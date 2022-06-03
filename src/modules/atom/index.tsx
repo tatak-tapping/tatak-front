@@ -2,18 +2,20 @@ import { getCategories } from "api/common";
 import { getCategoriesSelector } from "modules/selector";
 import { atom } from "recoil";
 import { getSessionStorage } from "utils/storage";
-import { FontAlign, FontFamily, FontWeight, ICategory, IFontOption, ISelectOption, ITopic, ITypo, ITypoOption, IUser, TypoLanguage } from "utils/types";
+import { getTypoFontStorage, getTypoOptionStorage } from "utils/storageTypo";
+import { getTokenStorage, getUserStorage } from "utils/storageUser";
+import { FontAlign, FontWeight, ICategory, ICategoryAndTopic, IFontOption, ISelectOption, ITopic, ITypo, ITypoOption, IUser, TypoLanguage } from "utils/types";
 
 
 
 export const tokenAtom = atom<string>({
   key: "tokenAtom",
-  default: localStorage.getItem("access_token_tatak") ?? sessionStorage.getItem("access_token_tatak"),
+  default: getTokenStorage()
 });
 
 export const userAtom = atom<IUser>({
   key: "userAtom",
-  default: JSON.parse(localStorage?.getItem("tatak_user")) ?? JSON.parse(sessionStorage.getItem("tatak_user"))
+  default: getUserStorage()
 });
 
 export const isAuthLoginAtom = atom<boolean>({
@@ -30,8 +32,14 @@ export const languageAtom = atom<TypoLanguage | undefined>({
   key: "languageAtom",
   default: TypoLanguage.KOREAN
 });
-export const modalAtom = atom<string | undefined>({
-  key: "modalAtom",
+
+export const userModalAtom = atom<string | undefined>({
+  key: "userModalAtom",
+  default:undefined
+})
+
+export const typoModalAtom = atom<string | undefined>({
+  key: "typoModalAtom",
   default:undefined
 })
 
@@ -42,12 +50,12 @@ export const isOpenModalAtom = atom<boolean>({
 
 export const typoOptionAtom = atom<ITypoOption | undefined>({
   key: "typoOptionAtom",
-  default: undefined
+  default: getTypoOptionStorage() ?? undefined
 });
 
 export const fontOptionAtom = atom<IFontOption | undefined>({
   key: "fontOptionAtom",
-  default: getSessionStorage("tadak_font_option") ?? {
+  default: getTypoFontStorage() ?? {
     align:FontAlign.CENTER,
     font: "MapoGoldenPier",
     size: 40,
@@ -70,7 +78,7 @@ export const categoriesAtom = atom<ICategory[] | undefined>({
   default: undefined
 });
 
-export const topicsAtom = atom<ITopic[] | undefined>({
-  key: "topicsAtom",
+export const categoryWithTopicAtom = atom<ICategoryAndTopic[] | undefined>({
+  key: "categoryWithTopicAtom",
   default: undefined
 });

@@ -33,7 +33,7 @@ const StyledModal = styled.div<{
 
 const Modal = ({
   isVisible,
-  width = '950px',
+  width,
   padding = '20px',
   onOpened,
   onClosed,

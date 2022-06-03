@@ -11,7 +11,7 @@ const style = css`
     line-height: 150%;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    /* background-color: ${BASE[1]}; */
+    background-color: ${BASE[1]};
   }
   button {
     cursor: pointer;

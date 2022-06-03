@@ -9,9 +9,7 @@ interface TypoTemplateProps {
 const TypoTemplate = ({handleFullScreen}:TypoTemplateProps) => {
   return(
     <>
-      <FullScreen handle={handleFullScreen}>
-        <TypoMainSection />
-      </FullScreen>
+      <TypoMainSection />
       <TypoFooterSection />
     </>
   );

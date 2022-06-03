@@ -1,6 +1,6 @@
 
 import Modal from 'components/atoms/modal/Modal';
-import { isOpenModalAtom, modalAtom } from 'modules/atom';
+import { isOpenModalAtom, userModalAtom } from 'modules/atom';
 import { useEffect } from 'react';
 import { ReactNode, useCallback, useRef, useState } from 'react';
 import { Box } from 'rebass';
@@ -22,7 +22,7 @@ const useModal = ({
   const mountedRef = useRef(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isOpenModal, setIsOpenModal] = useRecoilState(isOpenModalAtom);
-  const [modal, setModal] = useRecoilState(modalAtom);
+  const [modal, setModal] = useRecoilState(userModalAtom);
 
   useEffect(() => {
     return () => { mountedRef.current = false }

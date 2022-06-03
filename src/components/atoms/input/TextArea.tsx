@@ -28,12 +28,12 @@ function TextArea<
 
   return (
     <Wrapper error={fieldState.error && true}>
-      <Flex mt="10px" mb="24px" justifyContent="center">
-        <Text fontSize="14px" color={fieldState.error ? ERROR : GRAY[5]}>
+      <Flex mt="10px" mb="24px" flexDirection="inherit">
+        <Text fontSize="14px" width={2/3} color={fieldState.error ? ERROR : GRAY[5]}>
           {props.comment}
         </Text>
-        <Text marginLeft="auto" fontFamily='Noto Sans KR' size="14px" color={fieldState.error ? ERROR : GRAY[5]}>
-          {props.counter}
+        <Text textAlign="right" width={1/3}  fontFamily='Noto Sans KR' fontSize="14px" color={fieldState.error ? ERROR : GRAY[5]}>
+          <span>{props.counter}</span>
         </Text>
       </Flex>
       <StyledTextArea 

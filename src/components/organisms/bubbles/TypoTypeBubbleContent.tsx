@@ -18,6 +18,7 @@ import { FontAlign, FontFamily, FontFamilyOption, FontWeight } from "utils/types
 
 const Wrapper = styled.div`
   position: relative;
+  z-index: 999;
 `;
 
 interface TypoTypeBubbleProp  {
@@ -31,8 +32,6 @@ const TypoTypeBubbleContent =({ isVisible, onClose }: TypoTypeBubbleProp) => {
   const [tempFontOption, setTempFontOption] = useRecoilState(tempfontOptionAtom);
 
   const sizeArray = Array.from(Array(81).keys());
-
-  
 
   const handleClickOutside = (e: MouseEvent) => {
     if (wrapperRef.current && !wrapperRef.current.contains(e.target as Node)) {
@@ -54,6 +53,7 @@ const TypoTypeBubbleContent =({ isVisible, onClose }: TypoTypeBubbleProp) => {
       ...tempFontOption,
     });
     setSessionStorage("tadak_font_option", fontOption);
+    onClose();
   };
 
   const handleSizeChange = (e:any) => {

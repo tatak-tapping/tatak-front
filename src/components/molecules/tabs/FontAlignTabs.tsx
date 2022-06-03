@@ -4,7 +4,7 @@ import { AlignCenterIcon, AlignLeftIcon, AlignRightIcon } from "components/atoms
 import CheckboxTab from "components/atoms/tab/CheckboxTab";
 import LinkTab from "components/atoms/tab/LinkTab";
 import { fontOptionAtom, tempfontOptionAtom } from "modules/atom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Flex } from "rebass";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { BASE, PRIMARY } from "styles/colors";
@@ -19,12 +19,15 @@ const FontAlignTabs = () => {
   const handleCheckboxChange = (value:string) => {
     setSeleted(value === "center" ? FontAlign.CENTER
       : value === "left" ? FontAlign.LEFT : FontAlign.RIGHT);
+  }
+
+  useEffect(() => {
     SetTempFontOption({
       ...tempFontOption,
       align: selected
     });
-    console.log("FontAlign", tempFontOption);
-  }
+  }, [selected]);
+
   return (
     <>
     {

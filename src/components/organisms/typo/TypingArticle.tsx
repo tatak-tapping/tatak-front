@@ -27,19 +27,28 @@ function TypingArticle() {
               let className;
               if (index < script.userInput.length) {
                 className = isCorrect ? "correct" : "wrong";
-                if (!isCorrect && script.userInput[index] != ' ') char = script.userInput[index];
               }
               //현재 char
               else if (script.userInput.length === index) {
                 className = 'current';
+                let prev = char;
                 if (script.language === TypoLanguage.KOREAN && script.koreanBuffer.length > 0) {
-                  //buffer 이용해서 한글로 바꿈
                   char = inko.en2ko(script.koreanBuffer);
                 }
+                if(char === '') className = 'next';
+                let cursor = text[script.userInput.length] === " " ? "cursor-space" : "cursor";
+                return(
+                  <span className={`char ${className}`} key={`${char} ${index}`}>
+                    <span className={`${cursor}`}></span>
+                    {prev}
+                    <span className='typing'>{char}</span>
+                  </span>
+                )
               }
-              //다음 char
-              else if (script.userInput.length < index)
+              //다음 나머지 char
+              else if (script.userInput.length < index){
                 className = 'next';
+              }
               return (
                 <span className={`char ${className}`} key={`${char} ${index}`}>{char}</span>
               )
@@ -68,9 +77,11 @@ const StyledArticle = styled.ul<{fontOption:IFontOption}>`
   display: flex;
   li.word {
     padding: 0 0 0 10px;
-    float: left;
-    text-align: -webkit-match-parent;
     white-space: pre-wrap;
+  }
+  span{
+    position: relative;
+    display: inline-block;
   }
   span.correct{
     color :${TYPING['CORRECT']};
@@ -79,10 +90,32 @@ const StyledArticle = styled.ul<{fontOption:IFontOption}>`
     color: ${TYPING['WRONG']};
     min-width: auto;
   }
+  span > span{
+    position: absolute;
+  }
   span.current{
+    color: rgb(0,0,0,0);
+  }
+  span.current .typing{
+    top: 0px;
+    left: 0px;
     color: ${TYPING['CURRENT']};
   }
   span.next{
     color: ${TYPING['NEXT']};
+  }
+  .cursor{
+    width: 2px;
+    height: 10px;
+    top: 0px;
+    left: 0px;
+    background-color:red;
+  }
+  .cursor-space{
+    width: 10px;
+    height: 2px;
+    top: 0px;
+    left: 0px;
+    background-color:red;
   }
 `;

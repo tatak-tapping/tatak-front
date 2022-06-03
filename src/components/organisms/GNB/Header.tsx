@@ -4,20 +4,19 @@ import Logo from "components/atoms/logo/Logo";
 import LoginButton from "components/molecules/button/LoginButton";
 import MusicPlayer from "components/molecules/button/MusicPlayer";
 import UserProfile from "components/molecules/profile/UserProfile";
+import TextButton from "components/atoms/button/TextButton";
 import useModal from "hooks/userModal";
-import { modalAtom, tokenAtom } from "modules/atom";
-import { Box, Flex } from "rebass";
+import { isOpenModalAtom, tokenAtom, typoModalAtom } from "modules/atom";
+import { Box, Flex, Text } from "rebass";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { useCallback, useEffect, useState } from "react";
 import TypeUploadModalContent from "../modals/typo/TypeUploadModalContent";
 import TypeSettingModalContent from "../modals/typo/TypeSettingModalContent";
 import TypoTypeBubbleContent from "../bubbles/TypoTypeBubbleContent";
-import { FullScreenHandle, FullScreenProps, useFullScreenHandle } from "react-full-screen";
-
-enum OpenModal {
-  'PENCIL',
-  'FILTER',
-}
+import { FullScreenHandle} from "react-full-screen";
+import { useDialog } from "context/Dialog";
+import { DialogTypes } from "components/atoms/dialog/Dialog";
+import { BASE, PRIMARY } from "styles/colors";
 
 interface HeaderProps {
   handleFullScreen?: FullScreenHandle
@@ -25,38 +24,72 @@ interface HeaderProps {
 
 const Header = ({handleFullScreen}:HeaderProps) => {
   const useToken = useRecoilValue(tokenAtom);
-  const [openModal, SetOpenModal] = useState(null);
-  const [modal, setModal] = useRecoilState(modalAtom);
+  const {showDialog, closeDialog} = useDialog();
+  const [modal, SetModal] = useRecoilState(typoModalAtom);
   const [typoContent, setTypoContent] = useState<string>("");
+  const [isOpenModal, setIsOpenModal] = useRecoilState(isOpenModalAtom);
 
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
-  const handleCloseBubble = () => setIsBubbleVisible(isBubbleVisible);
+  const handleCloseBubble = () => setIsBubbleVisible(!isBubbleVisible);
 
   const handlerPencil = () => {
-    setModal("pendil")
+    if(!useToken){
+      showDialog({
+        type : DialogTypes.info,
+        message : (
+          <>
+            <Text>타닥에 가입하고 좋아하는 글을 올려보세요.</Text>
+            <Flex>
+            <TextButton
+              onClick={closeDialog} 
+              width="76px" 
+              height="43px"
+              fontSize="16px"
+              color={PRIMARY[100]} 
+              backgroundColor={BASE[3]}
+              border={`${PRIMARY[40]} 1px soild`}
+              margin="20px">
+              취소
+            </TextButton>
+            <TextButton
+              onClick={closeDialog} 
+              width="135px" 
+              height="43px"
+              fontSize="16px"
+              color={BASE[3]}
+              backgroundColor={PRIMARY[80]}
+              border={`${PRIMARY[40]} 1px soild`}
+              margin="20px">
+              회원가입
+            </TextButton>
+            </Flex>
+          </>
+        )
+      });
+      return;
+    }
+    SetModal("pencil")
+    setIsOpenModal(true);
     handleOpenModal();
   }
 
   const handlerSetting = () => {
-    setModal("setting")
+    SetModal("setting")
+    setIsOpenModal(true);
     handleOpenModal();
   }
-
-  useEffect(() => {
-    if (!modal) setModal("login");
-  }, [modal]);
   
   const { handleOpenModal, handleCloseModal, renderModal } = useModal({
-    width:  '700px'
+    //width: modal === "pencil " ?  '700px' : '776px'
   });
   
   return  (
     <>
     {renderModal(
-      openModal === OpenModal.PENCIL ? 
-      <TypeUploadModalContent onClickCloseModal={handleCloseModal}/> 
+      modal === "pencil" ? 
+        <TypeUploadModalContent onClickCloseModal={handleCloseModal}/> 
       : 
-      <TypeSettingModalContent onClickCloseModal={handleCloseModal}/> ,
+        <TypeSettingModalContent onClickCloseModal={handleCloseModal}/> ,
       <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
         <CloseIcon />
       </IconButton>
@@ -65,7 +98,7 @@ const Header = ({handleFullScreen}:HeaderProps) => {
       <Logo />
       <Flex justifyContent="center" alignItems="center" marginLeft="auto">
         <Box>
-          <MusicPlayer />
+          {/* <MusicPlayer /> */}
         </Box>
         <Box>
           <IconButton onClick={handlerSetting} margin="0 4px 0 0">

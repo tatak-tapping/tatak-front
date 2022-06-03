@@ -1,6 +1,6 @@
 import instance, { DEAFULT_URL } from './instance';
 import axios, { AxiosResponse } from 'axios';
-import { IUser } from 'utils/types';
+import { IToken, IUser } from 'utils/types';
 
 export interface PostCommonParams {
   email : string;
@@ -24,6 +24,16 @@ export interface PostConfirmPasswordParams {
 
 export interface PostFindUserParams {
   email: string;
+}
+
+export interface PostReissueToken {
+  accessToken: string;
+  refreshToken: string;
+}
+
+export const postRefrshToken = (params: PostReissueToken): Promise<{ data: IToken }> => 
+{  
+  return instance.post('/jwt/reissue', params);
 }
 
 export const postCommonLogin = (params: PostCommonParams): Promise<{ data: IUser }> =>

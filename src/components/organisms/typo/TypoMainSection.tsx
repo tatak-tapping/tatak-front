@@ -9,15 +9,21 @@ import { useNavigate } from "react-router-dom";
 import { inko, KoreanInputMethod } from "utils/typo/KoreanInputMethod";
 import TypingArticle from "./TypingArticle";
 import { TypoContext } from "context/TypoContext";
+import { FullScreen, FullScreenHandle } from "react-full-screen";
+import styled from "@emotion/styled";
 
 const TypoMainSection = () => {
   const [userInput, setUserInput] = useState("");
   const [koreanBuffer, setKoreanBuffer] = useState("");
   const [isOpenModal, setIsOpenModal] = useRecoilState(isOpenModalAtom);
-
   const [typo, setTypo] = useRecoilState<ITypo>(typoAtom);
   const text = typo?.contents ?? "";
   const language = typo?.language;
+
+  useEffect(() => {
+    setUserInput("");
+    setKoreanBuffer("");
+  }, [typo]);
 
   const onKeyDown = useCallback((event) => {
     event.preventDefault();
@@ -47,14 +53,14 @@ const TypoMainSection = () => {
   }, [onKeyDown]);
 
   useEffect(() => {
-    console.log(isOpenModal);
     if (isOpenModal) document.body.removeEventListener("keydown", onKeyDown);
     else document.body.addEventListener("keydown", onKeyDown);
   }, [isOpenModal]);
 
   return(
-    <Box justifyContent="center" alignItems="center" marginLeft="auto"  marginRight="auto" width={1000} height={600} max-height={600} overflowY="auto">
-       <TypoContext.Provider value={{ text, userInput, language, koreanBuffer }}>
+    <Box justifyContent="center" 
+      mb="18px" alignItems="center" marginLeft="auto"  marginRight="auto" width="1000px" height="600px" max-height="600px" overflowY="auto">
+      <TypoContext.Provider value={{ text, userInput, language, koreanBuffer }}>
         <TypingArticle />
       </TypoContext.Provider>
     </Box>

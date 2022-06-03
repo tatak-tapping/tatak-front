@@ -8,7 +8,7 @@ import TextButton from "components/atoms/button/TextButton";
 import Label from "components/atoms/label/Label";
 import KakaoAccountButton from "components/molecules/button/KakaoAccountButton";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { isAuthLoginAtom, tokenAtom, userAtom } from "modules/atom";
+import { isAuthLoginAtom, isOpenModalAtom, tokenAtom, userAtom } from "modules/atom";
 import { postCommonLogin } from "api/auth";
 import { useDialog } from "context/Dialog";
 import { DialogTypes } from "components/atoms/dialog/Dialog";
@@ -18,12 +18,14 @@ import { setLocalStorage, setSessionStorage } from "utils/storage";
 import instance from "api/instance";
 import Input from "components/atoms/input/Input";
 import { EyeOffIcon, EyeOnIcon } from "components/atoms/icon/Icon";
+import { LOGIN_TYPE, setTokenStorage } from "utils/storageUser";
 
 
 interface LoginModalContentProps {
   onClickFindUserButton? : () => void;
   onClickSignUpButton? : () => void;
   onClickCloseModal? : () => void;
+  onOpenModal? :() => void;
 }
 
 interface ILoginFormInputs extends FieldValues {
@@ -31,50 +33,46 @@ interface ILoginFormInputs extends FieldValues {
   password:string;
 }
 
-const LoginModalContent = ({ onClickFindUserButton, onClickSignUpButton, onClickCloseModal }: LoginModalContentProps) => {
-  const navigate = useNavigate();
+const LoginModalContent = ({ onOpenModal, onClickFindUserButton, onClickSignUpButton, onClickCloseModal }: LoginModalContentProps) => {
   const {showDialog, closeDialog} = useDialog();
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const setUserToken = useSetRecoilState(tokenAtom);
+  const [isOpenModal, setIsOpenModal] = useRecoilState(isOpenModalAtom);
   const setUser = useSetRecoilState(userAtom);
   const [ isAuthLogin , setIsAuthLogin ] = useRecoilState(isAuthLoginAtom);
 
+  const handleFindAndOpen = () => {
+    onOpenModal();
+    onClickFindUserButton();
+  }
+  
   const onSubmit = async (params:ILoginFormInputs) => {
     try{
       const { data } = await postCommonLogin(params);
-     if(isAuthLogin){
-        console.log(isAuthLogin, "local");
-        setLocalStorage("access_token_tatak", data.accessToken);
-        setLocalStorage("tatak_user", data);
-      } else{
-        console.log(isAuthLogin, "session");
-        setSessionStorage("access_token_tatak", data.accessToken);
-        setSessionStorage("tatak_user", data);
-      }
-
       instance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
+      setTokenStorage(isAuthLogin ? LOGIN_TYPE.LOCAL : LOGIN_TYPE.SESSION, data);
       setUserToken(data.accessToken);
       setUser(data);
       onClickCloseModal();
 
     }catch(err){
+      onClickCloseModal();
       showDialog({
         type : DialogTypes.error,
         message : (
           <>
-            <Text>
-              회원정보가 일치하지 않아요. 
-            </Text>
-            <Button
-              onClick={closeDialog} 
-              width="76px" 
-              height="43px"
-              fontSize="16px"
-              
-              backgroundColor={PRIMARY[80]}
-              margin="20px">
+            <Text>회원정보가 일치하지 않아요. </Text>
+            <Flex>
+            <Button 
+            onClick={closeDialog} 
+            width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
               확인
             </Button>
+            <Button 
+              onClick={handleFindAndOpen} padding="12px 24px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
+              회원정보 찾기
+            </Button>
+            </Flex>
           </>
         )
       });
@@ -173,6 +171,8 @@ const LoginModalContent = ({ onClickFindUserButton, onClickSignUpButton, onClick
             로그인
           </TextButton>
         </Box>
+        </form>
+      </FormProvider>
         <Flex mt="20px" mb="20px">
             <hr css={css`
               width: 158px;
@@ -201,8 +201,6 @@ const LoginModalContent = ({ onClickFindUserButton, onClickSignUpButton, onClick
             회원가입
           </Text>
         </Box>
-        </form>
-      </FormProvider>
     </Flex>
   </>
   );

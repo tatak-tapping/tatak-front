@@ -15,6 +15,7 @@ import { setSessionStorage } from "utils/storage";
 import { useSetRecoilState } from "recoil";
 import { tokenAtom, userAtom } from "modules/atom";
 import instance from "api/instance";
+import { LOGIN_TYPE, setTokenStorage } from "utils/storageUser";
 
 interface SignModalContentProps {
   onClickLoginButton? : () => void;
@@ -40,11 +41,11 @@ const SignUpModalContent = ({ onClickLoginButton, onClickCloseModal } : SignModa
     const params = data;
     try {
       const { data } = await postUser(params);
-      setSessionStorage("access_token_tatak", data.accessToken);
-      setSessionStorage("tatak_user", data);
       instance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
+      setTokenStorage(LOGIN_TYPE.SESSION, data);
       setUserToken(data.accessToken);
       setUser(data);
+      
       onClickCloseModal();
 
       showDialog({

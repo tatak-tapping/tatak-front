@@ -7,7 +7,6 @@ import { BASE, GRAY, PRIMARY } from "styles/colors";
 import TextButton from "components/atoms/button/TextButton";
 import ProfileImage from 'components/atoms/profile/ProfileImage';
 import Label from "components/atoms/label/Label";
-import KakaoAccountButton from "components/molecules/button/KakaoAccountButton";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { isAuthLoginAtom, tokenAtom, userAtom } from "modules/atom";
 import { postCommonLogin, putUser } from "api/auth";
@@ -20,9 +19,13 @@ import { CameraIcon, EyeOffIcon, EyeOnIcon, ReturnIcon } from "components/atoms/
 import styled from "@emotion/styled";
 import UserModifyBubbleContent from "components/organisms/bubbles/UserModifyBubbleContent";
 import axios from "axios";
+import { getUserStorage, setUserStorage } from "utils/storageUser";
+import { DialogTypes } from "components/atoms/dialog/Dialog";
+import { useDialog } from "context/Dialog";
 
 interface  ModifyUserModalContentProps {
   onClickCloseModal? : () => void;
+  isSocial: boolean;
 }
 
 interface IModifyFormInputs extends FieldValues{
@@ -32,21 +35,26 @@ interface IModifyFormInputs extends FieldValues{
   profileImage:string;
 }
 
-const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps) => {
+const ModifyUserModalContent = ({onClickCloseModal, isSocial}:ModifyUserModalContentProps) => {
+  const {showDialog, closeDialog} = useDialog();
+  const [user, setUser] = useRecoilState(userAtom);
+
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const [isPwdConfirmVisible, setIsPwdConfirmVisible] = useState(false);
-  const [user, setUser] = useRecoilState(userAtom);
+  const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState<string>();
 
+  useEffect(() => {
+    setUserStorage(user);
+  },[user]);
 
-  const [isBubbleVisible, setIsBubbleVisible] = useState(false);
   const handleToggleBubble = () => {
     setIsBubbleVisible(!isBubbleVisible);
   };
 
   const handleCloseBubble = () => {
-    setIsBubbleVisible(isBubbleVisible);
+    setIsBubbleVisible(!isBubbleVisible);
   }
 
   const methods = useForm<IModifyFormInputs>({
@@ -72,12 +80,33 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
     try{
       const { data } = await putUser(params);
       setUser(data);
-      if(getSessionStorage("tatak_user")) setSessionStorage("tatak_user", data);
-      if(getLocalStorage("tatak_user")) setLocalStorage("tatak_user", data);
-
+      console.log("user", user, data);
       onClickCloseModal();
-    }catch(err){
+      showDialog({
+        type : DialogTypes.success,
+        message : (
+          <>
+            <Text color={GRAY[2]}>회원정보 수정이 완료되었어요.</Text>
+            <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
+              확인
+            </Button>
+          </>
+        )
+      });
+    }
+    catch(err){
       console.log(err);
+      showDialog({
+        type : DialogTypes.success,
+        message : (
+          <>
+            <Text color={GRAY[2]}>회원정보 수정을 실패했습니다.</Text>
+            <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
+              확인
+            </Button>
+          </>
+        )
+      });
     }
   };
 
@@ -91,9 +120,19 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
             "Authorization" : `Bearer ${user.accessToken}`
           }
         });
-        console.log("성공")
       } catch(err){
         console.log(err);
+        showDialog({
+          type : DialogTypes.success,
+          message : (
+            <>
+              <Text color={GRAY[2]}>회원정보 수정을 실패했습니다.(이미지 오류)</Text>
+              <Button onClick={closeDialog} width="76px" height="43px" fontSize="16px" backgroundColor={PRIMARY[80]} margin="20px">
+                확인
+              </Button>
+            </>
+          )
+        });
       }
   }
 
@@ -107,7 +146,7 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
         setSelectedFile(undefined); return;
     }
     setSelectedFile(e.target.files[0])
-}
+  }
 
   const nickNameWatch = useWatch({control, name: "nickname"});
   const passwordWatch = useWatch({control, name: "password"});
@@ -144,7 +183,7 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
         <Flex alignContent="center">
           <input id="file-upload-user" type='file' onChange={onSelectFile} style={{ display: "none" }}/>
           <WarpperProfile>
-            <ProfileImage src={selectedFile && preview} height="80px" width="80px"/>
+            <ProfileImage src={selectedFile ? preview : user?.profileImageUrl ? user?.profileImageUrl : '/images/profile_default.svg'} height="80px" width="80px"/>
           </WarpperProfile>
           <WrapperIcon onClick={handleToggleBubble}>
             <CameraIcon />
@@ -171,7 +210,7 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
               }}
               control={control}
               type="text"
-              counter={nickNameWatch.length + "/10"}
+              counter={nickNameWatch?.length + "/10"}
               placeholder="닉네임을 입력해주세요."
               comment="최소 2자, 최대 10자까지 가능해요."
               icon={
@@ -181,6 +220,8 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
               }
              />
           </Box>
+          {!isSocial && (
+          <>
           <Box mt={20}>
             <Label>비밀번호</Label>
             <Input
@@ -231,6 +272,9 @@ const ModifyUserModalContent = ({onClickCloseModal}:ModifyUserModalContentProps)
                   </span>)
               }/>
           </Box>
+          </>
+          )}
+          
           <Flex mt={28}>
             <TextButton width="170px" height="43px" fontSize="16px" fontColor={PRIMARY[100]} backgroundColor={BASE[3]} onClick={onClickCloseModal}>
               취소

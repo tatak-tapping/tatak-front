@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 import CheckboxTab from "components/atoms/tab/CheckboxTab";
 import LinkTab from "components/atoms/tab/LinkTab";
 import { fontOptionAtom, tempfontOptionAtom } from "modules/atom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Box, Flex } from "rebass";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { BASE, PRIMARY } from "styles/colors";
@@ -11,18 +11,19 @@ import { FontWeight, TypoLanguage } from "utils/types";
 
 const FontWeightTabs = () => {
   const [tempFontOption, SetTempFontOption] = useRecoilState(tempfontOptionAtom);
-  const [ selected , setSeleted ] = useState(FontWeight.SEMIBLOD);
+  const [selected , setSeleted ] = useState(FontWeight.REGULER);
   const weightArray = Object.values(FontWeight);
 
   const handleCheckboxChange = (value:string) => {
-    setSeleted(value === "400" ? FontWeight.REGULER
-      : value === "700" ? FontWeight.SEMIBLOD : FontWeight.BLOD);
+    setSeleted(value === "400" ? FontWeight.REGULER : value === "700" ? FontWeight.SEMIBLOD : FontWeight.BLOD);
+  }
+
+  useEffect(() => {
     SetTempFontOption({
       ...tempFontOption,
       weight: selected
     });
-    console.log("FontWeight", tempFontOption);
-  }
+  }, [selected]);
 
   return (
     <>
@@ -33,7 +34,7 @@ const FontWeightTabs = () => {
           key={index}
           weight={value} 
           onClick={() => handleCheckboxChange(value)} className={selected === value ? 'checked' : undefined}>
-          <input type="checkbox" name={value} checked={selected === value} readOnly />
+          <input type="checkbox" name={value} checked={selected === value ? true : false} readOnly />
           <span>T</span>
         </RadioTabStyled>
       ))

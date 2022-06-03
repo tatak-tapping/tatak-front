@@ -2,6 +2,11 @@ export enum JoinType{
   KAKAO, TADAK
 }
 
+export interface IToken{
+  accessToken: string;
+  refreshToken : string;
+}
+
 export interface IUser{
   id :number;
   email:string;
@@ -31,10 +36,15 @@ export interface ITopic{
   isVisible: boolean;
 }
 
+export interface ICategoryAndTopic{
+  category: ICategory;
+  topics: ITopic[];
+}
+
 export enum TypoLength{
-  SHORT = "짧은 글",
-  MEDIUM = "중간 글",
-  LONG = "긴 글"
+  SHORT = "SHORT",
+  MEDIUM = "MEDIUM",
+  LONG = "LONG"
 }
 
 export enum TypoLanguage{
@@ -83,12 +93,10 @@ export interface ITypo{
 }
 
 export interface ITypoOption{
-  id :number;
-  email:string;
-  nickname:string;
-  profileImageUrl:string;
-  accessToken:string;
-  refreshToken:string;
+  languages : TypoLanguage[];
+  categoryCodes?: number[];
+  topicCodes:number[];
+  lengths:TypoLength[];
 }
 
 export enum FontFamily{

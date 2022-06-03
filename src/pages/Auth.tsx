@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { setLocalStorage, setSessionStorage } from "utils/storage";
+import { setTokenStorage, LOGIN_TYPE, getRefreshTokenStorage, getTokenStorage, setRefreshTokenStorage, setUserStorage} from "utils/storageUser";
 
 const Auth = () => {
   const navigate = useNavigate();
@@ -17,15 +18,8 @@ const Auth = () => {
       const code = new URL(window.location.href).searchParams.get("code");
       const {data} = await getKakaoLogin(code);
 
-      if(authLogin){
-        setSessionStorage("access_token_tatak", data.accessToken);
-        setSessionStorage("tatak_user", data);
-      } else{
-        setLocalStorage("access_token_tatak", data.accessToken);
-        setLocalStorage("tatak_user", data);
-      }
       instance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
-
+      setTokenStorage(authLogin ? LOGIN_TYPE.SESSION : LOGIN_TYPE.LOCAL, data);
       setUserToken(data.accessToken);
       setUser(data);
      
