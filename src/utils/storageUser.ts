@@ -24,20 +24,28 @@ const setTokenStorage = (type: LOGIN_TYPE, data: IUser) =>{
 
 const getTokenStorage = () => {
   if(getSessionStorage("access_token_tadak")){
+    console.log("session")
     return getSessionStorage<string>("access_token_tadak");
   }
-  else {
+  else if(getLocalStorage("access_token_tadak")){
+    console.log("local")
     return getLocalStorage<string>("access_token_tadak");
   }
+  else {
+    console.log("else")
+
+    return "";
 }
+  }
 
 const getRefreshTokenStorage = () => {
   if(getSessionStorage("access_token_tadak")){
     return getSessionStorage<string>("refresh_token_tadak");
   }
-  else {
+  else if(getLocalStorage("access_token_tadak")){
     return getLocalStorage<string>("refresh_token_tadak");
   }
+  else return "";
 }
 
 
@@ -45,9 +53,10 @@ const getExpiresTokenStorage = () => {
   if(getSessionStorage("access_token_tadak")){
     return getSessionStorage<string>("expiresAt_tadak");
   }
-  else {
+  else if(getLocalStorage("access_token_tadak")){
     return getLocalStorage<string>("expiresAt_tadak");
   }
+  else return "";
 }
 
 
@@ -56,10 +65,11 @@ const getUserStorage = () => {
     console.log("getget ",getSessionStorage<IUser>("user_tadak"))
     return getSessionStorage<IUser>("user_tadak");
   }
-  else {
+  else if(getLocalStorage("access_token_tadak")){
     console.log("getget local",getSessionStorage<IUser>("user_tadak"))
     return getLocalStorage<IUser>("user_tadak");
   }
+  return null;
 }
 
 const setUserStorage = (data: IUser) => {

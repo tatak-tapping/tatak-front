@@ -7,6 +7,10 @@ export const DEAFULT_URL = "http://133.186.214.175:8081";//임시 api
 
 const instance = axios.create({
   baseURL: DEAFULT_URL,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type': 'application/json'
+  },
   withCredentials: true
 });
 
@@ -53,10 +57,7 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
 
   const { data } = await postRefrshToken(params);
   setRefreshTokenStorage(data.accessToken, data.refreshToken);
-
-  instance.defaults.headers.common['ContentType'] = 'application/json';
   instance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
-
   return config;
 };
 
