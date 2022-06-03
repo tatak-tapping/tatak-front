@@ -18,6 +18,7 @@ const Auth = () => {
       const code = new URL(window.location.href).searchParams.get("code");
       const {data} = await getKakaoLogin(code);
 
+      instance.defaults.headers.common['ContentType'] = 'application/json';
       instance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
       setTokenStorage(authLogin ? LOGIN_TYPE.SESSION : LOGIN_TYPE.LOCAL, data);
       setUserToken(data.accessToken);

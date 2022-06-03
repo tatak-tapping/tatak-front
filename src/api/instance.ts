@@ -53,6 +53,8 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
 
   const { data } = await postRefrshToken(params);
   setRefreshTokenStorage(data.accessToken, data.refreshToken);
+
+  instance.defaults.headers.common['ContentType'] = 'application/json';
   instance.defaults.headers.common['Authorization'] = `Bearer ${data.accessToken}`;
 
   return config;
