@@ -9,10 +9,15 @@ const instance = axios.create({
   baseURL: DEAFULT_URL,
   headers: {
     'Access-Control-Allow-Origin': '*',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   },
   withCredentials: true
 });
+
+axios.defaults.headers.common['Content-Type'] = 'application/json';
+axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
+axios.defaults.headers.common['Access-Control-Allow-Headers'] = "Origin, X-Requested-With, Content-Type, Accept";
+axios.defaults.headers.common['Access-Control-Allow-Methods'] = "'PUT, POST, GET, DELETE, OPTIONS";
 
 instance.interceptors.request.use(
   (config:AxiosRequestConfig) => {
