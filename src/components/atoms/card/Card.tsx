@@ -10,9 +10,9 @@ interface CardProps {
   family: string;
 }
 
-const Card = ({ pickColor, size, family }: CardProps) => {
+const Card = React.forwardRef<HTMLDivElement, CardProps>(({ pickColor, size, family }, ref) => {
   return (
-    <StyledCard pickColor={pickColor}>
+    <StyledCard pickColor={pickColor} ref={ref}>
       <StyledCardBox>
         <StyledContent size={size} family={family}>
           나무에 앉은 새는 나뭇가지가 부러지는 것을 두려워하지 않습니다. 그건 나뭇가지를 믿어서가
@@ -33,9 +33,11 @@ const Card = ({ pickColor, size, family }: CardProps) => {
       </StyledImg>
     </StyledCard>
   );
-};
+});
 
-const StyledCard = styled.div<{ pickColor: number }>`
+export default Card;
+
+const StyledCard = styled.div<{ pickColor: number; ref?: any }>`
   position: relative;
   display: flex;
   width: 400px;
@@ -118,5 +120,3 @@ const StyledImg = styled.div<{ pickColor: number }>`
     `;
   }}
 `;
-
-export default Card;

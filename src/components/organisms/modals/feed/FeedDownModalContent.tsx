@@ -4,6 +4,7 @@ import { css } from '@emotion/react';
 import React from 'react';
 import { Box, Button, Flex, Text } from 'rebass';
 import { useForm, useWatch, FieldValues, FormProvider, Controller } from 'react-hook-form';
+import html2canvas from 'html2canvas';
 
 import { BASE, GRAY, PRIMARY } from 'styles/colors';
 import Select from 'components/atoms/input/select';
@@ -29,12 +30,27 @@ const FeedDownModalContent = () => {
   const { control, handleSubmit } = methods;
 
   const onSubmit = (params: any) => {
-    console.log(params);
+    downImg();
   };
 
   const colorWatch = useWatch({ control, name: 'color' });
   const fontFamilyWatch = useWatch({ control, name: 'fontFamily' });
   const fontSizeWatch = useWatch({ control, name: 'fontSize' });
+
+  const $card = React.useRef<HTMLDivElement>(null);
+  const downImg = async () => {
+    await html2canvas($card.current).then(async (canvas) => {
+      let url = '';
+      url = await canvas.toDataURL('image/jpg').split(',')[1];
+      const $fakeLink: HTMLAnchorElement = window.document.createElement('a');
+      $fakeLink.href = canvas.toDataURL('image/jpeg').replace('image/jpeg', 'image/octet-stream');
+      $fakeLink.download = 'download.jpg';
+      window.document.body.appendChild($fakeLink);
+      $fakeLink.click();
+      window.document.body.removeChild($fakeLink);
+      $fakeLink.remove();
+    });
+  };
 
   return (
     <Flex flexDirection="column" mt="20px" ml="20px" mr="20px">
@@ -56,7 +72,12 @@ const FeedDownModalContent = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <Flex width="704px" mt="28px">
             <Box width="400px" mr="48px">
-              <Card pickColor={colorWatch} size={fontSizeWatch} family={fontFamilyWatch} />
+              <Card
+                ref={$card}
+                pickColor={colorWatch}
+                size={fontSizeWatch}
+                family={fontFamilyWatch}
+              />
             </Box>
             <Box sx={{ flex: 1 }}>
               <StyledTitle>배경</StyledTitle>
