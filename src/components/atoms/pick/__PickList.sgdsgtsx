@@ -1,0 +1,48 @@
+import React from 'react';
+import styled from '@emotion/styled';
+import { useController, UseControllerProps, FieldValues, FieldPath } from 'react-hook-form';
+
+import colorStyle from 'components/atoms/pick/colorStyle';
+import Pick from 'components/atoms/pick/Pick';
+import { TypeFlags } from 'typescript';
+
+interface PickListProps<
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+> extends UseControllerProps<TFieldValues, TName> {}
+
+const PickList = <
+  TFieldValues extends FieldValues = FieldValues,
+  TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>
+>(
+  props: PickListProps<TFieldValues, TName>
+) => {
+  const { name, control } = props;
+  const method = useController({
+    name,
+    control,
+  });
+
+  return (
+    <StyledPickList>
+      {colorStyle.map((style, index) => (
+        <Pick
+          id={index}
+          name={name}
+          value={index}
+          selectedValue={field.value}
+          ref={field.ref}
+          onChange={field.onChange}
+        />
+      ))}
+    </StyledPickList>
+  );
+};
+
+export default PickList;
+
+const StyledPickList = styled.div`
+  > div {
+    margin: 5px;
+  }
+`;
