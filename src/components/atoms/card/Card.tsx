@@ -5,35 +5,45 @@ import colorStyle from 'components/atoms/pick/colorStyle';
 import { ReactComponent as TatakImg } from 'assets/icons/pick-tatak.svg';
 
 interface CardProps {
+  as: any;
   pickColor: number;
   size: string;
   family: string;
 }
 
-const Card = React.forwardRef<HTMLDivElement, CardProps>(({ pickColor, size, family }, ref) => {
-  return (
-    <StyledCard pickColor={pickColor} ref={ref}>
-      <StyledCardBox>
-        <StyledContent size={size} family={family}>
-          나무에 앉은 새는 나뭇가지가 부러지는 것을 두려워하지 않습니다. 그건 나뭇가지를 믿어서가
-          아니라 자신의 날개를 믿기 때문이죠. 항상 당신 자신을 믿으세요.
-        </StyledContent>
-        <StyledTitleBox>
-          <StyledTitle size={size} family={family}>
-            내가 상상하면 꿈이 현실이 된다
-          </StyledTitle>
-          <StyledTitle size={size} family={family}>
-            {' '}
-            김새해
-          </StyledTitle>
-        </StyledTitleBox>
-      </StyledCardBox>
-      <StyledImg pickColor={pickColor}>
-        <TatakImg />
-      </StyledImg>
-    </StyledCard>
-  );
-});
+const Card = React.forwardRef<HTMLDivElement, CardProps>(
+  ({ as = 'textarea', pickColor, size, family }, ref) => {
+    return (
+      <StyledCard pickColor={pickColor} ref={ref}>
+        <StyledCardBox>
+          <StyledContent as={as} size={size} family={family}>
+            나무에 앉은 새는 나뭇가지가 부러지는 것을 두려워하지 않습니다. 그건 나뭇가지를 믿어서가
+            아니라 자신의 날개를 믿기 때문이죠. 항상 당신 자신을 믿으세요. 나무에 앉은 새는
+            나뭇가지가 부러지는 것을 두려워하지 않습니다. 그건 나뭇가지를 믿어서가 아니라 자신의
+            날개를 믿기 때문이죠. 항상 당신 자신을 믿으세요. 나무에 앉은 새는 나뭇가지가 부러지는
+            것을 두려워하지 않습니다. 그건 나뭇가지를 믿어서가 아니라 자신의 날개를 믿기 때문이죠.
+            항상 당신 자신을 믿으세요. 나무에 앉은 새는 나뭇가지가 부러지는 것을 두려워하지
+            않습니다. 그건 나뭇가지를 믿어서가 아니라 자신의 날개를 믿기 때문이죠. 항상 당신 자신을
+            믿으세요. 나무에 앉은 새는 나뭇가지가 부러지는 것을 두려워하지 않습니다. 그건 나뭇가지를
+            믿어서가 아니라 자신의 날개를 믿기 때문이죠. 항상 당신 자신을 믿으세요.
+          </StyledContent>
+          <StyledTitleBox>
+            <StyledTitle size={size} family={family}>
+              내가 상상하면 꿈이 현실이 된다
+            </StyledTitle>
+            <StyledTitle size={size} family={family}>
+              {' '}
+              김새해
+            </StyledTitle>
+          </StyledTitleBox>
+        </StyledCardBox>
+        <StyledImg pickColor={pickColor}>
+          <TatakImg />
+        </StyledImg>
+      </StyledCard>
+    );
+  }
+);
 
 export default Card;
 
@@ -60,25 +70,41 @@ const StyledCard = styled.div<{ pickColor: number; ref?: any }>`
   }}
 `;
 
-const StyledCardBox = styled.div``;
+const StyledCardBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-height: 336px;
+  height: 100%;
+  box-sizing: border-box;
+`;
 
-const StyledContent = styled.p<{ size: string; family: string }>`
+const StyledContent = styled.textarea<{ size: string; family: string }>`
   font-size: 21px;
   line-height: 1.6;
+  width: 100%;
+  height: 224px;
+  overflow: auto;
+  background: transparent;
+  border: none;
+  color: inherit;
 
   ${(props) => {
     switch (props.size) {
       case 'SMALL':
         return `
           font-size: 18px;
+          line-height: 1.55;
         `;
       case 'MEDIUM':
         return `
           font-size: 21px;
+          line-height: 1.8;
         `;
       case 'LARGE':
         return `
           font-size: 26px;
+          line-height: 1.7;
         `;
       default:
         return ``;
