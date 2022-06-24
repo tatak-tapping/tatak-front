@@ -5,6 +5,9 @@ import colorStyle from 'components/atoms/pick/colorStyle';
 import { ReactComponent as TatakImg } from 'assets/icons/pick-tatak.svg';
 
 interface CardProps {
+  contents: string;
+  title: string;
+  writer: string;
   as: any;
   pickColor: number;
   size: string;
@@ -12,28 +15,20 @@ interface CardProps {
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ as = 'textarea', pickColor, size, family }, ref) => {
+  ({ contents, title, writer, as = 'textarea', pickColor, size, family }, ref) => {
     return (
       <StyledCard pickColor={pickColor} ref={ref}>
         <StyledCardBox>
           <StyledContent as={as} size={size} family={family}>
-            나무에 앉은 새는 나뭇가지가 부러지는 것을 두려워하지 않습니다. 그건 나뭇가지를 믿어서가
-            아니라 자신의 날개를 믿기 때문이죠. 항상 당신 자신을 믿으세요. 나무에 앉은 새는
-            나뭇가지가 부러지는 것을 두려워하지 않습니다. 그건 나뭇가지를 믿어서가 아니라 자신의
-            날개를 믿기 때문이죠. 항상 당신 자신을 믿으세요. 나무에 앉은 새는 나뭇가지가 부러지는
-            것을 두려워하지 않습니다. 그건 나뭇가지를 믿어서가 아니라 자신의 날개를 믿기 때문이죠.
-            항상 당신 자신을 믿으세요. 나무에 앉은 새는 나뭇가지가 부러지는 것을 두려워하지
-            않습니다. 그건 나뭇가지를 믿어서가 아니라 자신의 날개를 믿기 때문이죠. 항상 당신 자신을
-            믿으세요. 나무에 앉은 새는 나뭇가지가 부러지는 것을 두려워하지 않습니다. 그건 나뭇가지를
-            믿어서가 아니라 자신의 날개를 믿기 때문이죠. 항상 당신 자신을 믿으세요.
+            {contents}
           </StyledContent>
           <StyledTitleBox>
             <StyledTitle size={size} family={family}>
-              내가 상상하면 꿈이 현실이 된다
+              {title}
             </StyledTitle>
             <StyledTitle size={size} family={family}>
               {' '}
-              김새해
+              {writer}
             </StyledTitle>
           </StyledTitleBox>
         </StyledCardBox>

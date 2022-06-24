@@ -15,9 +15,19 @@ import FontSizeTabs from 'components/molecules/tabs/FontSizeTabs';
 import { FontFamily, FontFamilyOption } from 'utils/types';
 import { FontSize } from 'utils/types/img-down';
 
+import { useRecoilState } from 'recoil';
+
+import { typoAtom } from 'modules/atom';
+import { ITypo } from 'utils/types';
+
 interface FeedDownModalContentProps {}
 
 const FeedDownModalContent = () => {
+  const [typo] = useRecoilState<ITypo>(typoAtom);
+  const contents = typo?.contents;
+  const title = typo?.title;
+  const writer = typo?.writer;
+
   const methods = useForm({
     defaultValues: {
       color: 0,
@@ -79,6 +89,9 @@ const FeedDownModalContent = () => {
           <Flex width={!isPreview ? '704px' : '400px'} mt="28px">
             <Box width="400px" mr="48px">
               <Card
+                contents={contents}
+                title={title}
+                writer={writer}
                 as={!imgSave ? 'textarea' : 'div'}
                 ref={$card}
                 pickColor={colorWatch}
