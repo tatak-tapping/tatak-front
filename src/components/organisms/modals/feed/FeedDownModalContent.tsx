@@ -29,8 +29,10 @@ const FeedDownModalContent = () => {
 
   const { control, handleSubmit } = methods;
 
-  const onSubmit = (params: any) => {
-    downImg();
+  const onSubmit = async (params: any) => {
+    setImgSave(true);
+    await downImg();
+    setImgSave(false);
   };
 
   const colorWatch = useWatch({ control, name: 'color' });
@@ -52,6 +54,10 @@ const FeedDownModalContent = () => {
     });
   };
 
+  const [isPreview, setIsPreview] = React.useState(false);
+
+  const [imgSave, setImgSave] = React.useState(false);
+
   return (
     <Flex flexDirection="column" mt="20px" ml="20px" mr="20px">
       <Text fontSize="24px" fontWeight="600" color={GRAY[1]}>
@@ -70,34 +76,62 @@ const FeedDownModalContent = () => {
       />
       <FormProvider {...methods}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <Flex width="704px" mt="28px">
+          <Flex width={!isPreview ? '704px' : '400px'} mt="28px">
             <Box width="400px" mr="48px">
               <Card
+                as={!imgSave ? 'textarea' : 'div'}
                 ref={$card}
                 pickColor={colorWatch}
                 size={fontSizeWatch}
                 family={fontFamilyWatch}
               />
             </Box>
-            <Box sx={{ flex: 1 }}>
-              <StyledTitle>배경</StyledTitle>
-              <ColorTabs name="color" control={control} />
-              <StyledTitle>글꼴</StyledTitle>
-              <Select
-                name="fontFamily"
-                options={
-                  FontFamilyOption &&
-                  FontFamilyOption.map((item) => ({ label: item.label, value: item.value }))
-                }
-                control={control}
-                comment={''}
-              />
-              <StyledTitle>글자 크기</StyledTitle>
-              <FontSizeTabs name="fontSize" control={control} />
-            </Box>
+
+            {!isPreview && (
+              <Box sx={{ flex: 1 }}>
+                <StyledTitle>배경</StyledTitle>
+                <ColorTabs name="color" control={control} />
+                <StyledTitle>글꼴</StyledTitle>
+                <Select
+                  name="fontFamily"
+                  options={
+                    FontFamilyOption &&
+                    FontFamilyOption.map((item) => ({ label: item.label, value: item.value }))
+                  }
+                  control={control}
+                  comment={''}
+                />
+                <StyledTitle>글자 크기</StyledTitle>
+                <FontSizeTabs name="fontSize" control={control} />
+              </Box>
+            )}
           </Flex>
 
+          <hr
+            css={css`
+              width: 100%;
+              margin-top: 38px;
+              margin-bottom: 28px;
+              border: none;
+              border-top: 1px solid ${GRAY[2]};
+            `}
+          />
+
           <Flex mt="40px" justifyContent="flex-end">
+            <Button
+              type="button"
+              alignContent="center"
+              mr="8px"
+              height="43px"
+              fontSize="16px"
+              fontWeight="600"
+              color={PRIMARY[40]}
+              onClick={() => {
+                setIsPreview((isPreview) => !isPreview);
+              }}
+            >
+              {isPreview ? '미리보기' : '이전으로'}
+            </Button>
             <Button
               backgroundColor={PRIMARY[80]}
               color={BASE[3]}
