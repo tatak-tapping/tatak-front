@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { PRIMARY } from "./colors";
+import { css } from '@emotion/react';
+import { PRIMARY } from './colors';
 
 const linkStyle = css`
   text-decoration: none;
@@ -9,7 +9,7 @@ const linkStyle = css`
   :focus,
   :active {
     text-decoration: none;
-    color : ${PRIMARY[100]};
+    color: ${PRIMARY[100]};
   }
 `;
 

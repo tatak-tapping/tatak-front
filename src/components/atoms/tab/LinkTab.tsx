@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import linkStyle from "styles/linkStyle";
+import { css } from '@emotion/react';
+import linkStyle from 'styles/linkStyle';
 
 interface LinkTabProps {
   href: string;
@@ -8,18 +8,18 @@ interface LinkTabProps {
   children: React.ReactNode;
 }
 
-const LinkTab = ({ href, children, margin}: LinkTabProps) => {
-  return  (
+const LinkTab = ({ href, children, margin }: LinkTabProps) => {
+  return (
     <a
-    href={href}
-    target="_self"
-    css={css`
-      margin: ${margin};
-      ${linkStyle}
-    `}
-  >
-    {children}
-  </a>
+      href={href}
+      target="_self"
+      css={css`
+        margin: ${margin};
+        ${linkStyle}
+      `}
+    >
+      {children}
+    </a>
   );
 };
 

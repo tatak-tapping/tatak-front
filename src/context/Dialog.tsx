@@ -1,9 +1,14 @@
 import Dialog, { DialogProps, DialogTypes } from 'components/atoms/dialog/Dialog';
-import React, { createContext, ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from 'react';
 
-interface DialogOptions extends DialogProps {
-
-}
+interface DialogOptions extends DialogProps {}
 
 interface DialogGlobalState {
   showDialog: (options: DialogOptions) => void;
@@ -12,15 +17,15 @@ interface DialogGlobalState {
 
 const DialogContext = createContext<DialogGlobalState>({
   showDialog: () => {},
-  closeDialog: () => {}
+  closeDialog: () => {},
 });
 
-export const DialogProvider = ({ children }:{ children: ReactNode }) => {
+export const DialogProvider = ({ children }: { children: ReactNode }) => {
   const [options, setOptions] = useState<DialogOptions>({
     isVisible: false,
     message: '메세지',
-    width : '100px',
-    type : DialogTypes.error
+    width: '100px',
+    type: DialogTypes.error,
   });
 
   const closeDialog = useCallback(() => {
@@ -28,16 +33,17 @@ export const DialogProvider = ({ children }:{ children: ReactNode }) => {
   }, []);
 
   const showDialog = useCallback(({ width, type, message }: Omit<DialogOptions, 'isVisible'>) => {
-    setOptions({ isVisible: true, type, message, width});
+    setOptions({ isVisible: true, type, message, width });
   }, []);
-  
+
   return (
     <DialogContext.Provider value={{ showDialog, closeDialog }}>
-      <Dialog 
-        isVisible={options.isVisible} 
-        message={options.message} 
+      <Dialog
+        isVisible={options.isVisible}
+        message={options.message}
         type={options.type}
-        width={options.width}/>
+        width={options.width}
+      />
       {children}
     </DialogContext.Provider>
   );

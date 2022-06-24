@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import { BASE } from 'styles/colors';
 
-const Bubble = styled.div<{ 
-  isVisible: boolean,
-  width: string; 
-  height:string; 
+const Bubble = styled.div<{
+  isVisible: boolean;
+  width: string;
+  height: string;
   padding?: string;
-  margin?:string;
-  right?:string;
-  top?:string;
+  margin?: string;
+  right?: string;
+  top?: string;
 }>`
   visibility: ${(props) => !props.isVisible && 'hidden'};
   width: ${(props) => props.width};
@@ -20,9 +20,9 @@ const Bubble = styled.div<{
   position: absolute;
   box-shadow: 0px 0px 2px 0px #00000040;
   background-color: ${BASE[3]};
-  *{
+  * {
     background-color: ${BASE[3]};
-  };
+  }
   ${(props) =>
     props.isVisible &&
     `

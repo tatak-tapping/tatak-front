@@ -1,4 +1,3 @@
-
 import Modal from 'components/atoms/modal/Modal';
 import { isOpenModalAtom, userModalAtom } from 'modules/atom';
 import { useEffect } from 'react';
@@ -13,19 +12,16 @@ interface IUseModal {
   handleOpenedCallback?: VoidFunction;
 }
 
-const useModal = ({
-  width,
-  padding,
-  handleClosedCallback,
-  handleOpenedCallback,
-}: IUseModal) => {
+const useModal = ({ width, padding, handleClosedCallback, handleOpenedCallback }: IUseModal) => {
   const mountedRef = useRef(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isOpenModal, setIsOpenModal] = useRecoilState(isOpenModalAtom);
   const [modal, setModal] = useRecoilState(userModalAtom);
 
   useEffect(() => {
-    return () => { mountedRef.current = false }
+    return () => {
+      mountedRef.current = false;
+    };
   }, []);
 
   const handleOpenModal = useCallback(() => {

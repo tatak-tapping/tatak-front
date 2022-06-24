@@ -1,14 +1,14 @@
 import Inko from 'inko';
 const inko = new Inko();
 
- function KoreanInputMethod(buf:string, event:any, userInput:string) {
+function KoreanInputMethod(buf: string, event: any, userInput: string) {
   if (event.code.includes('Key')) {
     if (inko.en2ko(buf.concat(event.key)).length > 1) {
       const totalBuff = inko.en2ko(buf.concat(inko.ko2en(event.key)));
-      
+
       return {
         nextUserInput: userInput.concat(totalBuff.slice(0, -1)),
-        nextBuf: inko.ko2en(totalBuff.slice(-1))
+        nextBuf: inko.ko2en(totalBuff.slice(-1)),
       };
     }
     return {
@@ -46,7 +46,33 @@ const inko = new Inko();
       nextBuf: buf,
     };
   }
-  if ([' ', '.', ',', '`', '+', '=', '[', ']', '/', ';', ':', '"', "'", '{', '}', '_', '+', '\\', '|', '~', '<', '>', '?'].includes(event.key)) {
+  if (
+    [
+      ' ',
+      '.',
+      ',',
+      '`',
+      '+',
+      '=',
+      '[',
+      ']',
+      '/',
+      ';',
+      ':',
+      '"',
+      "'",
+      '{',
+      '}',
+      '_',
+      '+',
+      '\\',
+      '|',
+      '~',
+      '<',
+      '>',
+      '?',
+    ].includes(event.key)
+  ) {
     return {
       nextUserInput: userInput.concat(inko.en2ko(buf.concat(event.key))),
       nextBuf: '',

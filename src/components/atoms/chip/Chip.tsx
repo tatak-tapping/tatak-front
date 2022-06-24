@@ -1,13 +1,12 @@
-import styled from "@emotion/styled";
-import { BASE, GRAY, PRIMARY } from "styles/colors";
-
+import styled from '@emotion/styled';
+import { BASE, GRAY, PRIMARY } from 'styles/colors';
 
 interface ChipProps {
   name: string;
   checked: boolean;
   label?: string;
   onClick: VoidFunction;
-  children?: React.ReactNode,
+  children?: React.ReactNode;
 }
 
 const StyledChip = styled.div`
@@ -34,12 +33,12 @@ const StyledChip = styled.div`
   &.checked span {
     color: ${PRIMARY[100]};
   }
-  .chip-icon{
+  .chip-icon {
     line-height: 24px;
   }
 `;
 
-const Chip = ({name, label, checked, onClick, children}:ChipProps) => {
+const Chip = ({ name, label, checked, onClick, children }: ChipProps) => {
   return (
     <StyledChip onClick={onClick} className={checked ? 'checked' : undefined}>
       <label htmlFor={name}>

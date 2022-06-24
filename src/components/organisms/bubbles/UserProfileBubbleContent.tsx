@@ -1,26 +1,25 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
-import Bubble from "components/atoms/bubble/Bubble";
-import UserMenuButton from "components/molecules/profile/UserMenuButton";
-import UserProfileEdit from "components/molecules/profile/UserProfilEdit";
-import { useEffect, useRef } from "react";
-import { Box, Flex, Link, Text } from "rebass";
-import { BASE, GRAY, PRIMARY } from "styles/colors";
-
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
+import Bubble from 'components/atoms/bubble/Bubble';
+import UserMenuButton from 'components/molecules/profile/UserMenuButton';
+import UserProfileEdit from 'components/molecules/profile/UserProfilEdit';
+import { useEffect, useRef } from 'react';
+import { Box, Flex, Link, Text } from 'rebass';
+import { BASE, GRAY, PRIMARY } from 'styles/colors';
 
 const Wrapper = styled.div`
   position: relative;
   z-index: 999;
 `;
 
-interface UserProfileBubbleProp  {
+interface UserProfileBubbleProp {
   isVisible: boolean;
   onClose: VoidFunction;
-  onOpenModal:VoidFunction;
+  onOpenModal: VoidFunction;
 }
 
-const UserProfileBubbleContent =({ isVisible, onClose, onOpenModal }: UserProfileBubbleProp) => {
+const UserProfileBubbleContent = ({ isVisible, onClose, onOpenModal }: UserProfileBubbleProp) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   const handleClickOutside = (e: MouseEvent) => {
@@ -38,15 +37,28 @@ const UserProfileBubbleContent =({ isVisible, onClose, onOpenModal }: UserProfil
     }
   }, [isVisible]);
 
-  return(
+  return (
     <Wrapper ref={wrapperRef}>
-      <Bubble width="200px" height="320px" right="16px" padding="0 16px" top="" isVisible={isVisible}>
+      <Bubble
+        width="200px"
+        height="320px"
+        right="16px"
+        padding="0 16px"
+        top=""
+        isVisible={isVisible}
+      >
         <UserProfileEdit onOpenModal={onOpenModal} />
         <UserMenuButton />
         <StyleFooter>
-          <Text as="span" width={1/3} mr="8px">Feedback</Text>
-          <Text as="span" width={1/3} mr="8px">Terms</Text>
-          <Text as="span" width={1/3}>Privacy</Text>
+          <Text as="span" width={1 / 3} mr="8px">
+            Feedback
+          </Text>
+          <Text as="span" width={1 / 3} mr="8px">
+            Terms
+          </Text>
+          <Text as="span" width={1 / 3}>
+            Privacy
+          </Text>
         </StyleFooter>
       </Bubble>
     </Wrapper>

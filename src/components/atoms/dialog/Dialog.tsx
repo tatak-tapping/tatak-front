@@ -9,27 +9,27 @@ import { dialogBackStyle, modalBackStyle } from 'styles/modal';
 export enum DialogTypes {
   info,
   error,
-  success
+  success,
 }
 
 export interface DialogProps {
   isVisible?: boolean;
   message?: ReactNode;
-  type? : DialogTypes;
+  type?: DialogTypes;
   width?: string;
 }
 
-const StyledDialog = styled.div<{width:string}>`
+const StyledDialog = styled.div<{ width: string }>`
   width: 428px;
   padding: 40px 0 20px 0;
   margin: auto;
   box-shadow: 0px 0px 10px 0px #00000033;
-  color:${GRAY[2]};
+  color: ${GRAY[2]};
   background-color: ${BASE[3]};
-  div{
+  div {
     background-color: ${BASE[3]};
   }
-  img{
+  img {
     background-color: ${BASE[3]};
   }
 `;
@@ -42,20 +42,24 @@ const StyledIcon = styled.img`
 
 const Dialog = ({ isVisible = false, type, message, width }: DialogProps) => {
   return (
-   <>
-     {isVisible && (
-      <div css={css`${dialogBackStyle}`} >
-        <StyledDialog width={width}>
-          <Flex justifyContent="center" alignItems="center"  flexDirection="column">
-            {type === DialogTypes.error && (<StyledIcon src='/images/dialog_error.svg'/>)}
-            {type === DialogTypes.info && (<StyledIcon src='/images/dialog_done.svg'/>)}
-            {type === DialogTypes.success && (<StyledIcon src='/images/dialog_success.svg'/>)}
-            {message}
-          </Flex>
-        </StyledDialog>
-      </div>
-    )}
-   </>
+    <>
+      {isVisible && (
+        <div
+          css={css`
+            ${dialogBackStyle}
+          `}
+        >
+          <StyledDialog width={width}>
+            <Flex justifyContent="center" alignItems="center" flexDirection="column">
+              {type === DialogTypes.error && <StyledIcon src="/images/dialog_error.svg" />}
+              {type === DialogTypes.info && <StyledIcon src="/images/dialog_done.svg" />}
+              {type === DialogTypes.success && <StyledIcon src="/images/dialog_success.svg" />}
+              {message}
+            </Flex>
+          </StyledDialog>
+        </div>
+      )}
+    </>
   );
 };
 

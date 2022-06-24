@@ -1,84 +1,94 @@
-import { getCategories } from "api/common";
-import { getCategoriesSelector } from "modules/selector";
-import { atom } from "recoil";
-import { getSessionStorage } from "utils/storage";
-import { getTypoFontStorage, getTypoOptionStorage } from "utils/storageTypo";
-import { getTokenStorage, getUserStorage } from "utils/storageUser";
-import { FontAlign, FontWeight, ICategory, ICategoryAndTopic, IFontOption, ISelectOption, ITopic, ITypo, ITypoOption, IUser, TypoLanguage } from "utils/types";
-
-
+import { getCategories } from 'api/common';
+import { getCategoriesSelector } from 'modules/selector';
+import { atom } from 'recoil';
+import { getSessionStorage } from 'utils/storage';
+import { getTypoFontStorage, getTypoOptionStorage } from 'utils/storageTypo';
+import { getTokenStorage, getUserStorage } from 'utils/storageUser';
+import {
+  FontAlign,
+  FontWeight,
+  ICategory,
+  ICategoryAndTopic,
+  IFontOption,
+  ISelectOption,
+  ITopic,
+  ITypo,
+  ITypoOption,
+  IUser,
+  TypoLanguage,
+} from 'utils/types';
 
 export const tokenAtom = atom<string>({
-  key: "tokenAtom",
-  default: getTokenStorage()
+  key: 'tokenAtom',
+  default: getTokenStorage(),
 });
 
 export const userAtom = atom<IUser>({
-  key: "userAtom",
-  default: getUserStorage()
+  key: 'userAtom',
+  default: getUserStorage(),
 });
 
 export const isAuthLoginAtom = atom<boolean>({
-  key: "isAuthLogin",
+  key: 'isAuthLogin',
   default: false,
 });
 
 export const typoAtom = atom<ITypo | undefined>({
-  key: "typoTextAtom",
-  default: undefined
+  key: 'typoTextAtom',
+  default: undefined,
 });
 
 export const languageAtom = atom<TypoLanguage | undefined>({
-  key: "languageAtom",
-  default: TypoLanguage.KOREAN
+  key: 'languageAtom',
+  default: TypoLanguage.KOREAN,
 });
 
 export const userModalAtom = atom<string | undefined>({
-  key: "userModalAtom",
-  default:undefined
-})
+  key: 'userModalAtom',
+  default: undefined,
+});
 
 export const typoModalAtom = atom<string | undefined>({
-  key: "typoModalAtom",
-  default:undefined
-})
+  key: 'typoModalAtom',
+  default: undefined,
+});
 
 export const isOpenModalAtom = atom<boolean>({
-  key:"isOpenModalAtom",
-  default:false,
-})
+  key: 'isOpenModalAtom',
+  default: false,
+});
 
 export const typoOptionAtom = atom<ITypoOption | undefined>({
-  key: "typoOptionAtom",
-  default: getTypoOptionStorage() ?? undefined
+  key: 'typoOptionAtom',
+  default: getTypoOptionStorage() ?? undefined,
 });
 
 export const fontOptionAtom = atom<IFontOption | undefined>({
-  key: "fontOptionAtom",
+  key: 'fontOptionAtom',
   default: getTypoFontStorage() ?? {
-    align:FontAlign.CENTER,
-    font: "MapoGoldenPier",
+    align: FontAlign.CENTER,
+    font: 'MapoGoldenPier',
     size: 40,
-    weight: FontWeight.REGULER
-  }
+    weight: FontWeight.REGULER,
+  },
 });
 
 export const tempfontOptionAtom = atom<IFontOption | undefined>({
-  key: "tempfontOptionAtom",
-  default: getSessionStorage("tadak_font_option") ?? {
-    align:FontAlign.CENTER,
-    font: "MapoGoldenPier",
+  key: 'tempfontOptionAtom',
+  default: getSessionStorage('tadak_font_option') ?? {
+    align: FontAlign.CENTER,
+    font: 'MapoGoldenPier',
     size: 40,
-    weight: FontWeight.REGULER
-  }
+    weight: FontWeight.REGULER,
+  },
 });
 
 export const categoriesAtom = atom<ICategory[] | undefined>({
-  key: "categoriesAtom",
-  default: undefined
+  key: 'categoriesAtom',
+  default: undefined,
 });
 
 export const categoryWithTopicAtom = atom<ICategoryAndTopic[] | undefined>({
-  key: "categoryWithTopicAtom",
-  default: undefined
+  key: 'categoryWithTopicAtom',
+  default: undefined,
 });

@@ -17,13 +17,11 @@ const UserProfile = () => {
   const [isPasswordConfirm, setIsPasswordConfirm] = useState(false);
   const [isBubbleVisible, setIsBubbleVisible] = useState(false);
 
-  useEffect(() =>{
-    if(user?.joinType === JoinType.KAKAO) setIsPasswordConfirm(true);
+  useEffect(() => {
+    if (user?.joinType === JoinType.KAKAO) setIsPasswordConfirm(true);
   }, []);
 
-  useEffect(() => {
-
-  },[isPasswordConfirm])
+  useEffect(() => {}, [isPasswordConfirm]);
 
   const handleToggleBubble = () => {
     setIsBubbleVisible(!isBubbleVisible);
@@ -33,31 +31,40 @@ const UserProfile = () => {
     setIsBubbleVisible(!isBubbleVisible);
   };
 
-
   const { handleOpenModal, handleCloseModal, renderModal } = useModal({
-    width: '428px'
+    width: '428px',
   });
 
   return (
-   <>
-    {renderModal(
-      isPasswordConfirm ? 
-      <ModifyUserModalContent onClickCloseModal={handleCloseModal}  isSocial={isPasswordConfirm}/>:
-      <ConfirmPasswordModalContent onClickModifyButton={() => setIsPasswordConfirm(true)} onClickCloseModal={handleCloseModal}/>
-      ,
-      <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
-        <CloseIcon />
-      </IconButton>
-    )}
-    <Flex flexDirection="column" ml="16px">
-      <ProfileImage src={user?.profileImageUrl ? user.profileImageUrl : '/images/profile_default.svg'} onClick={handleToggleBubble}/>
-      <UserProfileBubbleContent 
-        isVisible={isBubbleVisible} 
-        onOpenModal={handleOpenModal}
-        onClose={handleCloseBubble} 
-      />
-    </Flex>
-   </>
+    <>
+      {renderModal(
+        isPasswordConfirm ? (
+          <ModifyUserModalContent
+            onClickCloseModal={handleCloseModal}
+            isSocial={isPasswordConfirm}
+          />
+        ) : (
+          <ConfirmPasswordModalContent
+            onClickModifyButton={() => setIsPasswordConfirm(true)}
+            onClickCloseModal={handleCloseModal}
+          />
+        ),
+        <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
+          <CloseIcon />
+        </IconButton>
+      )}
+      <Flex flexDirection="column" ml="16px">
+        <ProfileImage
+          src={user?.profileImageUrl ? user.profileImageUrl : '/images/profile_default.svg'}
+          onClick={handleToggleBubble}
+        />
+        <UserProfileBubbleContent
+          isVisible={isBubbleVisible}
+          onOpenModal={handleOpenModal}
+          onClose={handleCloseBubble}
+        />
+      </Flex>
+    </>
   );
 };
 

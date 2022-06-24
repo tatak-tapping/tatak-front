@@ -5,7 +5,9 @@ const style = css`
   *,
   body {
     box-sizing: border-box;
-    font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
+    font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue',
+      'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', 'Apple Color Emoji',
+      'Segoe UI Emoji', 'Segoe UI Symbol', sans-serif;
     letter-spacing: -0.02em;
     font-size: 1em;
     line-height: 150%;
@@ -21,21 +23,21 @@ const style = css`
     font-weight: bold;
     font-family: inherit;
   }
-  h1{
+  h1 {
     font-size: 2.5em;
   }
-  h2{
+  h2 {
     font-size: 1.25em;
   }
-  caption{
+  caption {
     font-size: 0.875em;
   }
-  ::-webkit-scrollbar{
+  ::-webkit-scrollbar {
     width: 4px;
     border-radius: 100px;
   }
   ::-webkit-scrollbar-track {
-    background-color: none; 
+    background-color: none;
   }
   ::-webkit-scrollbar-thumb {
     background: ${PRIMARY[20]};
@@ -44,13 +46,13 @@ const style = css`
   .fullscreen-enabled {
     background: ${BASE[3]};
   }
-  .fullscreen-enabled > div{
+  .fullscreen-enabled > div {
     height: 100% !important;
   }
 `;
 
 const GlobalStyle = () => {
-  return <Global styles={style} />
-}
+  return <Global styles={style} />;
+};
 
 export default GlobalStyle;

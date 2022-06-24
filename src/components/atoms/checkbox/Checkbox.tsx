@@ -1,4 +1,3 @@
-
 import styled from '@emotion/styled';
 import { BASE, GRAY, PRIMARY } from 'styles/colors';
 
@@ -16,7 +15,7 @@ const StyledCheckbox = styled.div<{ margin: string }>`
   margin: ${(props) => props.margin};
   font-size: 14px;
   line-height: 17px;
-  color:${GRAY[5]};
+  color: ${GRAY[5]};
   cursor: pointer;
   user-select: none;
   input[type='checkbox'] {
@@ -39,7 +38,7 @@ const StyledCheckbox = styled.div<{ margin: string }>`
   }
   label.checked {
     background-color: ${PRIMARY[80]};
-    border:none;
+    border: none;
   }
   label.checked > span::before {
     content: url('/images/checkbox_on.svg');

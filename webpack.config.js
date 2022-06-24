@@ -29,11 +29,13 @@ module.exports = {
     }),
   ],
   module: {
-    rules: [{
-      test: /\.(ts|js)x?$/,
-      exclude: /node_modules/,
-      loader: 'babel-loader'
-    }],
+    rules: [
+      {
+        test: /\.(ts|js)x?$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader',
+      },
+    ],
   },
   resolve: {
     plugins: [new TsconfigPathsPlugin()],

@@ -4,10 +4,10 @@ export const SIZE = {
   medium: '37.5em', // 600px
   small: '31.25em', // 500px
   smallest: '25em', // 400px
-}
+};
 
 const theme = {
-  mainColor: '#0000ff'
-}
+  mainColor: '#0000ff',
+};
 
-export default theme
+export default theme;

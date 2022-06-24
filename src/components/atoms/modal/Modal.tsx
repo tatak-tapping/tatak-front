@@ -16,17 +16,17 @@ interface ModalProps {
   children: React.ReactNode;
 }
 
-const StyledModal = styled.div<{ 
-  width: string; 
+const StyledModal = styled.div<{
+  width: string;
   padding: string;
-  margin?:string;
+  margin?: string;
 }>`
   width: ${(props) => props.width};
   padding: ${(props) => props.padding};
   margin: auto;
   box-shadow: 0px 0px 10px 0px #00000033;
   background-color: ${BASE[3]};
-  *{
+  * {
     background-color: ${BASE[3]};
   }
 `;
@@ -76,7 +76,11 @@ const Modal = ({
   return (
     <>
       {isVisible && (
-        <div css={css`${modalBackStyle}`}>
+        <div
+          css={css`
+            ${modalBackStyle}
+          `}
+        >
           <StyledModal width={width} padding={padding}>
             <Box display="flex" justifyContent="flex-end">
               {closeButton}

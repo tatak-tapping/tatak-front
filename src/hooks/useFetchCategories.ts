@@ -45,6 +45,6 @@ const useFetchCategories = () => {
     isError,
     categories,
   };
-}
+};
 
-export default useFetchCategories;  
+export default useFetchCategories;
