@@ -89,14 +89,15 @@ const FeedDownModalContent = () => {
           <Flex width={!isPreview ? '704px' : '400px'} mt="28px">
             <Box width="400px" mr="48px">
               <Card
+                size={'normal'}
                 contents={contents}
                 title={title}
                 writer={writer}
                 as={!imgSave ? 'textarea' : 'div'}
                 ref={$card}
                 pickColor={colorWatch}
-                size={fontSizeWatch}
-                family={fontFamilyWatch}
+                fontsize={fontSizeWatch}
+                fontfamily={fontFamilyWatch}
               />
             </Box>
 
@@ -155,6 +156,19 @@ const FeedDownModalContent = () => {
           </Flex>
         </form>
       </FormProvider>
+      <Box width="400px" mr="48px" sx={{ position: 'absolute', zIndex: -9999, left: '-99999px' }}>
+        <Card
+          size={!imgSave ? 'normal' : 'large'}
+          contents={contents}
+          title={title}
+          writer={writer}
+          as={'div'}
+          ref={$card}
+          pickColor={colorWatch}
+          fontsize={fontSizeWatch}
+          fontfamily={fontFamilyWatch}
+        />
+      </Box>
     </Flex>
   );
 };

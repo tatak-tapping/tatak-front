@@ -9,30 +9,31 @@ interface CardProps {
   title: string;
   writer: string;
   as: any;
-  pickColor: number;
   size: string;
-  family: string;
+  pickColor: number;
+  fontsize: string;
+  fontfamily: string;
 }
 
 const Card = React.forwardRef<HTMLDivElement, CardProps>(
-  ({ contents, title, writer, as = 'textarea', pickColor, size, family }, ref) => {
+  ({ contents, title, writer, as = 'textarea', size, pickColor, fontsize, fontfamily }, ref) => {
     return (
-      <StyledCard pickColor={pickColor} ref={ref}>
-        <StyledCardBox>
-          <StyledContent as={as} size={size} family={family}>
+      <StyledCard size={size} pickColor={pickColor} ref={ref}>
+        <StyledCardBox size={size}>
+          <StyledContent as={as} size={size} fontsize={fontsize} fontfamily={fontfamily}>
             {contents}
           </StyledContent>
           <StyledTitleBox>
-            <StyledTitle size={size} family={family}>
+            <StyledTitle size={size} fontsize={fontsize} fontfamily={fontfamily}>
               {title}
             </StyledTitle>
-            <StyledTitle size={size} family={family}>
+            <StyledTitle size={size} fontsize={fontsize} fontfamily={fontfamily}>
               {' '}
               {writer}
             </StyledTitle>
           </StyledTitleBox>
         </StyledCardBox>
-        <StyledImg pickColor={pickColor}>
+        <StyledImg size={size} pickColor={pickColor}>
           <TatakImg />
         </StyledImg>
       </StyledCard>
@@ -42,7 +43,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(
 
 export default Card;
 
-const StyledCard = styled.div<{ pickColor: number; ref?: any }>`
+const StyledCard = styled.div<{ size: string; pickColor: number; ref?: any }>`
   position: relative;
   display: flex;
   width: 400px;
@@ -63,18 +64,36 @@ const StyledCard = styled.div<{ pickColor: number; ref?: any }>`
       }
     `;
   }}
+
+  ${(props) => {
+    if (props.size === 'large') {
+      return `
+        width: 1200px;
+        height: 1200px;
+        padding: 131px 100px;
+      `;
+    }
+  }}
 `;
 
-const StyledCardBox = styled.div`
+const StyledCardBox = styled.div<{ size: string }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   max-height: 336px;
   height: 100%;
   box-sizing: border-box;
+
+  ${(props) => {
+    if (props.size === 'large') {
+      return `
+        max-height: 938px;
+      `;
+    }
+  }}
 `;
 
-const StyledContent = styled.textarea<{ size: string; family: string }>`
+const StyledContent = styled.textarea<{ size: string; fontsize: string; fontfamily: string }>`
   font-size: 21px;
   line-height: 1.6;
   width: 100%;
@@ -85,7 +104,7 @@ const StyledContent = styled.textarea<{ size: string; family: string }>`
   color: inherit;
 
   ${(props) => {
-    switch (props.size) {
+    switch (props.fontsize) {
       case 'SMALL':
         return `
           font-size: 18px;
@@ -107,21 +126,64 @@ const StyledContent = styled.textarea<{ size: string; family: string }>`
   }}
 
   ${(props) => {
+    if (props.size === 'large') {
+      return `
+        height: 768px;
+        line-height: 1.6;
+        letter-spacing: -0.0003px;
+      `;
+    }
+  }}
+
+${(props) => {
+    if (props.size !== 'large') return ``;
+    switch (props.fontsize) {
+      case 'SMALL':
+        return `
+          font-size: 54px;
+          
+        `;
+      case 'MEDIUM':
+        return `
+          font-size: 64px;
+          
+        `;
+      case 'LARGE':
+        return `
+          font-size: 80px;
+          
+        `;
+      default:
+        return ``;
+    }
+  }}
+
+  ${(props) => {
     return `
-      font-family: ${props.family};
+      font-family: ${props.fontfamily};
     `;
   }}
 `;
 const StyledTitleBox = styled.h2`
   padding-top: 12px;
 `;
-const StyledTitle = styled.div<{ size: string; family: string }>`
+const StyledTitle = styled.div<{ size: string; fontsize: string; fontfamily: string }>`
   font-size: 16px;
   line-height: 1.5;
   font-weight: 400;
+
+  ${(props) => {
+    if (props.size === 'large') {
+      return `
+        font-size: 48px;
+        line-height: 1.4;
+        opacity: 0.8;
+      `;
+    }
+  }}
 `;
 
-const StyledImg = styled.div<{ pickColor: number }>`
+const StyledImg = styled.div<{ pickColor: number; size: string }>`
   position: absolute;
   bottom: 25px;
   right: 24px;
@@ -139,5 +201,18 @@ const StyledImg = styled.div<{ pickColor: number }>`
         }
       };
     `;
+  }}
+
+  ${(props) => {
+    if (props.size === 'large') {
+      return `
+      svg {
+        width: 210px;
+        height: 56px;
+        bottom: 72px;
+        right: 73px;
+      };
+    `;
+    }
   }}
 `;
