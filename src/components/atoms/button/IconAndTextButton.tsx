@@ -19,15 +19,17 @@ const StyledIconAndTextButton = styled.button<{ isBlack: boolean }>`
   font-weight: 600;
   font-size: 16px;
   * {
-    fill: ${BASE[1]};
+    opacity: 0.5;
+    fill: ${PRIMARY[80]};
     background-color: ${BASE[3]};
+    transition: opacity 0.2s;
   }
   :hover {
     border: 1px solid ${PRIMARY[100]};
     background-color: ${BASE[3]};
     color: ${PRIMARY[100]};
     * {
-      fill: ${PRIMARY[80]};
+      opacity: 1;
       background-color: ${BASE[3]};
     }
   }
