@@ -77,13 +77,6 @@
   font-style: normal;
 }
 
-/* kopub바탕 */
-@import url(//fonts.googleapis.com/earlyaccess/kopubbatang.css);
-
-.kopubbatang * {
-  font-family: 'KoPubBatang', serif;
-}
-
 /* 함렛 */
 @font-face {
   font-family: 'Hahmlet';
