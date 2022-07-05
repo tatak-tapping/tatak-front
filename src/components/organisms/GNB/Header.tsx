@@ -103,7 +103,7 @@ const Header = ({ handleFullScreen }: HeaderProps) => {
           <CloseIcon />
         </IconButton>
       )}
-      <Flex as="header" height={64} padding="0 24px" alignItems="center">
+      <Flex as="header" height={52} padding="0 16px" alignItems="center">
         <Logo />
         <Flex justifyContent="center" alignItems="center" marginLeft="auto">
           <Box>{/* <MusicPlayer /> */}</Box>
