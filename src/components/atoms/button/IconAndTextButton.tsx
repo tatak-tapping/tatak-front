@@ -17,7 +17,7 @@ const StyledIconAndTextButton = styled.button<{ isBlack: boolean }>`
   background-color: ${BASE[3]};
   color: ${PRIMARY[100]};
   font-weight: 600;
-  font-size: 18px;
+  font-size: 16px;
   * {
     fill: ${BASE[1]};
     background-color: ${BASE[3]};
