@@ -4,9 +4,14 @@ import styled from '@emotion/styled';
 import Bubble from 'components/atoms/bubble/Bubble';
 import UserMenuButton from 'components/molecules/profile/UserMenuButton';
 import UserProfileEdit from 'components/molecules/profile/UserProfilEdit';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Box, Flex, Link, Text } from 'rebass';
 import { BASE, GRAY, PRIMARY } from 'styles/colors';
+
+import IconButton from 'components/atoms/button/IconButton';
+import { CloseIcon } from 'components/atoms/icon/Icon';
+import useModal from 'hooks/userModal';
+import TatakTerm from 'components/organisms/modals/term/TatakTerm';
 
 const Wrapper = styled.div`
   position: relative;
@@ -37,6 +42,13 @@ const UserProfileBubbleContent = ({ isVisible, onClose, onOpenModal }: UserProfi
     }
   }, [isVisible]);
 
+  const [modal, setModal] = useState(null);
+  const { renderModal, handleOpenModal, handleCloseModal } = useModal({});
+
+  useEffect(() => {
+    handleOpenModal();
+  }, []);
+
   return (
     <Wrapper ref={wrapperRef}>
       <Bubble
@@ -53,7 +65,15 @@ const UserProfileBubbleContent = ({ isVisible, onClose, onOpenModal }: UserProfi
           <Text as="span" width={1 / 3} mr="8px">
             Feedback
           </Text>
-          <Text as="span" width={1 / 3} mr="8px">
+          <Text
+            as="span"
+            width={1 / 3}
+            mr="8px"
+            onClick={() => {
+              setModal('tatakterm');
+              handleOpenModal();
+            }}
+          >
             Terms
           </Text>
           <Text as="span" width={1 / 3}>
@@ -61,6 +81,13 @@ const UserProfileBubbleContent = ({ isVisible, onClose, onOpenModal }: UserProfi
           </Text>
         </StyleFooter>
       </Bubble>
+      {modal &&
+        renderModal(
+          modal === 'tatakterm' && <TatakTerm />,
+          <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
+            <CloseIcon />
+          </IconButton>
+        )}
     </Wrapper>
   );
 };
