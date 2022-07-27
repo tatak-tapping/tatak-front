@@ -12,6 +12,7 @@ import IconButton from 'components/atoms/button/IconButton';
 import { CloseIcon } from 'components/atoms/icon/Icon';
 import useModal from 'hooks/userModal';
 import TatakTerm from 'components/organisms/modals/term/TatakTerm';
+import PrivacyTerm from 'components/organisms/modals/term/PrivacyTerm';
 
 const Wrapper = styled.div`
   position: relative;
@@ -76,14 +77,21 @@ const UserProfileBubbleContent = ({ isVisible, onClose, onOpenModal }: UserProfi
           >
             Terms
           </Text>
-          <Text as="span" width={1 / 3}>
+          <Text
+            as="span"
+            width={1 / 3}
+            onClick={() => {
+              setModal('privacyterm');
+              handleOpenModal();
+            }}
+          >
             Privacy
           </Text>
         </StyleFooter>
       </Bubble>
       {modal &&
         renderModal(
-          modal === 'tatakterm' && <TatakTerm />,
+          modal === 'tatakterm' ? <TatakTerm /> : modal === 'privacyterm' ? <PrivacyTerm /> : null,
           <IconButton width="32px" height="32px" border="none" onClick={handleCloseModal}>
             <CloseIcon />
           </IconButton>
