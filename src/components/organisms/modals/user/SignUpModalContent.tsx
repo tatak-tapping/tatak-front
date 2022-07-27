@@ -16,6 +16,7 @@ import { useSetRecoilState } from 'recoil';
 import { tokenAtom, userAtom } from 'modules/atom';
 import instance from 'api/instance';
 import { LOGIN_TYPE, setTokenStorage } from 'utils/storageUser';
+import CheckBox from 'components/atoms/checkbox/Checkbox';
 
 interface SignModalContentProps {
   onClickLoginButton?: () => void;
@@ -35,6 +36,7 @@ const SignUpModalContent = ({ onClickLoginButton, onClickCloseModal }: SignModal
   const [isPwdVisible, setIsPwdVisible] = useState(false);
   const setUserToken = useSetRecoilState(tokenAtom);
   const setUser = useSetRecoilState(userAtom);
+  const [isAdult, setIsAdult] = useState(false);
 
   const onSubmit = async (data: IFormInputs) => {
     const params = data;
@@ -240,6 +242,13 @@ const SignUpModalContent = ({ onClickLoginButton, onClickCloseModal }: SignModal
             />
           </Box>
           <Box mt={28}>
+            <CheckBox
+              name="만 14세 이상입니다."
+              checked={isAdult}
+              onClick={() => setIsAdult(!isAdult)}
+            />
+          </Box>
+          <Box mt={20}>
             <TextButton
               width="348px"
               height="43px"
@@ -247,7 +256,7 @@ const SignUpModalContent = ({ onClickLoginButton, onClickCloseModal }: SignModal
               fontColor={BASE[3]}
               backgroundColor={PRIMARY[80]}
               onClick={handleSubmit(onSubmit)}
-              disabled={!isDirty || !isValid}
+              disabled={(!isDirty || !isValid) && !isAdult}
             >
               회원가입
             </TextButton>
