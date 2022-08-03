@@ -17,6 +17,7 @@ const StyledButton = styled.button<{
   border: string;
   margin: string;
 }>`
+  position: relative;
   width: ${(props) => props.width};
   height: ${(props) => props.height};
   margin: ${(props) => props.margin};
@@ -25,6 +26,11 @@ const StyledButton = styled.button<{
   border-radius: 6px;
   padding: 4px;
   * {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -12px;
+    margin-top: -12px;
     fill: ${PRIMARY[80]};
     background-color: ${BASE[2]};
     width: 24px;

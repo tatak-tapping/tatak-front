@@ -42,7 +42,7 @@ const LoginButton = () => {
           <CloseIcon />
         </IconButton>
       )}
-      <Flex justifyContent="center" alignItems="center" marginLeft="16px">
+      <Flex justifyContent="center" alignItems="center" marginLeft="8px">
         <Flex flexDirection="column">
           <TextButton width="62px" height="33px" fontSize="14px" onClick={() => handleOpenModal()}>
             로그인

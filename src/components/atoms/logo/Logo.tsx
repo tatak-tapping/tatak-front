@@ -3,7 +3,7 @@ interface LogoProp {
   height?: string;
 }
 
-const Logo = ({ width = '80px', height = '24px' }: LogoProp) => (
+const Logo = ({ width = '70px', height = 'auto' }: LogoProp) => (
   <img alt="logo" width={width} height={height} src="/images/logo.svg" />
 );
 

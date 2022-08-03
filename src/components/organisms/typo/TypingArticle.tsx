@@ -77,6 +77,7 @@ const StyledArticle = styled.ul<{ fontOption: IFontOption }>`
   li.word {
     padding: 0 0 0 10px;
     white-space: pre-wrap;
+    line-height: 1.8;
   }
   span {
     position: relative;

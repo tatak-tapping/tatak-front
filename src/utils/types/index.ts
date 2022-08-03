@@ -109,7 +109,6 @@ export enum FontFamily {
   MinSans = 'MinSans',
   ChosunGu = 'ChosunGu',
   RIDIBatang = 'RIDIBatang',
-  KoPubBatang = 'KoPubBatang',
   Hahmlet = 'Hahmlet',
   LeferiBaseType = 'LeferiBaseType',
 }
@@ -124,7 +123,6 @@ export const FontFamilyOption: ISelectOption[] = [
   { value: FontFamily.MinSans, label: '민산스' },
   { value: FontFamily.ChosunGu, label: '조선굴림체' },
   { value: FontFamily.RIDIBatang, label: '리디바탕' },
-  { value: FontFamily.KoPubBatang, label: 'kopub바탕' },
   { value: FontFamily.Hahmlet, label: '함렛' },
   { value: FontFamily.LeferiBaseType, label: 'Leferi Base Type' },
 ];

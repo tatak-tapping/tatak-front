@@ -106,7 +106,7 @@ const TypoFooterSection = () => {
             새로고침
           </IconAndTextButton>
           <IconAndTextButton onClick={handleClick} icon={<BookMarkIcon />}>
-            스크랩
+            책갈피
           </IconAndTextButton>
           <IconAndTextButton onClick={handleClick} icon={<TurnUpIcon />}>
             이미지 저장

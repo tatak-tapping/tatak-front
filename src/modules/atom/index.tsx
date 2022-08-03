@@ -67,8 +67,8 @@ export const fontOptionAtom = atom<IFontOption | undefined>({
   key: 'fontOptionAtom',
   default: getTypoFontStorage() ?? {
     align: FontAlign.CENTER,
-    font: 'MapoGoldenPier',
-    size: 40,
+    font: 'Eulyoo1945',
+    size: 24,
     weight: FontWeight.REGULER,
   },
 });

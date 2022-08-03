@@ -103,11 +103,11 @@ const Header = ({ handleFullScreen }: HeaderProps) => {
           <CloseIcon />
         </IconButton>
       )}
-      <Flex as="header" height={64} padding="0 24px" alignItems="center">
+      <Flex as="header" height={52} padding="0 16px" alignItems="center">
         <Logo />
         <Flex justifyContent="center" alignItems="center" marginLeft="auto">
           <Box>{/* <MusicPlayer /> */}</Box>
-          <Box>
+          <Flex>
             <IconButton onClick={handlerSetting} margin="0 4px 0 0">
               <SettingIcon />
             </IconButton>
@@ -120,7 +120,7 @@ const Header = ({ handleFullScreen }: HeaderProps) => {
             <IconButton onClick={handleFullScreen.enter}>
               <FullScreenIcon />
             </IconButton>
-          </Box>
+          </Flex>
           <Box>{useToken ? <UserProfile /> : <LoginButton />}</Box>
         </Flex>
       </Flex>

@@ -2,6 +2,10 @@ import { css, Global } from '@emotion/react';
 import { BASE, PRIMARY } from './colors';
 
 const style = css`
+  body {
+    margin: 0;
+    padding: 0;
+  }
   *,
   body {
     box-sizing: border-box;
