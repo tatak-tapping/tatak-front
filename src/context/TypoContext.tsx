@@ -1,10 +1,10 @@
 import { createContext } from 'react';
 import { TypoLanguage } from 'utils/types';
 
-interface TypoContextState{
+interface TypoContextState {
   text: string;
   userInput: string;
-  language:  TypoLanguage;
+  language: TypoLanguage;
   koreanBuffer: string;
 }
 

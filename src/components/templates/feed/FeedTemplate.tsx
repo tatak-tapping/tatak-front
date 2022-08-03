@@ -1,9 +1,5 @@
 const FeedTemplate = () => {
-
-  return(
-    <>
-    </>
-  );
-}
+  return <></>;
+};
 
 export default FeedTemplate;

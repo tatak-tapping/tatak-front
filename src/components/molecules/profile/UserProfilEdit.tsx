@@ -13,31 +13,33 @@ const Wrapper = styled.div`
   margin-top: 32px;
   height: 50px;
   padding-bottom: 16px;
-  color:${GRAY[4]};
+  color: ${GRAY[4]};
   border-bottom: solid 1px ${GRAY[7]};
 `;
 
-interface UserProfileEditProps{
-  onOpenModal:VoidFunction;
+interface UserProfileEditProps {
+  onOpenModal: VoidFunction;
 }
 
-const UserProfileEdit = ({onOpenModal}:UserProfileEditProps) => {
+const UserProfileEdit = ({ onOpenModal }: UserProfileEditProps) => {
   const user = useRecoilValue(userAtom);
 
   return (
-  <Wrapper>
-   <Flex>
-      <Box mr="8px">
-        <ProfileImage src={user?.profileImageUrl ? user.profileImageUrl : '/images/profile_default.svg'}/>
-      </Box>
-      <Box textAlign="center" justifyContent="center" mr="4px" lineHeight="29px">
-        {user?.nickname}
-      </Box>
-      <Box onClick={onOpenModal}>
-        <PencilIcon />
-      </Box>
-   </Flex>
-  </Wrapper>
+    <Wrapper>
+      <Flex>
+        <Box mr="8px">
+          <ProfileImage
+            src={user?.profileImageUrl ? user.profileImageUrl : '/images/profile_default.svg'}
+          />
+        </Box>
+        <Box textAlign="center" justifyContent="center" mr="4px" lineHeight="29px">
+          {user?.nickname}
+        </Box>
+        <Box onClick={onOpenModal}>
+          <PencilIcon />
+        </Box>
+      </Flex>
+    </Wrapper>
   );
 };
 

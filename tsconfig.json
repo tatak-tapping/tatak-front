@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames":false,
+    "forceConsistentCasingInFileNames": false,
     "noImplicitAny": true,
     "module": "commonjs",
     "target": "es5",

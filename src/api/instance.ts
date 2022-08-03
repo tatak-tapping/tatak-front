@@ -1,9 +1,14 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
-import moment from "moment";
-import { getExpiresTokenStorage, getRefreshTokenStorage, getTokenStorage, setRefreshTokenStorage} from "utils/storageUser";
-import { postRefrshToken } from "./auth";
+import moment from 'moment';
+import {
+  getExpiresTokenStorage,
+  getRefreshTokenStorage,
+  getTokenStorage,
+  setRefreshTokenStorage,
+} from 'utils/storageUser';
+import { postRefrshToken } from './auth';
 
-export const DEAFULT_URL = "http://133.186.214.175:8081";//임시 api
+export const DEAFULT_URL = 'http://133.186.214.175:8081'; //임시 api
 
 const instance = axios.create({
   baseURL: DEAFULT_URL,
@@ -11,33 +16,34 @@ const instance = axios.create({
     'Access-Control-Allow-Origin': '*',
     'Content-Type': 'application/json',
   },
-  withCredentials: true
+  withCredentials: true,
 });
 
 axios.defaults.headers.common['Content-Type'] = 'application/json';
 axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*';
-axios.defaults.headers.common['Access-Control-Allow-Headers'] = "Origin, X-Requested-With, Content-Type, Accept";
+axios.defaults.headers.common['Access-Control-Allow-Headers'] =
+  'Origin, X-Requested-With, Content-Type, Accept';
 axios.defaults.headers.common['Access-Control-Allow-Methods'] = "'PUT, POST, GET, DELETE, OPTIONS";
 
 instance.interceptors.request.use(
-  (config:AxiosRequestConfig) => {
-    return{
-      ...config
-    }
+  (config: AxiosRequestConfig) => {
+    return {
+      ...config,
+    };
   },
-  (error:AxiosError) => {
+  (error: AxiosError) => {
     return Promise.reject(error.response);
   }
 );
-  
+
 instance.interceptors.response.use(
-  (response:AxiosResponse) => {
+  (response: AxiosResponse) => {
     if (response.status >= 200 && response.status < 300) {
-      return response
+      return response;
     }
     return Promise.reject(response);
   },
-  (error:AxiosError) => {
+  (error: AxiosError) => {
     console.log(error);
     if (error.response.status === 401) {
       const originalConfig = error.config;
@@ -57,8 +63,8 @@ const refresh = async (config: AxiosRequestConfig): Promise<AxiosRequestConfig> 
 
   const params = {
     accessToken,
-    refreshToken
-  }
+    refreshToken,
+  };
 
   const { data } = await postRefrshToken(params);
   setRefreshTokenStorage(data.accessToken, data.refreshToken);

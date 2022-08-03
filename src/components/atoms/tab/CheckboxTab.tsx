@@ -1,18 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import { css } from '@emotion/react';
 import styled from '@emotion/styled';
-import { BASE, GRAY, PRIMARY } from "styles/colors";
-import linkStyle from "styles/linkStyle";
+import { BASE, GRAY, PRIMARY } from 'styles/colors';
+import linkStyle from 'styles/linkStyle';
 
 interface CheckboxProps {
   name: string;
   checked: boolean;
-  width?:string;
+  width?: string;
   onClick: VoidFunction;
 }
 
-const CheckboxTabStyled = styled.div<{width:string}>`
-  width: ${props => props.width};
+const CheckboxTabStyled = styled.div<{ width: string }>`
+  width: ${(props) => props.width};
   height: 40px;
   display: inline-flex;
   justify-content: center;
@@ -35,13 +35,13 @@ const CheckboxTabStyled = styled.div<{width:string}>`
     background-color: ${PRIMARY[100]};
     color: ${BASE[1]};
   }
-  :not(:last-child){
+  :not(:last-child) {
     border-right: none;
   }
 `;
 
 const CheckboxTab = ({ name, checked, onClick, width }: CheckboxProps) => {
-  return  (
+  return (
     <CheckboxTabStyled onClick={onClick} width={width} className={checked ? 'checked' : undefined}>
       <input type="checkbox" name={name} checked={checked} readOnly />
       <span>{name}</span>

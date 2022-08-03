@@ -1,6 +1,6 @@
-import Router from "./router";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { DialogProvider } from "context/Dialog";
+import Router from './router';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { DialogProvider } from 'context/Dialog';
 import 'Font.css';
 
 function App() {
